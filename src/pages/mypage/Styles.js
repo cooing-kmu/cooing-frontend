@@ -23,7 +23,7 @@ export const MenuContainer = styled.div`
   //height: 271px;
   border-radius: 40px;
   background: #fff;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   flex-direction: column;
   align-items: stretch;
 `
