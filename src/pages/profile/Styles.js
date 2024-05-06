@@ -18,6 +18,6 @@ export const BackgroundContainer = styled.div`
   align-items: center;
   gap: 18px;
   flex-shrink: 0;
-  border-radius: 40px 40px 0px 0px;
+  border-radius: 40px 40px 0 0;
   background: linear-gradient(180deg, #fd814a 0%, #fc5c4c 100%);
 `
