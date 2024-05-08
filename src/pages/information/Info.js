@@ -1,15 +1,17 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import InfoSection from '../../components/InfoSection'
 import './Info.css'
 import infoIcon1 from '../../assets/infoIcon1.svg'
 import infoIcon2 from '../../assets/infoIcon2.svg'
 import infoIcon3 from '../../assets/infoIcon3.svg'
+import { MainContainer } from '../../components/BgComponent'
+import cooingLogo from '../../assets/cooingLogo.svg'
 
 export default function Info() {
   return (
-    <div className='info-body'>
+    <MainContainer>
       <div>
+        <img src={cooingLogo} alt='로고' className='cooing-logo' />
         <InfoSection
           title='지원정책'
           detailLink='/policy'
@@ -38,6 +40,6 @@ export default function Info() {
           icon={infoIcon3}
         />
       </div>
-    </div>
+    </MainContainer>
   )
 }
