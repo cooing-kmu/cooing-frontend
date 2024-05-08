@@ -1,0 +1,21 @@
+.scrap-list{
+    display: block;
+    justify-content: center;
+    align-items: center;
+}
+.scrap-title{
+    font-weight: bolder;
+    margin-top: 30px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.scrap-body{
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 20px;
+    height: 600px;
+    width: 340px;
+    margin-left: 18px;
+}

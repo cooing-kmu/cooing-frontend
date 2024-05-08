@@ -1,0 +1,10 @@
+body {
+    background-color: #FFFAD0;
+}
+.info-body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 150px;
+    background-color: #FFFAD0;
+}
