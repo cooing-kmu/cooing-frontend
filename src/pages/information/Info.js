@@ -22,7 +22,7 @@ export default function Info() {
           icon={infoIcon1}
         />
         <InfoSection
-          title='지원정보'
+          title='지원사업'
           detailLink='/support-info-details'
           scrapLink='/scraplist'
           bgColor='#90CC8A73'
