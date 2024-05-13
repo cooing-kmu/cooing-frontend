@@ -14,7 +14,7 @@ export default function Header(props) {
     '회원 정보 등록',
     '매칭 정보 등록',
     '지원정책',
-    '지원정보',
+    '지원사업',
     '채용공고',
     '지원정책 스크랩 목록',
     'MATE 정보',
