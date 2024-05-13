@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import * as style from './Styles'
 import { ReactComponent as CooingLogo } from '../../assets/cooingLogo.svg'
-import { ReactComponent as Ic_Password } from '../../assets/icons/icon-password.svg'
 import { ReactComponent as Ic_Matching } from '../../assets/icons/icon-matching.svg'
 import { ReactComponent as Ic_CheckList } from '../../assets/icons/icon-checklist.svg'
 import { ReactComponent as Ic_ArrowRight } from '../../assets/icons/icon-arrow-r.svg'
@@ -14,11 +13,6 @@ export default function MyPage() {
 
   const handleToggle = () => {
     setIsActive(!isActive)
-  }
-
-  const showPwModal = () => {
-    console.log('비밀번호 변경 test')
-    // 이곳에 페이지 이동 등의 작업을 추가할 수 있습니다.
   }
 
   const showLogoutModal = () => {
@@ -48,18 +42,6 @@ export default function MyPage() {
             </style.ButtonContainer>
           </style.RightContainer>
         </style.ProfileContainer>
-        <style.Line />
-
-        {/* pw 변경 */}
-        <style.InnerContainer>
-          <Ic_Password />
-          비밀번호 변경
-          <style.RightContainer>
-            <style.ButtonContainer>
-              <Ic_ArrowRight onClick={showPwModal} />
-            </style.ButtonContainer>
-          </style.RightContainer>
-        </style.InnerContainer>
         <style.Line />
 
         {/* 매칭 기능 활성화 */}
