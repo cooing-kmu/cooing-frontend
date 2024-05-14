@@ -9,6 +9,10 @@ import MyPage from './pages/mypage/MyPage'
 import Profile from './pages/profile/Profile'
 import CheckList from './pages/checklist/CheckList'
 import MatchingInfo from './pages/matchinginfo/MatchingInfo'
+import Announcement from './pages/announcement/Announcement'
+import Community from './pages/community/Community'
+import Chatting from './pages/chatting/Chatting'
+import MainPage from './pages/mainpage/MainPage'
 
 function App() {
   return (
@@ -25,6 +29,10 @@ function App() {
               <Route path='/check-list' element={<CheckList />}></Route>
               <Route path='/sign-up' element={<SignUp />}></Route>
               <Route path='/sign-in' element={<SignIn />}></Route>
+              <Route path='/announcement' element={<Announcement />}></Route>
+              <Route path='/community' element={<Community />}></Route>
+              <Route path='/main-page' element={<MainPage />}></Route>
+              <Route path='/chatting' element={<Chatting />}></Route>
             </Routes>
           </BrowserRouter>
         </CookiesProvider>
