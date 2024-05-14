@@ -71,7 +71,7 @@ export default function MyPage() {
             매칭 정보
             <style.RightContainer>
               <style.ButtonContainer>
-                <Ic_ArrowRight onClick={() => navigate('/matching-info')} />
+                <Ic_ArrowRight onClick={() => navigate('/interest-info')} />
               </style.ButtonContainer>
             </style.RightContainer>
           </style.InnerContainer>
