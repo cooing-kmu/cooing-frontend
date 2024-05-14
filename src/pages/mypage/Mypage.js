@@ -35,8 +35,7 @@ export default function MyPage() {
         {/* 프로필 */}
         <style.ProfileContainer>
           <style.ImageContainer>
-            {' '}
-            <Ic_User />{' '}
+            <Ic_User />
           </style.ImageContainer>
           <style.NameTextContainer>닉네임</style.NameTextContainer>
           <style.RoleTextContainer>역할</style.RoleTextContainer>
