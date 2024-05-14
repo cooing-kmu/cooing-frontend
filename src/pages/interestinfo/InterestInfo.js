@@ -3,14 +3,14 @@ import Header from '../../components/header/Header'
 import { useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
 
-export default function MatchingInfo() {
+export default function InterestInfo() {
   const navigate = useNavigate()
 
   const UserInterestKeyword = [0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0]
 
   return (
     <style.MainContainer>
-      <Header title='매칭 정보' />
+      <Header title='매칭 정보 - 관심' />
 
       <style.CardContainer>
         <style.SubContainer>
@@ -85,7 +85,9 @@ export default function MatchingInfo() {
           </style.ItemContainer>
         </style.SubContainer>
         <style.ButtonContainer>
-          <style.Button>수정</style.Button>
+          <style.Button onClick={() => navigate('/interest-edit')}>
+            수정
+          </style.Button>
         </style.ButtonContainer>
       </style.CardContainer>
     </style.MainContainer>
