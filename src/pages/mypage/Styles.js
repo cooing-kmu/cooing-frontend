@@ -36,6 +36,11 @@ export const Line = styled.div`
   background: #a6a6a6;
 `
 
+export const ImageContainer = styled.div`
+  width: 46px;
+  height: 46px;
+`
+
 export const ProfileContainer = styled.div`
   display: flex;
   height: 80px;
