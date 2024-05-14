@@ -11,7 +11,7 @@ const MainContainer = styled.div`
   gap: 360px;
 `
 
-export default function Mypage() {
+export default function MyPage() {
   return (
     <MainContainer>
       마이 페이지 네비게이션 테스트
