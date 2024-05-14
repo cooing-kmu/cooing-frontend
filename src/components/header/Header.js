@@ -4,6 +4,8 @@ import * as style from './Styles'
 import { ReactComponent as Ic_ArrowLeftBk } from '../../assets/icons/icon-arrow-l-bk.svg'
 import { ReactComponent as Ic_ArrowLeftWh } from '../../assets/icons/icon-arrow-l-wh.svg'
 import { ReactComponent as Ic_Pencil } from '../../assets/icons/icon-pencil.svg'
+import { ReactComponent as Ic_Interest } from '../../assets/icons/icon-interest.svg'
+import { ReactComponent as Ic_Think } from '../../assets/icons/icon-think.svg'
 import { ReactComponent as Ic_Search } from '../../assets/icons/icon-search.svg'
 import { ReactComponent as Ic_More } from '../../assets/icons/icon-more.svg'
 
@@ -32,7 +34,8 @@ export default function Header(props) {
     '봉사활동', // 돋보기
     '동아리 및 소모임', // 돋보기
     '스터디', // 돋보기
-    '매칭 정보', // 펜슬
+    '매칭 정보 - 관심', // 고민
+    '매칭 정보 - 고민', // 관심
   ]
 
   return (
@@ -84,8 +87,11 @@ export default function Header(props) {
               // 스터디 페이지 내 검색 기능
               <Ic_Search onClick={() => navigate()} />
             ) : props.title === ThreeHeaderNameList[8] ? (
-              // 매칭 정보 변경 버튼
-              <Ic_Pencil onClick={() => navigate()} />
+              // 매칭 정보 - 고민 / 변경 버튼
+              <Ic_Interest onClick={() => navigate(-1)} />
+            ) : props.title === ThreeHeaderNameList[9] ? (
+              // 매칭 정보 - 관심 / 변경 버튼
+              <Ic_Think onClick={() => navigate(-1)} />
             ) : null}
           </style.ButtonContainer>
         </style.HeaderContainer>
