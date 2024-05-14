@@ -56,7 +56,13 @@ export default function Header(props) {
         // 나머지는 검은색 헤더 사용
         <style.HeaderContainer IsBlack={true}>
           <style.ButtonContainer>
-            <Ic_ArrowLeftBk onClick={() => navigate(-1)} />
+            {props.title === ThreeHeaderNameList[8] ||
+            props.title === ThreeHeaderNameList[9] ||
+            props.title === ThreeHeaderNameList[11] ? (
+              <Ic_ArrowLeftBk onClick={() => navigate('/my-page')} />
+            ) : (
+              <Ic_ArrowLeftBk onClick={() => navigate(-1)} />
+            )}
           </style.ButtonContainer>
 
           <span>{props.title}</span>
@@ -88,10 +94,10 @@ export default function Header(props) {
               <Ic_Search onClick={() => navigate()} />
             ) : props.title === ThreeHeaderNameList[8] ? (
               // 매칭 정보 - 고민 / 변경 버튼
-              <Ic_Interest onClick={() => navigate(-1)} />
+              <Ic_Think onClick={() => navigate('/think-info')} />
             ) : props.title === ThreeHeaderNameList[9] ? (
               // 매칭 정보 - 관심 / 변경 버튼
-              <Ic_Think onClick={() => navigate(-1)} />
+              <Ic_Interest onClick={() => navigate('/interest-info')} />
             ) : null}
           </style.ButtonContainer>
         </style.HeaderContainer>
