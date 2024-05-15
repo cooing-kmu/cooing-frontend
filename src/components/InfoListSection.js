@@ -1,19 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import vector from '../assets/vector-right.svg'
-import { InfoContainer } from './BgComponent'
+import vector from '../assets/vector-right-black.svg'
 
 export const ItemContainer = styled.div`
   color: white;
   box-shadow:
-    0 2px 10px 0 rgba(0, 0, 0, 0.25),
-    0 6px 10px 0 rgba(0, 0, 0, 0.19);
-  margin-bottom: 40px;
-  border-radius: 20px;
+    0 2px 10px 0 rgba(0, 0, 0, 0.1),
+    0 6px 10px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 24px;
   text-align: left;
   text-decoration: none;
-  padding: 3px 20px;
+  padding: 20px 26px;
+  margin: 20px 20px;
 `
 const InfoListSection = ({ item, itemType }) => {
   // 아이템 유형에 따라 다른 방식으로 렌더링
@@ -22,8 +21,18 @@ const InfoListSection = ({ item, itemType }) => {
       case 'policy':
         return (
           <>
-            <h3>{item.polyBizSjnm}</h3>
-            <p>{item.ploytcnCn}</p>
+            <div
+              style={{
+                display: 'flex',
+                fontSize: 18,
+                fontWeight: 'bold',
+                marginBottom: 10,
+                justifyContent: 'space-between',
+              }}
+            >
+              {item.polyBizSjnm} <img src={vector} />
+            </div>
+            <div style={{ fontSize: 14 }}>{item.ploytcnCn}</div>
           </>
         )
       case 'business':
@@ -48,7 +57,12 @@ const InfoListSection = ({ item, itemType }) => {
   return (
     <div>
       <ItemContainer>
-        <Link to={`/${itemType}/${item.id}`}>{renderItem()}</Link>
+        <Link
+          to={`/${itemType}/${item.id}`}
+          style={{ textDecoration: 'none', color: 'black' }}
+        >
+          {renderItem()}
+        </Link>
       </ItemContainer>
     </div>
   )
