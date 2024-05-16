@@ -9,14 +9,17 @@ import Info from './pages/information/Info'
 import ScrapList from './pages/information/ScrapList'
 import Policy from './pages/information/Policy'
 import PolicyDetail from './pages/information/PolicyDetail'
+import Footer from './components/footer/Footer'
 
 function App() {
+  // 네비게이션 바가 필요 없는 페이지의 경로 배열
+
   return (
-    // <ThemeProvider>
     <RecoilRoot>
       <div id='App'>
         <CookiesProvider>
           <BrowserRouter>
+            <Footer />
             <Routes>
               <Route path='/sign-up' element={<SignUp />}></Route>
               <Route path='/sign-in' element={<SignIn />}></Route>
@@ -29,7 +32,6 @@ function App() {
         </CookiesProvider>
       </div>
     </RecoilRoot>
-    // </ThemeProvider>
   )
 }
 
