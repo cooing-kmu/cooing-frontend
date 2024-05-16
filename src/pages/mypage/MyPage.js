@@ -7,6 +7,7 @@ import { ReactComponent as Ic_ArrowRight } from '../../assets/icons/icon-arrow-r
 import { ReactComponent as Ic_User } from '../../assets/icons/icon-user.svg'
 import { ReactComponent as Ic_Info } from '../../assets/icons/icon-infomation.svg'
 import { useNavigate } from 'react-router-dom'
+import Footer from '../../components/footer/Footer'
 
 export default function MyPage() {
   const [isActive, setIsActive] = useState(false)
@@ -33,7 +34,9 @@ export default function MyPage() {
       <style.MenuContainer>
         {/* 프로필 */}
         <style.ProfileContainer>
-          <Ic_User />
+          <style.ImageContainer>
+            <Ic_User />
+          </style.ImageContainer>
           <style.NameTextContainer>닉네임</style.NameTextContainer>
           <style.RoleTextContainer>역할</style.RoleTextContainer>
           <style.RightContainer>
@@ -68,7 +71,7 @@ export default function MyPage() {
             매칭 정보
             <style.RightContainer>
               <style.ButtonContainer>
-                <Ic_ArrowRight onClick={() => navigate('/matching-info')} />
+                <Ic_ArrowRight onClick={() => navigate('/interest-info')} />
               </style.ButtonContainer>
             </style.RightContainer>
           </style.InnerContainer>
@@ -94,6 +97,7 @@ export default function MyPage() {
           로그아웃
         </style.LogoutTextContainer>
       </style.ButtonContainer>
+      <Footer />
     </style.MainContainer>
   )
 }
