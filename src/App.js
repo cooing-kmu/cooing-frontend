@@ -16,6 +16,8 @@ import MainPage from './pages/mainpage/MainPage'
 import ThinkInfo from './pages/thinkinfo/ThinkInfo'
 import InterestEdit from './pages/interestedit/InterestEdit'
 import ThinkEdit from './pages/thinkedit/ThinkEdit'
+import Alarm from './pages/alarm/Alarm'
+import MateInfo from './pages/mateinfo/MateInfo'
 
 function App() {
   return (
@@ -39,6 +41,9 @@ function App() {
               <Route path='/chatting' element={<Chatting />}></Route>
               <Route path='/interest-edit' element={<InterestEdit />}></Route>
               <Route path='/think-edit' element={<ThinkEdit />}></Route>
+              <Route path='/think-edit' element={<ThinkEdit />}></Route>
+              <Route path='/alarm' element={<Alarm />}></Route>
+              <Route path='/mate-info' element={<MateInfo />}></Route>
             </Routes>
           </BrowserRouter>
         </CookiesProvider>
