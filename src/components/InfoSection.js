@@ -15,7 +15,7 @@ const InfoSection = ({
   return (
     <div className='section-component' style={{ backgroundColor: bgColor }}>
       <h2 className='section-title'>
-        {title} <img src={icon} />{' '}
+        {title} <img src={icon} alt={icon} />{' '}
       </h2>
       <div className='section-links'>
         <Link
@@ -23,7 +23,7 @@ const InfoSection = ({
           className='section-link'
           style={{ backgroundColor: detailColor }}
         >
-          바로보기 <img src={vector} />
+          바로보기 <img src={vector} alt={icon} />
         </Link>
         <Link
           to={scrapLink}
@@ -31,7 +31,7 @@ const InfoSection = ({
           style={{ backgroundColor: scrapColor }}
         >
           스크랩 목록
-          <img src={vector} />
+          <img src={vector} alt={icon} />
         </Link>
       </div>
     </div>

@@ -17,4 +17,9 @@ export const InfoContainer = styled.div`
   height: 75%;
   width: calc(100% - 40px);
   margin: 0 20px;
+  overflow-y: auto;
+  padding: 30px 0;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `

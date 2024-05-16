@@ -30,9 +30,9 @@ const InfoListSection = ({ item, itemType }) => {
                 justifyContent: 'space-between',
               }}
             >
-              {item.polyBizSjnm} <img src={vector} />
+              {item.polyBizSjnm} <img src={vector} alt={vector} />
             </div>
-            <div style={{ fontSize: 14 }}>{item.ploytcnCn}</div>
+            <div style={{ fontSize: 14 }}>{item.polytcnCn}</div>
           </>
         )
       case 'business':
