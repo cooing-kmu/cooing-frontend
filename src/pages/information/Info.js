@@ -1,17 +1,19 @@
 import React from 'react'
 import InfoSection from '../../components/InfoSection'
-import './Info.css'
 import infoIcon1 from '../../assets/infoIcon1.svg'
 import infoIcon2 from '../../assets/infoIcon2.svg'
 import infoIcon3 from '../../assets/infoIcon3.svg'
-import { MainContainer } from '../../components/BgComponent'
+import { MainContainer, LogoContainer } from '../../components/BgComponent'
 import cooingLogo from '../../assets/cooingLogo.svg'
 
 export default function Info() {
   return (
     <MainContainer>
       <div>
-        <img src={cooingLogo} alt='로고' className='cooing-logo' />
+        <LogoContainer>
+          <img src={cooingLogo} alt='로고' className='cooing-logo' />
+        </LogoContainer>
+
         <InfoSection
           title='지원정책'
           detailLink='/policy'
