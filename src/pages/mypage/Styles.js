@@ -26,6 +26,7 @@ export const MenuContainer = styled.div`
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   flex-direction: column;
   align-items: stretch;
+  justify-content: center;
 `
 
 export const Line = styled.div`
@@ -37,8 +38,8 @@ export const Line = styled.div`
 `
 
 export const ImageContainer = styled.div`
-  width: 46px;
-  height: 46px;
+  width: 44px;
+  height: 44px;
 `
 
 export const ProfileContainer = styled.div`
