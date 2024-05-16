@@ -16,6 +16,7 @@ import MainPage from './pages/mainpage/MainPage'
 import ThinkInfo from './pages/thinkinfo/ThinkInfo'
 import InterestEdit from './pages/interestedit/InterestEdit'
 import ThinkEdit from './pages/thinkedit/ThinkEdit'
+import Footer from './components/footer/Footer'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       <div id='App'>
         <CookiesProvider>
           <BrowserRouter>
+            <Footer />
             <Routes>
               <Route path='/' element={<MyPage />}></Route>
               <Route path='/my-page' element={<MyPage />}></Route>
