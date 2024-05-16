@@ -31,10 +31,10 @@ export default function Footer(props) {
   return (
     <style.FooterContainer>
       <style.IconContainer>
-        <Link to='/announcement'>
+        <Link to='/info'>
           <Ic_Announcement
-            onClick={() => handleClick('announcement', '/announcement')}
-            fill={selectedIcon === 'announcement' ? '#fc5242' : '#484C52'}
+            onClick={() => handleClick('info', '/info')}
+            fill={selectedIcon === 'info' ? '#fc5242' : '#484C52'}
           />
         </Link>
       </style.IconContainer>
