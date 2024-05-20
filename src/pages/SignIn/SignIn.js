@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import cooingLogo from '../assets/cooingLogo.svg';
-import google from '../assets/google.svg';
+import cooingLogo from '../../assets/cooingLogo.svg';
+import google from '../../assets/google.svg';
 
 const MainContainer = styled.div`
   display: flex;

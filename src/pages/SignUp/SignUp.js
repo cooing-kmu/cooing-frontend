@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import camera from '../assets/camera.svg';
-import faceImage from '../assets/faceImage.svg';
+import camera from '../../assets/camera.svg';
+import faceImage from '../../assets/faceImage.svg';
 
 const ImageContainer = styled.div`
   position: relative; /* ImageContainer를 상대 위치로 설정 */
