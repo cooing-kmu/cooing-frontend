@@ -3,6 +3,7 @@ import { MainContainer, InfoContainer } from '../../components/BgComponent'
 import policyData from '../../data/PolicyData'
 import InfoListSection from '../../components/./InfoListSection'
 import searchIcon from '../../assets/search-icon.svg'
+import Header from '../../components/header/Header'
 
 export default function Policy() {
   const [searchTerm, setSearchTerm] = useState('')
@@ -47,16 +48,7 @@ export default function Policy() {
   })
   return (
     <MainContainer>
-      <div
-        style={{
-          fontWeight: 'bolder',
-          marginTop: '30px',
-          marginBottom: '40px',
-          textAlign: 'center',
-        }}
-      >
-        지원정책
-      </div>
+      <Header title={'지원정책'} />
       <InfoContainer>
         <div className='search'>
           <div

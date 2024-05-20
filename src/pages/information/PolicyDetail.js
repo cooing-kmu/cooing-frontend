@@ -3,6 +3,7 @@ import { MainContainer, InfoContainer } from '../../components/BgComponent'
 import policyData from '../../data/PolicyData'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
+import Header from '../../components/header/Header'
 export const DetailContainer = styled.div`
   display: flex;
   padding-bottom: 10px;
@@ -31,15 +32,7 @@ const PolicyDetail = ({ policyId }) => {
   }
   return (
     <MainContainer>
-      <div
-        style={{
-          fontWeight: 'bolder',
-          marginBottom: '40px',
-          textAlign: 'center',
-        }}
-      >
-        지원정책
-      </div>
+      <Header title={'지원정책'} />
       <InfoContainer>
         <div>
           <h1>{policy.polyBizSjnm}</h1>
