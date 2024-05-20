@@ -9,11 +9,10 @@ import cooingLogo from '../../assets/cooingLogo.svg'
 export default function Info() {
   return (
     <MainContainer>
+      <LogoContainer>
+        <img src={cooingLogo} alt='로고' width='150px' height='73px' />
+      </LogoContainer>
       <div>
-        <LogoContainer>
-          <img src={cooingLogo} alt='로고' className='cooing-logo' />
-        </LogoContainer>
-
         <InfoSection
           title='지원정책'
           detailLink='/policy'
