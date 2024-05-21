@@ -38,9 +38,9 @@ export default function FreeBoard() {
                         </style.ProfileTextContainer>
                     </style.ProfileContainer>
 
-                    <style.Title>알파 개힘드네 ㅋㅋㅋ</style.Title>
+                    <style.Title>알파 화이팅</style.Title>
 
-                    <style.Detail>개빡치네 ㅋㅋ</style.Detail>
+                    <style.Detail>코딩 재밌다~</style.Detail>
 
                     <style.IconContainer>
                         <style.ThumbIcon><img src={thumb}/>{thumbCount}</style.ThumbIcon>
@@ -66,9 +66,10 @@ export default function FreeBoard() {
                     ))}
                 </style.PostContainer>
 
-                <style.Comment placeholder={"댓글을 입력하세요."}>
-                    <style.MessageSend src= {messageSend}/>
-                </style.Comment>
+                <style.CommentContainer>
+                    <style.Comment placeholder="댓글을 입력하세요." />
+                    <style.MessageSend src={messageSend} alt="메시지 보내기" />
+                </style.CommentContainer>
             </style.MainContainer>
         </>
     )

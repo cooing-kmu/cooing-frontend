@@ -76,22 +76,48 @@ export const StarIcon = styled.div`
   display: flex;
 `
 
-export const Comment = styled.div`
+// export const Comment = styled.input`
+//   width: 375px;
+//   height: 60px;
+//   border-radius: 28px;
+//   border: none;
+//   box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.12);
+//   display: flex;
+//   align-items: center;
+//   margin-top: 10px;
+//   text-indent: 20px;
+// `
+//
+// export const MessageSend = styled.img`
+//   position: absolute;
+//   display: flex;
+//   background-color: red;
+// `
+
+export const CommentContainer = styled.div`
+  position: relative;
   width: 375px;
   height: 60px;
+  margin-top: 10px;
+`;
+
+export const Comment = styled.input`
+  width: 100%;
+  height: 100%;
   border-radius: 28px;
   border: none;
   box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.12);
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
   text-indent: 20px; 
-`
+`;
 
 export const MessageSend = styled.img`
-  display: flex;
-  background-color: red;
-`
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+`;
+
 
 export const detailData = [
     { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
