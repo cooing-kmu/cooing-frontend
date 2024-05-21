@@ -63,6 +63,7 @@ export default function Header(props) {
                 props.title === ThreeHeaderNameList[2] ||
                 props.title === ThreeHeaderNameList[3] ||
                 props.title === ThreeHeaderNameList[4] ||
+                props.title === ThreeHeaderNameList[5] ||
                 props.title === ThreeHeaderNameList[6] ||
                 props.title === ThreeHeaderNameList[7] ||
                 props.title === ThreeHeaderNameList[8]
