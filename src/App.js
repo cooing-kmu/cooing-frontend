@@ -4,12 +4,12 @@ import React, { Component } from 'react';
 import { RecoilRoot } from 'recoil';
 import { CookiesProvider } from 'react-cookie';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import SignUp from './pages/SignUp';
+import SignUp from './pages/SignUp/SignUp';
 import SignIn from './pages/SignIn';
-import SignUp2 from "./pages/SignUp2";
-import SignUp3 from "./pages/SignUp3";
-import SignUp4 from "./pages/SignUp4";
-import SignUp5 from "./pages/SignUp5";
+import SignUp2 from "./pages/SignUp/SignUp2";
+import SignUp3 from "./pages/SignUp/SignUp3";
+import SignUp4 from "./pages/SignUp/SignUp4";
+import SignUp5 from "./pages/SignUp/SignUp5";
 
 
 function App() {
