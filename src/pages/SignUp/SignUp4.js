@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import Header from '../../components/header/Header'
 
+const Div = styled.div`
+  display: flex;
+  flex-direction: column;
+`
 
 const MainContainer = styled.div`
   gap: 16px;
-  margin-top: 27px;
+  margin-top: 80px;
   align-items: center;
   display: flex;
   justify-content: center;
@@ -65,7 +70,9 @@ export default function SignUp4() {
     };
 
     return (
-        <div>
+        <Div>
+            <Header title='프로필 등록' />
+
             <MainContainer>
                 <TextContainer>
                     <h3>도움 받을 분야를</h3>
@@ -94,6 +101,6 @@ export default function SignUp4() {
 
                 <Button onClick={handleSignUpClick}>다음</Button>
             </MainContainer>
-        </div>
+        </Div>
     );
 }

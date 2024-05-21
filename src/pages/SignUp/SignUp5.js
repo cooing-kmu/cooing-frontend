@@ -1,7 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import hand from '../assets/hand.svg';
-import faceImage from "../assets/faceImage.svg";
+import hand from '../../assets/hand.svg';
+import Header from '../../components/header/Header'
+
+const Div = styled.div`
+  display: flex;
+  flex-direction: column;
+`
 
 const MainContainer = styled.div`
   gap: 76px;
@@ -14,13 +19,15 @@ const MainContainer = styled.div`
 
 export default function SignUp5() {
     return (
-        <div>
+        <Div>
+            <Header title='프로필 등록' />
+
             <MainContainer>
                 <h2>찬우님</h2>
                 <img src={hand} alt= "손"/>
                 <h2>환영합니다!</h2>
             </MainContainer>
-        </div>
+        </Div>
 
     );
 }
