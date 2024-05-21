@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import hand from '../../assets/hand.svg';
-import faceImage from "../../assets/faceImage.svg";
 
 const MainContainer = styled.div`
   gap: 76px;
