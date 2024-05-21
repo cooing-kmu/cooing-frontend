@@ -4,6 +4,7 @@ import Header from '../../components/header/Header'
 import { ReactComponent as Ic_User } from '../../assets/icons/icon-user.svg'
 import { ReactComponent as Ic_Camera } from '../../assets/icons/icon-camera.svg'
 import { useNavigate } from 'react-router-dom'
+import { CircleContainer } from './Styles'
 
 export default function Profile() {
   // const ImageUpload = () => {
@@ -25,6 +26,7 @@ export default function Profile() {
     <style.MainContainer>
       <style.BackgroundContainer>
         <Header title='프로필 변경' />
+        <style.CircleContainer></style.CircleContainer>
         <style.ImageContainer>
           <Ic_User />
           <style.CameraContainer>
