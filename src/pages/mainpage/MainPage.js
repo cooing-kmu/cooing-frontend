@@ -1,18 +1,95 @@
 import Footer from '../../components/footer/Footer'
-import React from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import * as style from './Styles'
 import { useNavigate } from 'react-router-dom'
 import { ReactComponent as CooingLogo } from '../../assets/cooingLogo.svg'
 import { ReactComponent as Ic_Alarm } from '../../assets/icons/icon-alarm.svg'
 import { ReactComponent as Ic_People } from '../../assets/icons/icon-people.svg'
-import Image_EmptyBackGround from '../../assets/images/image-empty-background.png'
+import Img_CookieHouse from '../../assets/images/image-cookiehouse.png'
+import BottomBar from './BottomBar'
 
 export default function MainPage() {
+  const canvasRef = useRef(null)
+  const [selectedObj, setSelectedObj] = useState('')
+  const [mousePosition, setMousePosition] = useState({
+    positionX: null,
+    positionY: null,
+  })
+
+  const [mouseEndPosition, setMouseEndPosition] = useState({
+    positionX: null,
+    positionY: null,
+  })
+
+  const [canvasSize, setCanvasSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  })
+
+  const updateCanvasSize = () => {
+    setCanvasSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    })
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', updateCanvasSize)
+    return () => window.removeEventListener('resize', updateCanvasSize)
+  }, [])
+
+  useEffect(() => {
+    drawBackground()
+  }, [canvasSize])
+
+  const drawBackground = () => {
+    const canvasCur = canvasRef.current
+    const ctx = canvasCur.getContext('2d')
+    const bgImage = new Image()
+    bgImage.src = Img_CookieHouse
+    if (ctx === null) return
+    ctx.drawImage(bgImage, 0, 0, window.innerWidth, window.innerHeight)
+  }
+
+  const drawObject = (mouseEndPosition) => {
+    const canvasCur = canvasRef.current
+    const ctx = canvasCur.getContext('2d')
+    const objImage = new Image()
+    objImage.src = selectedObj
+    if (ctx === null) return
+    if (!mouseEndPosition.positionX) return
+    if (!mouseEndPosition.positionY) return
+    ctx.drawImage(
+      objImage,
+      mouseEndPosition.positionX - 45,
+      mouseEndPosition.positionY - 45,
+      90,
+      90
+    )
+  }
+
+  const handleSelectedObj = (obj) => {
+    setSelectedObj(obj)
+  }
+
+  const handleMousePositionInSideBar = ({ positionX, positionY }) => {
+    setMousePosition({ ...mousePosition, positionX, positionY })
+  }
+
   const navigate = useNavigate()
 
   return (
-    <style.MainContainer>
-      메인 페이지 네비게이션 테스트
+    <style.MainContainer
+      onMouseMove={(e) => {
+        if (selectedObj !== '') {
+          setMousePosition({
+            ...mousePosition,
+            positionX: e.clientX,
+            positionY: e.clientY,
+          })
+        }
+      }}
+    >
       <style.HeaderContainer>
         <style.ButtonContainer>
           <Ic_Alarm onClick={() => navigate('/alarm')} />
@@ -24,8 +101,37 @@ export default function MainPage() {
           <Ic_People onClick={() => navigate('/mate-info')} />
         </style.ButtonContainer>
       </style.HeaderContainer>
-      {/*<img src={Image_EmptyBackGround} alt='빈 과자집' />*/}
-      <Footer />
+
+      <style.CanvasContainer backgroundImg={Img_CookieHouse}>
+        <style.CanvasComponent ref={canvasRef} width='480' height='400' />
+      </style.CanvasContainer>
+
+      <style.Line />
+
+      <BottomBar
+        handleSelectedObj={handleSelectedObj}
+        handleMousePositionInSideBar={handleMousePositionInSideBar}
+      />
+      {selectedObj !== '' &&
+      mousePosition.positionX &&
+      mousePosition.positionY ? (
+        <style.SelectedObj
+          backgroundImg={selectedObj}
+          style={{
+            position: 'absolute',
+            left: mousePosition.positionX - 430, // 화면 비율이 바뀌면 이 값도 바꿔줘야함 ;;
+            top: mousePosition.positionY,
+          }}
+          onClick={(e) => {
+            console.log('click')
+            setSelectedObj('')
+            drawObject({
+              positionX: e.clientX - 430, // 여기도
+              positionY: e.clientY - 103, // 여기도
+            })
+          }}
+        />
+      ) : null}
     </style.MainContainer>
   )
 }
