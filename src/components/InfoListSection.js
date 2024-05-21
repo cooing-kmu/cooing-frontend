@@ -32,7 +32,7 @@ const InfoListSection = ({ item, itemType }) => {
             >
               {item.polyBizSjnm} <img src={vector} alt={vector} />
             </div>
-            <div style={{ fontSize: 14 }}>{item.polytcnCn}</div>
+            <div style={{ fontSize: 14 }}>{item.polyItcnCn}</div>
           </>
         )
       case 'business':

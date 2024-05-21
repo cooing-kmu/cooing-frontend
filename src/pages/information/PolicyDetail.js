@@ -4,10 +4,7 @@ import policyData from '../../data/PolicyData'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../../components/header/Header'
-export const DetailContainer = styled.div`
-  display: flex;
-  padding-bottom: 10px;
-`
+
 export const DetailHeadContainer = styled.div`
   display: flex;
   font-weight: bold;
@@ -19,6 +16,15 @@ export const DetailHeadContainer = styled.div`
 export const DetailBodyContainer = styled.div`
   width: 72%;
 `
+
+export const DetailContainer = ({ title, content }) => {
+  return (
+    <div style={{ display: 'flex', paddingBottom: '10px' }}>
+      <DetailHeadContainer>{title}</DetailHeadContainer>
+      <DetailBodyContainer>{content}</DetailBodyContainer>
+    </div>
+  )
+}
 const PolicyDetail = ({ policyId }) => {
   const { id } = useParams()
   const policy = policyData.find((item) => item.id === parseInt(id))
@@ -50,7 +56,6 @@ const PolicyDetail = ({ policyId }) => {
                 marginBottom: '36px',
               }}
             >
-              {' '}
               {policy.polyItcnCn}
             </p>
             <h4 style={{ textAlign: 'center', marginBottom: 5 }}>정책 요약</h4>
@@ -63,30 +68,15 @@ const PolicyDetail = ({ policyId }) => {
                 marginBottom: 20,
               }}
             />
-            <DetailContainer>
-              <DetailHeadContainer>정책 분야</DetailHeadContainer>
-              {policy.polyRlmCd}
-            </DetailContainer>
-            <DetailContainer>
-              <DetailHeadContainer>정책 지역</DetailHeadContainer>
-              <DetailBodyContainer>{policy.polyBizSecd}</DetailBodyContainer>
-            </DetailContainer>
-            <DetailContainer>
-              <DetailHeadContainer>지원 내용</DetailHeadContainer>
-              <DetailBodyContainer>{policy.sporCn}</DetailBodyContainer>
-            </DetailContainer>
-            <DetailContainer>
-              <DetailHeadContainer>사업 신청기간</DetailHeadContainer>
-              <DetailBodyContainer>{policy.prdRpttSecd}</DetailBodyContainer>
-            </DetailContainer>
-            <DetailContainer>
-              <DetailHeadContainer>사업 운영기간</DetailHeadContainer>
-              <DetailBodyContainer>{policy.bizPrdCn}</DetailBodyContainer>
-            </DetailContainer>
-            <DetailContainer>
-              <DetailHeadContainer>지원 규모</DetailHeadContainer>
-              <DetailBodyContainer>{policy.sporScvl}</DetailBodyContainer>
-            </DetailContainer>
+            <DetailContainer title='정책 분야' content={policy.polyRlmCd} />
+            <DetailContainer title='정책 지역' content={policy.polyBizSecd} />
+            <DetailContainer title='지원 내용' content={policy.sporCn} />
+            <DetailContainer
+              title='사업 신청기간'
+              content={policy.prdRpttSecd}
+            />
+            <DetailContainer title='사업 운영기간' content={policy.bizPrdCn} />
+            <DetailContainer title='지원 규모' content={policy.sporScvl} />
 
             <h4 style={{ textAlign: 'center', marginBottom: 5 }}>신청 자격</h4>
             <hr
@@ -98,34 +88,16 @@ const PolicyDetail = ({ policyId }) => {
                 marginBottom: 20,
               }}
             />
-            <DetailContainer>
-              <DetailHeadContainer>연령</DetailHeadContainer>{' '}
-              <DetailBodyContainer>{policy.ageInfo}</DetailBodyContainer>
-            </DetailContainer>
-            <DetailContainer>
-              <DetailHeadContainer>거주지 및 소득</DetailHeadContainer>{' '}
-              <DetailBodyContainer>{policy.prcpCn}</DetailBodyContainer>
-            </DetailContainer>
-            <DetailContainer>
-              <DetailHeadContainer>학력</DetailHeadContainer>{' '}
-              <DetailBodyContainer>{policy.accrRqisCn}</DetailBodyContainer>
-            </DetailContainer>
-            <DetailContainer>
-              <DetailHeadContainer>취업상태</DetailHeadContainer>{' '}
-              <DetailBodyContainer>{policy.empmSttsCn}</DetailBodyContainer>
-            </DetailContainer>
-            <DetailContainer>
-              <DetailHeadContainer>특화 분야</DetailHeadContainer>{' '}
-              <DetailBodyContainer>{policy.splzRlmRqisCn}</DetailBodyContainer>
-            </DetailContainer>
-            <DetailContainer>
-              <DetailHeadContainer>추가 단서 사항</DetailHeadContainer>{' '}
-              <DetailBodyContainer>{policy.aditRscn}</DetailBodyContainer>
-            </DetailContainer>
-            <DetailContainer>
-              <DetailHeadContainer>참여 제한 대상</DetailHeadContainer>{' '}
-              <DetailBodyContainer>{policy.prcpLmttTrgtCn}</DetailBodyContainer>
-            </DetailContainer>
+            <DetailContainer title='연령' content={policy.ageInfo} />
+            <DetailContainer title='거주지 및 소득' content={policy.prcpCn} />
+            <DetailContainer title='학력' content={policy.accrRqisCn} />
+            <DetailContainer title='취업상태' content={policy.empmSttsCn} />
+            <DetailContainer title='특화 분야' content={policy.splzRlmRqisCn} />
+            <DetailContainer title='추가 단서 사항' content={policy.aditRscn} />
+            <DetailContainer
+              title='참여 제한 대상'
+              content={policy.prcpLmttTrgtCn}
+            />
 
             <h4 style={{ textAlign: 'center', marginBottom: 5 }}>신청 방법</h4>
             <hr
@@ -138,22 +110,10 @@ const PolicyDetail = ({ policyId }) => {
               }}
             />
 
-            <DetailContainer>
-              <DetailHeadContainer>신청 절차</DetailHeadContainer>{' '}
-              <DetailBodyContainer>{policy.rqutProcCn}</DetailBodyContainer>
-            </DetailContainer>
-            <DetailContainer>
-              <DetailHeadContainer>심사 및 발표</DetailHeadContainer>{' '}
-              <DetailBodyContainer>{policy.jdgnPresCn}</DetailBodyContainer>
-            </DetailContainer>
-            <DetailContainer>
-              <DetailHeadContainer>신청 사이트</DetailHeadContainer>{' '}
-              <DetailBodyContainer>{policy.rqutUrla}</DetailBodyContainer>
-            </DetailContainer>
-            <DetailContainer>
-              <DetailHeadContainer>제출 서류</DetailHeadContainer>{' '}
-              <DetailBodyContainer>{policy.pstnPaprCn}</DetailBodyContainer>
-            </DetailContainer>
+            <DetailContainer title='신청 절차' content={policy.rqutProcCn} />
+            <DetailContainer title='심사 및 발표' content={policy.jdgnPresCn} />
+            <DetailContainer title='신청 사이트' content={policy.rqutUrla} />
+            <DetailContainer title='제출 서류' content={policy.pstnPaprCn} />
 
             <h4 style={{ textAlign: 'center', marginBottom: 5 }}>기타</h4>
             <hr
@@ -165,30 +125,17 @@ const PolicyDetail = ({ policyId }) => {
                 marginBottom: 20,
               }}
             />
-            <DetailContainer>
-              <DetailHeadContainer>기타 정보</DetailHeadContainer>
-              <DetailBodyContainer>{policy.etct}</DetailBodyContainer>
-            </DetailContainer>
-            <DetailContainer>
-              <DetailHeadContainer>주관 기관</DetailHeadContainer>
-              <DetailBodyContainer>{policy.mngtMson}</DetailBodyContainer>
-            </DetailContainer>
-            <DetailContainer>
-              <DetailHeadContainer>운영기관</DetailHeadContainer>
-              <DetailBodyContainer>{policy.cnsgNmor}</DetailBodyContainer>
-            </DetailContainer>
-            <DetailContainer>
-              <DetailHeadContainer>참고 사이트 1</DetailHeadContainer>
-              <DetailBodyContainer>
-                <a href={policy.rfcSiteUrla1}>{policy.rfcSiteUrla1}</a>
-              </DetailBodyContainer>
-            </DetailContainer>
-            <DetailContainer>
-              <DetailHeadContainer>참고 사이트 2</DetailHeadContainer>
-              <DetailBodyContainer>
-                <a href={policy.rfcSiteUrla2}>{policy.rfcSiteUrla2}</a>
-              </DetailBodyContainer>
-            </DetailContainer>
+            <DetailContainer title='기타 정보' content={policy.etct} />
+            <DetailContainer title='주관 기관' content={policy.mngtMson} />
+            <DetailContainer title='운영기관' content={policy.cnsgNmor} />
+            <DetailContainer
+              title='참고 사이트 1'
+              content={<a href={policy.rfcSiteUrla1}>{policy.rfcSiteUrla1}</a>}
+            />
+            <DetailContainer
+              title='참고 사이트 2'
+              content={<a href={policy.rfcSiteUrla2}>{policy.rfcSiteUrla2}</a>}
+            />
           </div>
         </div>
       </InfoContainer>
