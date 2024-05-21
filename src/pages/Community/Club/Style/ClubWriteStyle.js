@@ -80,7 +80,15 @@ export const MainTextInput = styled.textarea`
   resize: none;
 `
 
-export const Image = styled.img`
-  margin-left: 80px;
+export const Label = styled.label`
+  position: absolute;
   cursor: pointer;
-`
+  right: 50px;
+  top: 160px;
+`;
+
+export const ImageContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 70px;
+`;
