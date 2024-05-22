@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header'
+// import axios from 'axios';
 import hanselHand from '../../assets/hanselHand.svg';
 import gretelHand from '../../assets/gretelHand.svg';
 
@@ -104,6 +105,28 @@ export default function SignUp2() {
     const handleSignUpClick = () => {
         navigate('/sign-up3');
     };
+
+    // const handleSignUpClick = async () => {
+    //     const role = hanselClicked ? '헨젤' : '그레텔';
+    //     const payload = {
+    //         message: "string",
+    //         body: {
+    //             name: "string",
+    //             role: role,
+    //             profileMessage: "string",
+    //             profileImageUrl: "string",
+    //             interestKeyword: ["string"],
+    //             concernKeyword: ["string"]
+    //         }
+    //     };
+    //
+    //     try {
+    //         await axios.post('https://15.165.25.19:8080/user', payload);
+    //         navigate('/sign-up3');
+    //     } catch (error) {
+    //         console.error("There was an error sending the data!", error);
+    //     }
+    // };
 
     return (
         <Div>
