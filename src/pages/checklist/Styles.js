@@ -11,7 +11,6 @@ export const MainContainer = styled.div`
 export const MenuContainer = styled.div`
   display: flex;
   width: 376px;
-  //height: 271px;
   border-radius: 40px;
   background: #fff;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
@@ -37,4 +36,29 @@ export const ItemContainer = styled.div`
     border-bottom: none;
   }
   color: ${(props) => (props.clicked ? '#fd814a' : 'black')};
+`
+
+export const ToggleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+export const ImageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  margin-left: 18px;
+  max-width: 320px;
+  max-height: 480px; /* 원하는 높이로 설정 */
+  overflow-y: auto;
+  img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+  }
+  &::-webkit-scrollbar {
+    // 스크롤바 없음
+    display: none;
+  }
 `
