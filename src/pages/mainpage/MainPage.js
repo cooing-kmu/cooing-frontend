@@ -20,27 +20,27 @@ export default function MainPage() {
     positionX: null,
     positionY: null,
   })
-
-  const [canvasSize, setCanvasSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  })
-
-  const updateCanvasSize = () => {
-    setCanvasSize({
-      width: window.innerWidth,
-      height: window.innerHeight,
-    })
-  }
-
-  useEffect(() => {
-    window.addEventListener('resize', updateCanvasSize)
-    return () => window.removeEventListener('resize', updateCanvasSize)
-  }, [])
-
-  useEffect(() => {
-    drawBackground()
-  }, [canvasSize])
+  //
+  // const [canvasSize, setCanvasSize] = useState({
+  //   width: window.innerWidth,
+  //   height: window.innerHeight,
+  // })
+  //
+  // const updateCanvasSize = () => {
+  //   setCanvasSize({
+  //     width: window.innerWidth,
+  //     height: window.innerHeight,
+  //   })
+  // }
+  //
+  // useEffect(() => {
+  //   window.addEventListener('resize', updateCanvasSize)
+  //   return () => window.removeEventListener('resize', updateCanvasSize)
+  // }, [])
+  //
+  // useEffect(() => {
+  //   drawBackground()
+  // }, [canvasSize])
 
   const drawBackground = () => {
     const canvasCur = canvasRef.current
@@ -119,15 +119,15 @@ export default function MainPage() {
           backgroundImg={selectedObj}
           style={{
             position: 'absolute',
-            left: mousePosition.positionX - 430, // 화면 비율이 바뀌면 이 값도 바꿔줘야함 ;;
+            left: mousePosition.positionX, // 화면 비율이 바뀌면 이 값도 바꿔줘야함 ;; 575
             top: mousePosition.positionY,
           }}
           onClick={(e) => {
             console.log('click')
             setSelectedObj('')
             drawObject({
-              positionX: e.clientX - 430, // 여기도
-              positionY: e.clientY - 103, // 여기도
+              positionX: e.clientX, // 여기도 575
+              positionY: e.clientY, // 여기도 103
             })
           }}
         />
