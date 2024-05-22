@@ -1,91 +1,112 @@
-import * as style from './Styles'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import Header from '../../components/header/Header'
-import { MenuContainer } from './Styles'
 import { ReactComponent as Ic_Plus } from '../../assets/icons/icon-plus.svg'
+import * as style from './Styles'
+import { DOMAIN_NAME } from '../../App'
 
 export default function CheckList() {
-  const [isActive, setIsActive] = useState(false)
-  const [clickedItems, setClickedItems] = useState(Array(8).fill(false)) // 아이템의 개수에 맞게 초기 상태 설정
+  const [clickedItem, setClickedItem] = useState('') // 클릭된 아이템의 이름 상태
+  const [imagesForClickedItem, setImagesForClickedItem] = useState([]) // 클릭된 아이템의 이미지 리스트 상태
+  const [data, setData] = useState(null) // 전체 데이터 상태
+  const [isLoading, setIsLoading] = useState(true) // 로딩 상태
 
-  const handleToggle = () => {
-    setIsActive(!isActive)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log('Fetching data...')
+        const response = await axios.get(`${DOMAIN_NAME}/user/checklist`, {
+          withCredentials: true, // 쿠키 전송 활성화
+        })
+        console.log('Data fetched successfully!')
+        setData(response.data.body)
+        setIsLoading(false)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+        setIsLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  const handleItemClick = (itemName) => {
+    if (data && data[itemName]) {
+      // console.log(`Data for ${itemName}:`, data[itemName]) // 추가된 콘솔 로그
+      setImagesForClickedItem(data[itemName])
+      setClickedItem(clickedItem === itemName ? '' : itemName)
+    }
   }
 
-  const handleItemClick = (index) => {
-    // 클릭된 아이템의 상태를 변경하기 위해 클릭된 아이템의 인덱스를 전달받음
-    const newClickedItems = [...clickedItems] // 기존 배열 복사
-    newClickedItems[index] = !newClickedItems[index] // 클릭된 아이템의 상태를 반전
-    setClickedItems(newClickedItems) // 새로운 클릭된 아이템 배열로 상태 업데이트
-  }
+  const items = [
+    {
+      name: 'income',
+      text: '1. 소득',
+    },
+    {
+      name: 'housing',
+      text: '2. 주거',
+    },
+    {
+      name: 'finance',
+      text: '3. 금융',
+    },
+    {
+      name: 'education',
+      text: '4. 진학',
+    },
+    {
+      name: 'employment',
+      text: '5. 취업',
+    },
+    {
+      name: 'health',
+      text: '6. 의료 및 건강',
+    },
+    {
+      name: 'miscellaneous',
+      text: '7. 기타',
+    },
+    {
+      name: 'tips',
+      text: '8. 알아두면 꿀 팁',
+    },
+  ]
 
   return (
     <style.MainContainer>
       <Header title='자립 체크리스트' />
       <style.MenuContainer>
-        <style.ItemContainer
-          onClick={() => handleItemClick(0)}
-          clicked={clickedItems[0]}
-        >
-          1. 소득
-          <Ic_Plus fill={clickedItems[0] ? '#fd814a' : 'black'} />
-        </style.ItemContainer>
-
-        <style.ItemContainer
-          onClick={() => handleItemClick(1)}
-          clicked={clickedItems[1]}
-        >
-          2. 주거
-          <Ic_Plus fill={clickedItems[1] ? '#fd814a' : 'black'} />
-        </style.ItemContainer>
-
-        <style.ItemContainer
-          onClick={() => handleItemClick(2)}
-          clicked={clickedItems[2]}
-        >
-          3. 금융
-          <Ic_Plus fill={clickedItems[2] ? '#fd814a' : 'black'} />
-        </style.ItemContainer>
-
-        <style.ItemContainer
-          onClick={() => handleItemClick(3)}
-          clicked={clickedItems[3]}
-        >
-          4. 진학
-          <Ic_Plus fill={clickedItems[3] ? '#fd814a' : 'black'} />
-        </style.ItemContainer>
-
-        <style.ItemContainer
-          onClick={() => handleItemClick(4)}
-          clicked={clickedItems[4]}
-        >
-          5. 취업
-          <Ic_Plus fill={clickedItems[4] ? '#fd814a' : 'black'} />
-        </style.ItemContainer>
-
-        <style.ItemContainer
-          onClick={() => handleItemClick(5)}
-          clicked={clickedItems[5]}
-        >
-          6. 의료 및 건강
-          <Ic_Plus fill={clickedItems[5] ? '#fd814a' : 'black'} />
-        </style.ItemContainer>
-
-        <style.ItemContainer
-          onClick={() => handleItemClick(6)}
-          clicked={clickedItems[6]}
-        >
-          7. 기타
-          <Ic_Plus fill={clickedItems[6] ? '#fd814a' : 'black'} />
-        </style.ItemContainer>
-
-        <style.ItemContainer
-          onClick={() => handleItemClick(7)}
-          clicked={clickedItems[7]}
-        >
-          8. 알아두면 꿀 팁
-          <Ic_Plus fill={clickedItems[7] ? '#fd814a' : 'black'} />
-        </style.ItemContainer>
+        <style.ToggleContainer>
+          {items.map((item) => (
+            <React.Fragment key={item.name}>
+              <style.ItemContainer
+                onClick={() => handleItemClick(item.name)}
+                clicked={clickedItem === item.name}
+              >
+                {item.text}
+                <Ic_Plus
+                  fill={clickedItem === item.name ? '#fd814a' : 'black'}
+                />
+              </style.ItemContainer>
+              {clickedItem === item.name && (
+                <style.ImageContainer>
+                  {isLoading ? (
+                    <p>Loading...</p>
+                  ) : (
+                    imagesForClickedItem.map((imageUrl, index) => (
+                      <img
+                        key={imageUrl}
+                        src={imageUrl}
+                        alt={`Image ${index}`}
+                      />
+                    ))
+                  )}
+                </style.ImageContainer>
+              )}
+            </React.Fragment>
+          ))}
+        </style.ToggleContainer>
       </style.MenuContainer>
     </style.MainContainer>
   )
