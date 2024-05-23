@@ -27,25 +27,10 @@ export const ContentsContainer = styled.div`
   cursor: pointer;
 `
 
-export const detailData = [
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-]
-
 export const TitleSummary = styled.div`
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 310px;
 `
 
 export const Title = styled.div`

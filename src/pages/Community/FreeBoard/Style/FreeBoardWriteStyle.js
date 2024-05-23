@@ -19,8 +19,8 @@ export const Title = styled.input`
   width: 388px;
   border-radius: 10px;
   border: #a6a6a6 solid 1px;
-  text-indent: 20px; /* placeholder를 오른쪽으로 20px 이동 */
-
+  padding-left: 20px;
+  padding-right: 20px;
   &::placeholder {
     font-size: 15px;
     color: #a6a6a6;
@@ -33,8 +33,7 @@ export const Detail = styled.textarea`
   border-radius: 10px;
   border: #a6a6a6 solid 1px;
   resize: none;
-  text-indent: 20px;
-  padding-top: 20px;
+  padding: 20px; 
   &::placeholder {
     font-size: 15px;
     color: #a6a6a6;

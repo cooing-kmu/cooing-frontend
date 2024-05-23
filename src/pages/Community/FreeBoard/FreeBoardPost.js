@@ -9,19 +9,36 @@ import messageSend from '../../../assets/messageSend.svg'
 import * as style from './Style/FreeBoardPostStyle'
 import * as Style from './Style/FreeBoardStyle'
 import {Button} from "./Style/FreeBoardPostStyle";
+import axios from 'axios';
 
-
-export default function FreeBoard() {
+export default function FreeBoardPost() {
     const navigate = useNavigate()
     const handleWriteClick = () => {
         navigate('/free-board-write')
     }
     const [thumbCount, setThumbCount] = useState(0);
+    const [ comment, setComment] = useState('');
 
     const handleThumbClick = () => {
         setThumbCount(prevCount => prevCount + 1);
     };
 
+    const handleCommentChange = (e) => {
+        setComment(e.target.value);
+    };
+
+    const handleCommentClick = async () => {
+        try {
+            await axios.post(
+                'http://15.165.25.19:8080/board/{boardId}/comment',
+                {
+                    content: comment,
+                });
+        }
+        catch (error) {
+            console.error("There was an error sending the data!", error);
+        }
+    };
 
     return (
         <>
@@ -67,8 +84,11 @@ export default function FreeBoard() {
                 </style.PostContainer>
 
                 <style.CommentContainer>
-                    <style.Comment placeholder="댓글을 입력하세요." />
-                    <style.MessageSend src={messageSend} alt="메시지 보내기" />
+                    <style.Comment
+                        placeholder="댓글을 입력하세요."
+                        value={comment}
+                        onChange={handleCommentChange}/>
+                    <style.MessageSend onClick={handleCommentClick} src={messageSend} alt="메시지 보내기" />
                 </style.CommentContainer>
             </style.MainContainer>
         </>
