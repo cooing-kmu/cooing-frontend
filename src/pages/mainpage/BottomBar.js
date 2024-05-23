@@ -9,11 +9,8 @@ import Img_Obj6 from '../../assets/images/image-obj6.png'
 import Img_Obj7 from '../../assets/images/image-obj7.png'
 import Img_Obj8 from '../../assets/images/image-obj8.png'
 
-export default function BottomBar({
-  handleSelectedObj,
-  handleMousePositionInSideBar,
-}) {
-  const [objList, setObjList] = useState([
+export default function BottomBar({ handleSelectedObj }) {
+  const [objList] = useState([
     Img_Obj1,
     Img_Obj2,
     Img_Obj3,
@@ -32,13 +29,7 @@ export default function BottomBar({
             <ObjContainer
               key={idx}
               backgroundImg={el}
-              onClick={(e) => {
-                handleSelectedObj(el)
-                handleMousePositionInSideBar({
-                  positionX: e.clientX,
-                  positionY: e.clientY,
-                })
-              }}
+              onClick={() => handleSelectedObj(el)}
             />
           ))}
         </Row>
@@ -47,44 +38,16 @@ export default function BottomBar({
             <ObjContainer
               key={idx + 4}
               backgroundImg={el}
-              onClick={(e) => {
-                handleSelectedObj(el)
-                handleMousePositionInSideBar({
-                  positionX: e.clientX,
-                  positionY: e.clientY,
-                })
-              }}
+              onClick={() => handleSelectedObj(el)}
             />
           ))}
         </Row>
       </>
     )
   }
+
   return <Wrapper>{renderObjList()}</Wrapper>
 }
-
-// const Wrapper = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: space-around;
-//   align-items: center;
-//   position: absolute;
-//   bottom: 0;
-// `
-//
-// const Row = styled.div`
-//   display: flex;
-//   justify-content: space-around;
-//   width: 100%;
-// `
-//
-// const ObjContainer = styled.div`
-//   cursor: pointer;
-//   width: 90px;
-//   height: 90px;
-//   background-image: url(${(props) => props.backgroundImg});
-//   background-size: cover;
-// `
 
 const Wrapper = styled.div`
   height: 250px;
@@ -98,7 +61,7 @@ const Wrapper = styled.div`
 const Row = styled.div`
   display: flex;
   justify-content: space-around;
-  width: 380;
+  width: 100%;
 `
 
 const ObjContainer = styled.div`
@@ -107,5 +70,4 @@ const ObjContainer = styled.div`
   height: 90px;
   background-image: url(${(props) => props.backgroundImg});
   background-size: cover;
-  //overflow: visible;
 `

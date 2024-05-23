@@ -8,6 +8,8 @@ import { ReactComponent as Ic_People } from '../../assets/icons/icon-people.svg'
 import Img_CookieHouse from '../../assets/images/image-cookiehouse.png'
 import BottomBar from './BottomBar'
 
+const OBJECT_SIZE = 90 // 객체의 크기
+
 export default function MainPage() {
   const canvasRef = useRef(null)
   const [selectedObj, setSelectedObj] = useState('')
@@ -16,64 +18,66 @@ export default function MainPage() {
     positionY: null,
   })
 
-  const [mouseEndPosition, setMouseEndPosition] = useState({
-    positionX: null,
-    positionY: null,
-  })
-  //
-  // const [canvasSize, setCanvasSize] = useState({
-  //   width: window.innerWidth,
-  //   height: window.innerHeight,
-  // })
-  //
-  // const updateCanvasSize = () => {
-  //   setCanvasSize({
-  //     width: window.innerWidth,
-  //     height: window.innerHeight,
-  //   })
-  // }
-  //
-  // useEffect(() => {
-  //   window.addEventListener('resize', updateCanvasSize)
-  //   return () => window.removeEventListener('resize', updateCanvasSize)
-  // }, [])
-  //
-  // useEffect(() => {
-  //   drawBackground()
-  // }, [canvasSize])
+  useEffect(() => {
+    const handleResize = () => {
+      const canvasCur = canvasRef.current
+      const canvasRect = canvasCur.getBoundingClientRect()
+      const scaleX = canvasCur.width / canvasRect.width
+      const scaleY = canvasCur.height / canvasRect.height
 
-  const drawBackground = () => {
+      setMousePosition({
+        positionX: mousePosition.positionX / scaleX,
+        positionY: mousePosition.positionY / scaleY,
+      })
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [mousePosition])
+
+  useEffect(() => {
     const canvasCur = canvasRef.current
     const ctx = canvasCur.getContext('2d')
     const bgImage = new Image()
     bgImage.src = Img_CookieHouse
-    if (ctx === null) return
-    ctx.drawImage(bgImage, 0, 0, window.innerWidth, window.innerHeight)
-  }
+    bgImage.onload = () => {
+      ctx.drawImage(bgImage, 0, 0, canvasCur.width, canvasCur.height)
+    }
+  }, [])
 
   const drawObject = (mouseEndPosition) => {
     const canvasCur = canvasRef.current
     const ctx = canvasCur.getContext('2d')
     const objImage = new Image()
     objImage.src = selectedObj
-    if (ctx === null) return
-    if (!mouseEndPosition.positionX) return
-    if (!mouseEndPosition.positionY) return
-    ctx.drawImage(
-      objImage,
-      mouseEndPosition.positionX - 45,
-      mouseEndPosition.positionY - 45,
-      90,
-      90
-    )
+    objImage.onload = () => {
+      const canvasRect = canvasCur.getBoundingClientRect()
+      const scaleX = canvasCur.width / canvasRect.width
+      const scaleY = canvasCur.height / canvasRect.height
+
+      // 마우스 커서와 캔버스의 중심 간의 상대적인 위치 계산
+      const canvasCenterX = canvasRect.width / 2
+      const canvasCenterY = canvasRect.height / 2
+      const relativeMouseX = mouseEndPosition.positionX - canvasCenterX
+      const relativeMouseY = mouseEndPosition.positionY - canvasCenterY
+
+      // 객체의 X, Y 좌표 계산
+      const objectX = canvasCur.width / 2 + relativeMouseX - OBJECT_SIZE / 2
+      const objectY = canvasCur.height / 2 + relativeMouseY - OBJECT_SIZE / 2
+
+      // 객체 그리기
+      ctx.drawImage(objImage, objectX, objectY, OBJECT_SIZE, OBJECT_SIZE)
+    }
   }
 
   const handleSelectedObj = (obj) => {
     setSelectedObj(obj)
-  }
 
-  const handleMousePositionInSideBar = ({ positionX, positionY }) => {
-    setMousePosition({ ...mousePosition, positionX, positionY })
+    // 마우스 위치 초기화
+    setMousePosition({
+      positionX: null,
+      positionY: null,
+    })
   }
 
   const navigate = useNavigate()
@@ -82,10 +86,20 @@ export default function MainPage() {
     <style.MainContainer
       onMouseMove={(e) => {
         if (selectedObj !== '') {
+          const canvasRect = canvasRef.current.getBoundingClientRect()
+          const canvasCenterX = canvasRect.width / 2
+          const canvasCenterY = canvasRect.height / 2
+          const mouseX = e.clientX - canvasRect.left
+          const mouseY = e.clientY - canvasRect.top
+
+          // 마우스 커서와 캔버스의 중심 간의 상대적인 위치 계산
+          const relativeMouseX = mouseX - canvasCenterX + OBJECT_SIZE * 2 + 19
+          const relativeMouseY = mouseY - canvasCenterY + OBJECT_SIZE * 2 + 18
+
           setMousePosition({
             ...mousePosition,
-            positionX: e.clientX,
-            positionY: e.clientY,
+            positionX: relativeMouseX,
+            positionY: relativeMouseY,
           })
         }
       }}
@@ -102,33 +116,60 @@ export default function MainPage() {
         </style.ButtonContainer>
       </style.HeaderContainer>
 
-      <style.CanvasContainer backgroundImg={Img_CookieHouse}>
-        <style.CanvasComponent ref={canvasRef} width='480' height='400' />
+      <style.CanvasContainer
+        onMouseMove={(e) => {
+          if (selectedObj !== '') {
+            const canvasRect = canvasRef.current.getBoundingClientRect()
+            const scaleX = canvasRef.current.width / canvasRect.width
+            const scaleY = canvasRef.current.height / canvasRect.height
+
+            setMousePosition({
+              positionX: (e.clientX - canvasRect.left) * scaleX,
+              positionY: (e.clientY - canvasRect.top) * scaleY,
+            })
+          }
+        }}
+        onClick={(e) => {
+          if (selectedObj !== '') {
+            const canvasRect = canvasRef.current.getBoundingClientRect()
+            const scaleX = canvasRef.current.width / canvasRect.width
+            const scaleY = canvasRef.current.height / canvasRect.height
+
+            const canvasX = (e.clientX - canvasRect.left) * scaleX
+            const canvasY = (e.clientY - canvasRect.top) * scaleY
+
+            drawObject({
+              positionX: canvasX,
+              positionY: canvasY,
+            })
+
+            setSelectedObj('')
+          }
+        }}
+      >
+        <style.CanvasComponent
+          ref={canvasRef}
+          width={400} // Canvas 요소의 너비를 창의 너비로 설정
+          height={400} // Canvas 요소의 높이를 창의 높이로 설정
+        />
       </style.CanvasContainer>
 
       <style.Line />
 
-      <BottomBar
-        handleSelectedObj={handleSelectedObj}
-        handleMousePositionInSideBar={handleMousePositionInSideBar}
-      />
+      <BottomBar handleSelectedObj={handleSelectedObj} />
+
       {selectedObj !== '' &&
-      mousePosition.positionX &&
-      mousePosition.positionY ? (
+      mousePosition.positionX !== null &&
+      mousePosition.positionY !== null ? (
         <style.SelectedObj
           backgroundImg={selectedObj}
           style={{
             position: 'absolute',
-            left: mousePosition.positionX, // 화면 비율이 바뀌면 이 값도 바꿔줘야함 ;; 575
-            top: mousePosition.positionY,
-          }}
-          onClick={(e) => {
-            console.log('click')
-            setSelectedObj('')
-            drawObject({
-              positionX: e.clientX, // 여기도 575
-              positionY: e.clientY, // 여기도 103
-            })
+            left: mousePosition.positionX + OBJECT_SIZE / 2 - 5,
+            top: mousePosition.positionY + OBJECT_SIZE + 15,
+            // width: OBJECT_SIZE,
+            // height: OBJECT_SIZE,
+            pointerEvents: 'none',
           }}
         />
       ) : null}
