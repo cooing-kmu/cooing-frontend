@@ -1,5 +1,5 @@
 import * as style from './Styles'
-import Header from '../../components/header/Header'
+import Header from '../../../components/header/Header'
 
 export default function Alarm() {
   return (

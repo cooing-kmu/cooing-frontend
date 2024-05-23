@@ -1,6 +1,6 @@
 import * as style from './Styles'
-import Header from '../../components/header/Header'
-import { ReactComponent as Ic_User } from '../../assets/icons/icon-user.svg'
+import Header from '../../../components/header/Header'
+import { ReactComponent as Ic_User } from '../../../assets/icons/icon-user.svg'
 
 export default function MateInfo() {
   return (
