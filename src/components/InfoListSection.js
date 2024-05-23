@@ -35,6 +35,7 @@ export const InfoItem = ({ itemTitle, itemContent }) => {
 }
 
 const InfoListSection = ({ item, itemType }) => {
+  console.log('리스트아이템:', item, itemType)
   // 아이템 유형에 따라 다른 방식으로 렌더링
   const renderItem = () => {
     switch (itemType) {
