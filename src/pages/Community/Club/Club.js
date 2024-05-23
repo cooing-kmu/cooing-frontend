@@ -2,7 +2,7 @@ import React from 'react'
 import whitePencil from '../../../assets/whitePencil.svg'
 import { useNavigate } from 'react-router-dom'
 import Header from '../../../components/header/Header'
-import * as style from './Style/ClubStyle'
+import * as style from './style/ClubStyle'
 
 export default function Club() {
   const navigate = useNavigate()

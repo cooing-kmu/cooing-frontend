@@ -2,9 +2,9 @@
 // import whitePencil from '../../../assets/whitePencil.svg'
 // import { useNavigate } from 'react-router-dom'
 // import Header from '../../../components/header/Header'
-// import * as style from './Style/FreeBoardStyle'
+// import * as style from './style/FreeBoardStyle'
 //
-// export default function FreeBoard() {
+// export default function freeboard() {
 //   const navigate = useNavigate()
 //   const handleWriteClick = () => {
 //     navigate('/free-board-write')
@@ -42,7 +42,7 @@ import whitePencil from '../../../assets/whitePencil.svg';
 import {Link, useNavigate} from 'react-router-dom';
 import Header from '../../../components/header/Header';
 import axios from 'axios';
-import * as style from './Style/FreeBoardStyle';
+import * as style from './style/FreeBoardStyle';
 
 export default function FreeBoard() {
     const navigate = useNavigate();
@@ -70,7 +70,7 @@ export default function FreeBoard() {
             <Header title='자유 게시판' />
 
             <style.MainContainer>
-\                {boardData.length > 0 && boardData.map((item, index) => (
+                {boardData.length > 0 && boardData.map((item, index) => (
                     <Link to={`/${item.boardId}`} style={{textDecoration:"none", color:"black"}}>
                         <style.ContentsContainer key={item.boardId}>
                             <style.TitleSummary>

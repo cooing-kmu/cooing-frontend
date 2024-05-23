@@ -1,10 +1,10 @@
 import React,{useState} from 'react'
-import * as style from './Style/ClubWriteStyle'
+import * as style from './style/ClubWriteStyle'
 import { useNavigate } from 'react-router-dom'
 import Header from '../../../components/header/Header'
 import defaultImage from '../../../assets/defaultImage.svg'
 import camera from '../../../assets/camera.svg'
-import {ImageContainer} from "./Style/ClubWriteStyle";
+import {ImageContainer} from "./style/ClubWriteStyle";
 
 export default function ClubWrite() {
   const navigate = useNavigate()

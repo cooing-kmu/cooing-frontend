@@ -6,9 +6,9 @@ import thumb from '../../../assets/thumbIcon.svg'
 import message from '../../../assets/messageIcon.svg'
 import star from '../../../assets/starIcon.svg'
 import messageSend from '../../../assets/messageSend.svg'
-import * as style from './Style/FreeBoardPostStyle'
-import * as Style from './Style/FreeBoardStyle'
-import {Button} from "./Style/FreeBoardPostStyle";
+import * as style from './style/FreeBoardPostStyle'
+import * as Style from './style/FreeBoardStyle'
+import {Button} from "./style/FreeBoardPostStyle";
 import axios from 'axios';
 
 export default function FreeBoardPost() {

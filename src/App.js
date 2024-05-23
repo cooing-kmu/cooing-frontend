@@ -4,25 +4,19 @@ import React, { Component } from 'react'
 import { RecoilRoot } from 'recoil'
 import { CookiesProvider } from 'react-cookie'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import SignUp from './pages/SignUp/SignUp'
-import SignIn from './pages/SignIn/SignIn'
-import SignUp2 from './pages/SignUp/SignUp2'
-import SignUp3 from './pages/SignUp/SignUp3'
-import SignUp4 from './pages/SignUp/SignUp4'
-import SignUp5 from './pages/SignUp/SignUp5'
-import Community from './pages/Community/Community'
-import Club from './pages/Community/Club/Club'
-import Comment from './pages/Community/Comment'
-import FreeBoard from './pages/Community/FreeBoard/FreeBoard'
-import MyWrote from './pages/Community/MyWrote'
-import Scrap from './pages/Community/Scrap'
-import Study from './pages/Community/Study/Study'
-import Volunteer from './pages/Community/Volunteer/Volunteer'
-import FreeBoardWrite from './pages/Community/FreeBoard/FreeBoardWrite'
-import ClubWrite from './pages/Community/Club/ClubWrite'
-import StudyWrite from './pages/Community/Study/StudyWrite'
-import VolunteerWrite from './pages/Community/Volunteer/VolunteerWrite'
-import FreeBoardPost from './pages/Community/FreeBoard/FreeBoardPost'
+import Community from './pages/community/Community'
+import Club from './pages/community/club/Club'
+import Comment from './pages/community/Comment'
+import FreeBoard from './pages/community/freeboard/FreeBoard'
+import MyWrote from './pages/community/MyWrote'
+import Scrap from './pages/community/Scrap'
+import Study from './pages/community/study/Study'
+import Volunteer from './pages/community/volunteer/Volunteer'
+import FreeBoardWrite from './pages/community/freeboard/FreeBoardWrite'
+import ClubWrite from './pages/community/club/ClubWrite'
+import StudyWrite from './pages/community/study/StudyWrite'
+import VolunteerWrite from './pages/community/volunteer/VolunteerWrite'
+import FreeBoardPost from './pages/community/freeboard/FreeBoardPost'
 
 function App() {
   return (
@@ -32,12 +26,6 @@ function App() {
         <CookiesProvider>
           <BrowserRouter>
             <Routes>
-              <Route path='/sign-up' element={<SignUp />}></Route>
-              <Route path='/sign-up2' element={<SignUp2 />}></Route>
-              <Route path='/sign-up3' element={<SignUp3 />}></Route>
-              <Route path='/sign-up4' element={<SignUp4 />}></Route>
-              <Route path='/sign-up5' element={<SignUp5 />}></Route>
-              <Route path='/sign-in' element={<SignIn />}></Route>
               <Route path='/community' element={<Community />}></Route>
               <Route path='/free-board' element={<FreeBoard />}></Route>
               <Route path='/club' element={<Club />}></Route>
@@ -50,7 +38,7 @@ function App() {
               <Route path='/club-write' element={<ClubWrite />}></Route>
               <Route path='/study-write' element={<StudyWrite />}></Route>
               <Route path='/volunteer-write' element={<VolunteerWrite />}></Route>
-              <Route path='/free-board-post' element={<FreeBoardPost />}></Route>              <Route path='/free-board-post' element={<FreeBoardPost />}></Route>
+              <Route path='/free-board-post' element={<FreeBoardPost />}></Route>
             </Routes>
           </BrowserRouter>
         </CookiesProvider>
