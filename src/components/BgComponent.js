@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import React from 'react'
 
 export const MainContainer = styled.div`
   display: flex;
@@ -32,3 +33,23 @@ export const LogoContainer = styled.div`
   margin-bottom: 15px;
   margin-top: 30px;
 `
+export const DetailHeadContainer = styled.div`
+  display: flex;
+  font-weight: bold;
+  margin-right: 9px;
+  text-align: center;
+  justify-content: center;
+  width: 28%;
+`
+export const DetailBodyContainer = styled.div`
+  width: 72%;
+`
+
+export const DetailContainer = ({ title, content }) => {
+  return (
+    <div style={{ display: 'flex', paddingBottom: '10px' }}>
+      <DetailHeadContainer>{title}</DetailHeadContainer>
+      <DetailBodyContainer>{content}</DetailBodyContainer>
+    </div>
+  )
+}

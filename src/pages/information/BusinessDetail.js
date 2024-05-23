@@ -69,7 +69,9 @@ const BusinessDetail = ({ businessId }) => {
                 marginBottom: 20,
               }}
             />
-            <div style={{ textAlign: 'center' }}>{business.content}</div>
+            <div style={{ textAlign: 'center', whiteSpace: 'pre-line' }}>
+              {business.content}
+            </div>
 
             <h4 style={{ textAlign: 'center', marginBottom: 5 }}>기관 정보</h4>
             <hr
