@@ -45,8 +45,7 @@ export default function SignIn() {
                 <img src={cooingLogo} alt="로고" />
                 for 자립준비청년
             </TitleContainer>
-
-            <LoginButton href="https://www.naver.com" target="_blank">
+            <LoginButton href="http://www.cooing.n-e.kr:8080/oauth2/authorization/google" target="_blank">
                 <img src={google} alt="로고" /> Google 로그인
             </LoginButton>
         </MainContainer>
