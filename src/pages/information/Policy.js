@@ -138,7 +138,7 @@ export default function Policy() {
                 margin: '0 10px',
               }}
             />
-            <img src={searchIcon} alt={searchIcon} />
+            <img src={searchIcon} alt={searchIcon} style={{ padding: 0 }} />
           </div>
         </div>{' '}
         {filteredPolicyData.map((policy) => (

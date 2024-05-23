@@ -14,39 +14,44 @@ export const ItemContainer = styled.div`
   padding: 20px 26px;
   margin: 20px 20px;
 `
+
+export const InfoItem = ({ itemTitle, itemContent }) => {
+  return (
+    <div>
+      <div
+        style={{
+          display: 'flex',
+          fontSize: 18,
+          fontWeight: 'bold',
+          marginBottom: 10,
+          justifyContent: 'space-between',
+        }}
+      >
+        {itemTitle} <img src={vector} alt={vector} />
+      </div>
+      <div style={{ fontSize: 14 }}>{itemContent}</div>
+    </div>
+  )
+}
+
 const InfoListSection = ({ item, itemType }) => {
   // 아이템 유형에 따라 다른 방식으로 렌더링
   const renderItem = () => {
     switch (itemType) {
       case 'policy':
         return (
-          <>
-            <div
-              style={{
-                display: 'flex',
-                fontSize: 18,
-                fontWeight: 'bold',
-                marginBottom: 10,
-                justifyContent: 'space-between',
-              }}
-            >
-              {item.polyBizSjnm} <img src={vector} alt={vector} />
-            </div>
-            <div style={{ fontSize: 14 }}>{item.polyItcnCn}</div>
-          </>
+          <InfoItem
+            itemTitle={item.polyBizSjnm}
+            itemContent={item.polyItcnCn}
+          />
         )
       case 'business':
+        return <InfoItem itemTitle={item.title} itemContent={item.category} />
+      case 'hiring':
         return (
           <>
-            <h3>{item.businessName}</h3>
-            <p>{item.businessDescription}</p>
-          </>
-        )
-      case 'information':
-        return (
-          <>
-            <h3>{item.infoTitle}</h3>
-            <p>{item.infoDescription}</p>
+            {/*<h3>{item.infoTitle}</h3>*/}
+            {/*<p>{item.infoDescription}</p>*/}
           </>
         )
       default:

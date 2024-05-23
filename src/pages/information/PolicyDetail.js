@@ -1,30 +1,14 @@
 import React from 'react'
-import { MainContainer, InfoContainer } from '../../components/BgComponent'
+import {
+  MainContainer,
+  InfoContainer,
+  DetailContainer,
+} from '../../components/BgComponent'
 import policyData from '../../data/PolicyData'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../../components/header/Header'
 
-export const DetailHeadContainer = styled.div`
-  display: flex;
-  font-weight: bold;
-  margin-right: 9px;
-  text-align: center;
-  justify-content: center;
-  width: 28%;
-`
-export const DetailBodyContainer = styled.div`
-  width: 72%;
-`
-
-export const DetailContainer = ({ title, content }) => {
-  return (
-    <div style={{ display: 'flex', paddingBottom: '10px' }}>
-      <DetailHeadContainer>{title}</DetailHeadContainer>
-      <DetailBodyContainer>{content}</DetailBodyContainer>
-    </div>
-  )
-}
 const PolicyDetail = ({ policyId }) => {
   const { id } = useParams()
   const policy = policyData.find((item) => item.id === parseInt(id))
