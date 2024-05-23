@@ -27,7 +27,7 @@ export const ButtonContainer = styled.div`
 `
 
 export const Line = styled.div`
-  width: 380px;
+  width: 400px;
   height: 1px;
   background: #fd814a;
   display: flex;
