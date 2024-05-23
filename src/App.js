@@ -17,6 +17,8 @@ import ThinkInfo from './pages/thinkinfo/ThinkInfo'
 import InterestEdit from './pages/interestedit/InterestEdit'
 import ThinkEdit from './pages/thinkedit/ThinkEdit'
 
+export const DOMAIN_NAME = 'http://15.165.25.19:8080'
+
 function App() {
   return (
     // <ThemeProvider>

@@ -68,12 +68,14 @@ export const NicknameInput = styled.input`
   width: 250px;
   height: 40px;
   border-radius: 12px;
+  text-indent: 10px;
 `
 export const MessageInput = styled.input`
   border: 1px solid #fd814a;
   width: 250px;
   height: 70px;
   border-radius: 12px;
+  text-indent: 10px;
 `
 
 export const ButtonContainer = styled.div`

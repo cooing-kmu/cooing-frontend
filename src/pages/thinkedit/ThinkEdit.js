@@ -85,7 +85,7 @@ export default function ThinkEdit() {
         </style.SubContainer>
         <style.ButtonContainer>
           <style.Button onClick={() => navigate('/think-info')}>
-            완료
+            변경 완료
           </style.Button>
         </style.ButtonContainer>
       </style.CardContainer>

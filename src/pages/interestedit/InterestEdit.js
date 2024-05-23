@@ -145,7 +145,7 @@ export default function InterestEdit() {
         </style.SubContainer>
         <style.ButtonContainer>
           <style.Button onClick={() => navigate('/interest-info')}>
-            완료
+            변경 완료
           </style.Button>
         </style.ButtonContainer>
       </style.CardContainer>
