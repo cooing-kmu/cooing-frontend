@@ -10,6 +10,12 @@ import ScrapList from './pages/information/ScrapList'
 import Policy from './pages/information/Policy'
 import PolicyDetail from './pages/information/PolicyDetail'
 import Footer from './components/footer/Footer'
+import Business from './pages/information/Business'
+import BusinessDetail from './pages/information/BusinessDetail'
+import Hiring from './pages/information/Hiring'
+import HiringDetail from './pages/information/HiringDetail'
+
+export const DOMAIN_NAME = 'http://15.165.25.19:8080'
 
 function App() {
   // 네비게이션 바가 필요 없는 페이지의 경로 배열
@@ -27,6 +33,10 @@ function App() {
               <Route path='/scraplist' element={<ScrapList />}></Route>
               <Route path='/policy' element={<Policy />}></Route>
               <Route path='/policy/:id' element={<PolicyDetail />}></Route>
+              <Route path='/business' element={<Business />}></Route>
+              <Route path='/business/:id' element={<BusinessDetail />}></Route>
+              <Route path='/hiring' element={<Hiring />}></Route>
+              <Route path='/hiring/:id' element={<HiringDetail />}></Route>
             </Routes>
           </BrowserRouter>
         </CookiesProvider>
