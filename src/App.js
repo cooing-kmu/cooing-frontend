@@ -16,8 +16,8 @@ import MainPage from './pages/mainpage/MainPage'
 import ThinkInfo from './pages/thinkinfo/ThinkInfo'
 import InterestEdit from './pages/interestedit/InterestEdit'
 import ThinkEdit from './pages/thinkedit/ThinkEdit'
-import Alarm from './pages/alarm/Alarm'
-import MateInfo from './pages/mateinfo/MateInfo'
+import Alarm from './pages/mainpage/alarm/Alarm'
+import MateInfo from './pages/mainpage/mateinfo/MateInfo'
 
 function App() {
   return (
