@@ -23,7 +23,9 @@ export default function Business() {
   }
 
   const filteredBusinessData = BusinessData.filter((business) => {
-    if (selectedCategory === '전체' && selectedRegion !== '전국') {
+    if (selectedCategory === '전체' && selectedRegion === '전국') {
+      return business.title.toLowerCase().includes(searchTerm.toLowerCase())
+    } else if (selectedCategory === '전체' && selectedRegion !== '전국') {
       return (
         business.location === selectedRegion &&
         business.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -33,8 +35,6 @@ export default function Business() {
         business.category === selectedCategory &&
         business.title.toLowerCase().includes(searchTerm.toLowerCase())
       )
-    } else if (selectedCategory === '전체' && selectedRegion === '전국') {
-      return true // 전체가 선택된 경우에는 모든 정책을 반환
     } else {
       return (
         business.category === selectedCategory &&
@@ -62,12 +62,12 @@ export default function Business() {
               value={selectedCategory}
               onChange={handleCategoryChange}
               style={{
-                marginRight: 7,
+                marginRight: 16,
                 fontSize: 20,
                 borderRadius: '4px',
                 backgroundColor: 'white',
                 border: 'gray 1px solid',
-                padding: '8px 0px',
+                padding: '8px 10px',
               }}
             >
               <option>전체</option>
@@ -126,13 +126,27 @@ export default function Business() {
             <img src={searchIcon} alt={searchIcon} />
           </div>
         </div>{' '}
-        {filteredBusinessData.map((business) => (
-          <InfoListSection
-            key={business.id}
-            item={business}
-            itemType='business'
-          />
-        ))}
+        {filteredBusinessData.length === 0 ? (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '50vh',
+              fontSize: '20px',
+            }}
+          >
+            검색 결과가 없습니다.
+          </div>
+        ) : (
+          filteredBusinessData.map((business) => (
+            <InfoListSection
+              key={business.id}
+              item={business}
+              itemType='business'
+            />
+          ))
+        )}
       </InfoContainer>
     </MainContainer>
   )

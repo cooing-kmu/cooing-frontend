@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { MainContainer, InfoContainer } from '../../components/BgComponent'
-import policyData from '../../data/PolicyData'
 import InfoListSection from '../../components/./InfoListSection'
 import searchIcon from '../../assets/search-icon.svg'
 import Header from '../../components/header/Header'
+import PolicyData from '../../data/PolicyData'
 
 export default function Policy() {
   const [searchTerm, setSearchTerm] = useState('')
@@ -22,21 +22,24 @@ export default function Policy() {
     setSelectedRegion(event.target.value)
   }
 
-  const filteredPolicyData = policyData.filter((policy) => {
-    if (selectedCategory === '전체' && selectedRegion !== '전국') {
+  const filteredPolicyData = PolicyData.filter((policy) => {
+    if (selectedCategory === '전체' && selectedRegion === '전국') {
+      return (
+        policy.polyBizSjnm.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        policy.polyItcnCn.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    } else if (selectedCategory === '전체' && selectedRegion !== '전국') {
       return (
         policy.polyBizSecd === selectedRegion &&
         (policy.polyBizSjnm.toLowerCase().includes(searchTerm.toLowerCase()) ||
           policy.polyItcnCn.toLowerCase().includes(searchTerm.toLowerCase()))
       )
-    } else if (selectedRegion === '전국' && selectedCategory !== '전체') {
+    } else if (selectedCategory !== '전체' && selectedRegion === '전국') {
       return (
         policy.polyRlmCd === selectedCategory &&
         (policy.polyBizSjnm.toLowerCase().includes(searchTerm.toLowerCase()) ||
           policy.polyItcnCn.toLowerCase().includes(searchTerm.toLowerCase()))
       )
-    } else if (selectedCategory === '전체' && selectedRegion === '전국') {
-      return true // 전체가 선택된 경우에는 모든 정책을 반환
     } else {
       return (
         policy.polyRlmCd === selectedCategory &&
@@ -46,6 +49,7 @@ export default function Policy() {
       )
     }
   })
+
   return (
     <MainContainer>
       <Header title={'지원정책'} />
@@ -141,9 +145,23 @@ export default function Policy() {
             <img src={searchIcon} alt={searchIcon} style={{ padding: 0 }} />
           </div>
         </div>{' '}
-        {filteredPolicyData.map((policy) => (
-          <InfoListSection key={policy.id} item={policy} itemType='policy' />
-        ))}
+        {filteredPolicyData.length === 0 ? (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '50vh',
+              fontSize: '20px',
+            }}
+          >
+            검색 결과가 없습니다.
+          </div>
+        ) : (
+          filteredPolicyData.map((policy) => (
+            <InfoListSection key={policy.id} item={policy} itemType='policy' />
+          ))
+        )}
       </InfoContainer>
     </MainContainer>
   )

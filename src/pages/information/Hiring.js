@@ -23,7 +23,14 @@ export default function Hiring() {
   }
 
   const filteredHiringData = HiringData.filter((hiring) => {
-    if (selectedCategory === '전체' && selectedRegion !== '전국') {
+    if (selectedCategory === '전체' && selectedRegion === '전국') {
+      return (
+        hiring.recrutPbancTtl
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        hiring.instNm.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    } else if (selectedCategory === '전체' && selectedRegion !== '전국') {
       return (
         hiring.workRgnNmLst === selectedRegion &&
         (hiring.recrutPbancTtl
@@ -31,7 +38,7 @@ export default function Hiring() {
           .includes(searchTerm.toLowerCase()) ||
           hiring.instNm.toLowerCase().includes(searchTerm.toLowerCase()))
       )
-    } else if (selectedRegion === '전국' && selectedCategory !== '전체') {
+    } else if (selectedCategory !== '전체' && selectedRegion === '전국') {
       return (
         hiring.ncsCdNmLst === selectedCategory &&
         (hiring.recrutPbancTtl
@@ -39,8 +46,6 @@ export default function Hiring() {
           .includes(searchTerm.toLowerCase()) ||
           hiring.instNm.toLowerCase().includes(searchTerm.toLowerCase()))
       )
-    } else if (selectedCategory === '전체' && selectedRegion === '전국') {
-      return true // 전체가 선택된 경우에는 모든 정책을 반환
     } else {
       return (
         hiring.ncsCdNmLst === selectedCategory &&
@@ -52,6 +57,7 @@ export default function Hiring() {
       )
     }
   })
+
   return (
     <MainContainer>
       <Header title={'채용공고'} />
@@ -168,9 +174,23 @@ export default function Hiring() {
             <img src={searchIcon} alt='searchIcon' />
           </div>
         </div>
-        {filteredHiringData.map((hiring) => (
-          <InfoListSection key={hiring.id} item={hiring} itemType='hiring' />
-        ))}
+        {filteredHiringData.length === 0 ? (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '50vh',
+              fontSize: '20px',
+            }}
+          >
+            검색 결과가 없습니다.
+          </div>
+        ) : (
+          filteredHiringData.map((hiring) => (
+            <InfoListSection key={hiring.id} item={hiring} itemType='hiring' />
+          ))
+        )}
       </InfoContainer>
     </MainContainer>
   )
