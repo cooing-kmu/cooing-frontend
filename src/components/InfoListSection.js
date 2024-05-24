@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import vector from '../assets/vector-right-black.svg'
+import locationIcon from '../assets/icon-location.svg'
 
 export const ItemContainer = styled.div`
   color: white;
@@ -14,8 +15,15 @@ export const ItemContainer = styled.div`
   padding: 20px 26px;
   margin: 20px 20px;
 `
+function truncateText(text, maxLength = 20) {
+  if (text.length <= maxLength) {
+    return text
+  } else {
+    return text.slice(0, maxLength) + '...'
+  }
+}
 
-export const InfoItem = ({ itemTitle, itemContent }) => {
+export const InfoItem = ({ itemTitle, itemContent, hiringContent }) => {
   return (
     <div>
       <div
@@ -27,9 +35,29 @@ export const InfoItem = ({ itemTitle, itemContent }) => {
           justifyContent: 'space-between',
         }}
       >
-        {itemTitle} <img src={vector} alt={vector} />
+        {truncateText(itemTitle)}
+        <img src={vector} alt={vector} />
       </div>
-      <div style={{ fontSize: 14 }}>{itemContent}</div>
+      <div
+        style={{
+          display: 'flex',
+          fontSize: 14,
+          fontWeight: 'bold',
+          justifyContent: 'space-between',
+        }}
+      >
+        {truncateText(itemContent)}
+        {hiringContent && (
+          <div>
+            <img
+              src={locationIcon}
+              alt={locationIcon}
+              style={{ transform: 'translate(0, 20%)' }}
+            />{' '}
+            {hiringContent}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
@@ -50,13 +78,12 @@ const InfoListSection = ({ item, itemType }) => {
         return <InfoItem itemTitle={item.title} itemContent={item.category} />
       case 'hiring':
         return (
-          <>
-            {/*<h3>{item.infoTitle}</h3>*/}
-            {/*<p>{item.infoDescription}</p>*/}
-          </>
+          <InfoItem
+            itemTitle={item.recrutPbancTtl}
+            itemContent={item.instNm}
+            hiringContent={`${item.workRgnNmLst} | ${item.recrutSeNm} ${item.acbgCondNmLst}`}
+          />
         )
-      default:
-        return null
     }
   }
 
