@@ -6,15 +6,26 @@ import { useParams } from 'react-router-dom'
 import { DOMAIN_NAME } from '../../App'
 import InfoListSection from '../../components/InfoListSection'
 import PolicyData from '../../data/PolicyData'
+import BusinessData from '../../data/BusinessData'
+import HiringData from '../../data/HiringData'
 
 export default function ScrapList() {
   const { itemType } = useParams()
   console.log({ itemType })
   const [scrapList, setScrapList] = useState([]) // 스크랩 목록 상태 관리
-
-  console.log(scrapList)
+  let headerTitle = ''
   useEffect(() => {
-    setScrapList(PolicyData)
+    switch (itemType) {
+      case 'policy':
+        setScrapList(PolicyData)
+        break
+      case 'business':
+        setScrapList(BusinessData)
+        break
+      case 'hiring':
+        setScrapList(HiringData)
+        break
+    }
     //   // itemType에 따라 API 호출하여 스크랩 목록 데이터 가져오기
     //   const fetchScrapList = async () => {
     //     try {
@@ -27,8 +38,6 @@ export default function ScrapList() {
     //   }
     //   fetchScrapList()
   }, [itemType])
-
-  let headerTitle = ''
   switch (itemType) {
     case 'policy':
       headerTitle = '지원정책 스크랩 목록'
@@ -40,6 +49,7 @@ export default function ScrapList() {
       headerTitle = '채용공고 스크랩 목록'
       break
   }
+  console.log(scrapList)
   return (
     <MainContainer>
       <Header title={headerTitle} />
