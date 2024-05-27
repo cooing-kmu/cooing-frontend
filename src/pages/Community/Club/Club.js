@@ -1,38 +1,66 @@
-import React from 'react'
-import whitePencil from '../../../assets/whitePencil.svg'
-import { useNavigate } from 'react-router-dom'
-import Header from '../../../components/header/Header'
-import * as style from './style/ClubStyle'
+import React, { useEffect, useState } from 'react';
+import whitePencil from '../../../assets/whitePencil.svg';
+import {useNavigate } from 'react-router-dom';
+import Header from '../../../components/header/Header';
+import  defaultImage  from '../../../assets/defaultImage.svg';
+import * as style from './style/ClubStyle';
+import axios from 'axios';
 
 export default function Club() {
-  const navigate = useNavigate()
-  const handleWriteClick = () => {
-    navigate('/club-write')
-  }
+    const navigate = useNavigate();
+    const [clubData, setClubData] = useState([]);
 
-  return (
-      <style.Div>
-        <Header title='동아리 및 소모임' />
+    useEffect(() => {
+        // 컴포넌트가 마운트될 때 데이터를 가져오기 위해 useEffect 사용
+        async function fetchData() {
+            try {
+                const response = await axios.get('http://15.165.25.19:8080/clubs');
+                console.log('Fetched data:', response.data);
+                setClubData(response.data.body); // 가져온 데이터를 상태에 설정
+            } catch (error) {
+                console.error('Error fetching board data:', error);
+            }
+        }
+        fetchData();
+    }, []); // 빈 배열을 넣어 한 번만 실행되도록 설정
 
-        <style.MainContainer>
-          {style.detailData.map((item, index) => (
-            <style.ContentsContainer>
-              <style.TitleSummary key={index}>
-                <style.Title>{item.Title}</style.Title>
-                <style.Summary>모집기간: {item.period}</style.Summary>
-                <style.Summary>{item.summary}</style.Summary>
-              </style.TitleSummary>
-              <style.Img src={item.img} />
-            </style.ContentsContainer>
-          ))}
-        </style.MainContainer>
+    const handleBoardClick = (clubId) => {
+        navigate(`/club-post/${clubId}`);
+    };
+    const handleWriteClick = () => {
+        navigate('/club-write');
+    };
 
-        <style.ButtonContainer>
-          <style.Button onClick={handleWriteClick}>
-            <img src={whitePencil} />
-            글쓰기
-          </style.Button>
-        </style.ButtonContainer>
-    </style.Div>
-  )
+    return (
+        <style.Div>
+            <Header title="동아리 및 소모임" />
+
+            <style.MainContainer>
+                {clubData.length > 0 && clubData.map((item,index) => (
+                    <div key={item.clubId} onClick={() => handleBoardClick(item.clubId)}>
+                        <style.ContentsContainer key={item.clubId}>
+                            <style.TitleSummary>
+                                <style.Text>동아리 이름</style.Text>
+                                <style.Title>{item.title}</style.Title>
+                                <style.Text>분야</style.Text>
+                                <style.Summary>{item.summary}</style.Summary>
+                            </style.TitleSummary>
+                            {item.imageUrl ? (
+                                <style.Img src={item.imageUrl} alt="club image" />
+                            ) : (
+                                <style.Img src={defaultImage} alt="default club image" />
+                            )}
+                        </style.ContentsContainer>
+                    </div>
+                ))}
+            </style.MainContainer>
+
+            <style.ButtonContainer>
+                <style.Button onClick={handleWriteClick}>
+                    <img src={whitePencil} alt="white pen" />
+                    글쓰기
+                </style.Button>
+            </style.ButtonContainer>
+        </style.Div>
+    );
 }

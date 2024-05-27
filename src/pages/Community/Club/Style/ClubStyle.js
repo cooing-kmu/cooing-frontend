@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import connectImage from '../../../../assets/connectImage.svg'
 
 export const Div = styled.div`
   display: flex;
@@ -33,12 +32,17 @@ export const TitleSummary = styled.div`
   display: flex;
   flex-direction: column;
   width: 300px;
-  gap: 15px;
+  gap: 10px;
 `
 
+export const Text = styled.div`
+  font-size: 14px;
+  font-weight: bold;
+  color: black;
+`
 export const Title = styled.div`
   font-size: 12px;
-  font-weight: bold;
+  font-weight: normal;
 `
 
 export const Summary = styled.div`
@@ -72,78 +76,3 @@ export const Button = styled.button`
   gap: 10px;
   margin-top: 15px;
 `
-
-export const detailData = [
-    {
-        Title: '새날',
-        summary: '밴드 동아리',
-        period: '04/04 ~ 04/23',
-        img: connectImage,
-    },
-    {
-        Title: '마젠타',
-        summary: '밴드 동아리',
-        period: '04/04 ~ 04/23',
-        img: connectImage,
-    },
-    {
-        Title: '슈팅',
-        summary: '우리 같이 축구 합시다.',
-        period: '04/04 ~ 04/23',
-        img: connectImage,
-    },
-    {
-        Title: '샤유팅',
-        summary: '우리 같이 응원해요',
-        period: '04/04 ~ 04/23',
-        img: connectImage,
-    },
-    {
-        Title: '볼링',
-        summary: '굴려굴려',
-        period: '04/04 ~ 04/23',
-        img: connectImage,
-    },
-    {
-        Title: '안녕',
-        summary: '나는 찬우야',
-        period: '04/04 ~ 04/23',
-        img: connectImage,
-    },
-    {
-        Title: '안녕',
-        summary: '나는 찬우야',
-        period: '04/04 ~ 04/23',
-        img: connectImage,
-    },
-    {
-        Title: '안녕',
-        summary: '나는 찬우야',
-        period: '04/04 ~ 04/23',
-        img: connectImage,
-    },
-    {
-        Title: '안녕',
-        summary: '나는 찬우야',
-        period: '04/04 ~ 04/23',
-        img: connectImage,
-    },
-    {
-        Title: '안녕',
-        summary: '나는 찬우야',
-        period: '04/04 ~ 04/23',
-        img: connectImage,
-    },
-    {
-        Title: '안녕',
-        summary: '나는 찬우야',
-        period: '04/04 ~ 04/23',
-        img: connectImage,
-    },
-    {
-        Title: '안녕',
-        summary: '나는 찬우야',
-        period: '04/04 ~ 04/23',
-        img: connectImage,
-    },
-]
