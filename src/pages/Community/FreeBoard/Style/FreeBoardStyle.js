@@ -31,6 +31,7 @@ export const TitleSummary = styled.div`
   display: flex;
   flex-direction: column;
   width: 310px;
+  gap: 10px;
 `
 
 export const Title = styled.div`
@@ -40,7 +41,7 @@ export const Title = styled.div`
 
 export const Summary = styled.div`
   font-size: 12px;
-`
+=`
 
 export const Time = styled.div`
   display: flex;

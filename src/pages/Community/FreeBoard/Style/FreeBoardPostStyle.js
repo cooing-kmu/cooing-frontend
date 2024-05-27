@@ -10,7 +10,6 @@ export const TitleContainer = styled.div`
   width: 370px;
   height: 200px;
   margin-top: 80px;
-  border-bottom: #A6A6A6 solid 2px;
 `
 export const ProfileContainer = styled.div`
   display: flex;
@@ -41,12 +40,15 @@ export const Title = styled.div`
   font-size: 24px;
   color: #484C52;
   margin-top: 16px;
+  word-wrap: break-word;
 `
 export const Detail = styled.div`
   font-weight: normal;
   font-size: 16px;
   color: #484C52;
   margin-top: 15px;
+  word-wrap: break-word;
+
 `
 export const IconContainer = styled.div`
   flex-direction: row;
@@ -55,6 +57,7 @@ export const IconContainer = styled.div`
   align-items: center;
   gap: 10px;
   margin-top: 10px;
+  
 `
 export const ThumbIcon = styled.div`
   font-size: 16px;
@@ -76,38 +79,23 @@ export const StarIcon = styled.div`
   display: flex;
 `
 
-// export const Comment = styled.input`
-//   width: 375px;
-//   height: 60px;
-//   border-radius: 28px;
-//   border: none;
-//   box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.12);
-//   display: flex;
-//   align-items: center;
-//   margin-top: 10px;
-//   text-indent: 20px;
-// `
-//
-// export const MessageSend = styled.img`
-//   position: absolute;
-//   display: flex;
-//   background-color: red;
-// `
-
 export const CommentContainer = styled.div`
   position: relative;
-  width: 375px;
   height: 60px;
+  width: 375px;
   margin-top: 10px;
 `;
 
-export const Comment = styled.input`
-  width: 100%;
+export const Comment = styled.textarea`
   height: 100%;
+  width: 100%;
   border-radius: 28px;
   border: none;
   box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.12);
-  text-indent: 20px; 
+  padding: 20px 60px 20px 20px; /* 위, 오른쪽, 아래, 왼쪽 순서로 패딩 설정 */
+  resize: none;
+  box-sizing: border-box; /* 패딩 포함 크기 계산 */
+  text-align: start; /* 텍스트를 가로로 왼쪽 정렬 */
 `;
 
 export const MessageSend = styled.img`
@@ -119,37 +107,22 @@ export const MessageSend = styled.img`
 `;
 
 
-export const detailData = [
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-]
-
 export const PostContainer = styled.div`
   width: 370px;
-  height: 530px;
+  height: 500px;
   overflow: auto;
-  flex-direction: column;
   &::-webkit-scrollbar {
     display: none;
   }
 `
 
 export const ButtonContainer = styled.div`
-  width: 95px;
-  height: 20px;
   gap: 10px;
+  height: 35px;
   display: flex;
   margin-top: 10px;
+  border-bottom: #A6A6A6 solid 2px;
+
 `
 export const Button = styled.button`
   width: 42px;
@@ -163,4 +136,38 @@ export const Button = styled.button`
   color: #A6A6A6;
   background-color: white;
   cursor: pointer;
+`
+
+
+export const ContentsContainer = styled.div`
+  height: 80px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  border-bottom: #a6a6a6 solid 1px;
+  cursor: pointer;
+`
+
+export const TitleSummary = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 310px;
+`
+
+export const commentTitle = styled.div`
+  font-size: 12px;
+  font-weight: bold;
+  word-wrap: break-word;
+`
+
+export const Summary = styled.div`
+  font-size: 12px;
+  word-wrap: break-word;
+`
+
+export const Time = styled.div`
+  display: flex;
+  font-size: 10px;
+  color: #a6a6a6;
 `

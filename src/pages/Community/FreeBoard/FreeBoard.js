@@ -1,45 +1,6 @@
-// import React from 'react'
-// import whitePencil from '../../../assets/whitePencil.svg'
-// import { useNavigate } from 'react-router-dom'
-// import Header from '../../../components/header/Header'
-// import * as style from './style/FreeBoardStyle'
-//
-// export default function freeboard() {
-//   const navigate = useNavigate()
-//   const handleWriteClick = () => {
-//     navigate('/free-board-write')
-//   }
-//
-//   return (
-//     <style.Div>
-//       <Header title='자유 게시판' />
-//
-//       <style.MainContainer>
-//         {style.detailData.map((item, index) => (
-//           <style.ContentsContainer>
-//             <style.TitleSummary key={index}>
-//               <style.Title>{item.Title}</style.Title>
-//               <style.Summary>{item.summary}</style.Summary>
-//             </style.TitleSummary>
-//             <style.Time>{item.time}</style.Time>
-//           </style.ContentsContainer>
-//         ))}
-//       </style.MainContainer>
-//
-//       <style.ButtonContainer>
-//         <style.Button onClick={handleWriteClick}>
-//           <img src={whitePencil} />
-//           글쓰기
-//         </style.Button>
-//       </style.ButtonContainer>
-//     </style.Div>
-//   )
-// }
-
-
 import React, { useState, useEffect } from 'react';
 import whitePencil from '../../../assets/whitePencil.svg';
-import {Link, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import Header from '../../../components/header/Header';
 import axios from 'axios';
 import * as style from './style/FreeBoardStyle';
@@ -61,6 +22,9 @@ export default function FreeBoard() {
         fetchData();
     }, []); // 빈 배열을 넣어 한 번만 실행되도록 설정
 
+    const handleBoardClick = (boardId) => {
+        navigate(`/free-board-post/${boardId}`);
+    };
     const handleWriteClick = () => {
         navigate('/free-board-write');
     };
@@ -71,7 +35,7 @@ export default function FreeBoard() {
 
             <style.MainContainer>
                 {boardData.length > 0 && boardData.map((item, index) => (
-                    <Link to={`/${item.boardId}`} style={{textDecoration:"none", color:"black"}}>
+                    <div key={item.boardId} onClick={() => handleBoardClick(item.boardId)}>
                         <style.ContentsContainer key={item.boardId}>
                             <style.TitleSummary>
                                 <style.Title>{item.title}</style.Title>
@@ -79,7 +43,7 @@ export default function FreeBoard() {
                             </style.TitleSummary>
                             <style.Time>{item.createDatetime}</style.Time>
                         </style.ContentsContainer>
-                    </Link>
+                    </div>
                 ))}
             </style.MainContainer>
 
