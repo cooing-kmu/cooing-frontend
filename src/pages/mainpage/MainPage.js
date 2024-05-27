@@ -1,4 +1,3 @@
-import Footer from '../../components/footer/Footer'
 import React, { useState, useRef, useEffect } from 'react'
 import * as style from './Styles'
 import { useNavigate } from 'react-router-dom'
@@ -7,8 +6,27 @@ import { ReactComponent as Ic_Alarm } from '../../assets/icons/icon-alarm.svg'
 import { ReactComponent as Ic_People } from '../../assets/icons/icon-people.svg'
 import Img_CookieHouse from '../../assets/images/image-cookiehouse.png'
 import BottomBar from './BottomBar'
+import Img_Obj1 from '../../assets/images/image-obj1.png'
+import Img_Obj2 from '../../assets/images/image-obj2.png'
+import Img_Obj3 from '../../assets/images/image-obj3.png'
+import Img_Obj4 from '../../assets/images/image-obj4.png'
+import Img_Obj5 from '../../assets/images/image-obj5.png'
+import Img_Obj6 from '../../assets/images/image-obj6.png'
+import Img_Obj7 from '../../assets/images/image-obj7.png'
+import Img_Obj8 from '../../assets/images/image-obj8.png'
 
 const OBJECT_SIZE = 90 // 객체의 크기
+
+const objList = [
+  Img_Obj1,
+  Img_Obj2,
+  Img_Obj3,
+  Img_Obj4,
+  Img_Obj5,
+  Img_Obj6,
+  Img_Obj7,
+  Img_Obj8,
+]
 
 export default function MainPage() {
   const canvasRef = useRef(null)
@@ -17,6 +35,7 @@ export default function MainPage() {
     positionX: null,
     positionY: null,
   })
+  const [itemList, setItemList] = useState([5, 1, 3, 1, 0, 1, 2, 1])
 
   useEffect(() => {
     const handleResize = () => {
@@ -25,15 +44,15 @@ export default function MainPage() {
       const scaleX = canvasCur.width / canvasRect.width
       const scaleY = canvasCur.height / canvasRect.height
 
-      setMousePosition({
-        positionX: mousePosition.positionX / scaleX,
-        positionY: mousePosition.positionY / scaleY,
-      })
+      setMousePosition((prevMousePosition) => ({
+        positionX: prevMousePosition.positionX / scaleX,
+        positionY: prevMousePosition.positionY / scaleY,
+      }))
     }
 
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
-  }, [mousePosition])
+  }, [])
 
   useEffect(() => {
     const canvasCur = canvasRef.current
@@ -67,6 +86,12 @@ export default function MainPage() {
 
       // 객체 그리기
       ctx.drawImage(objImage, objectX, objectY, OBJECT_SIZE, OBJECT_SIZE)
+
+      // 아이템 갯수 차감
+      const objIndex = objList.findIndex((img) => img === selectedObj)
+      const newItemList = [...itemList]
+      newItemList[objIndex] -= 1
+      setItemList(newItemList)
     }
   }
 
@@ -103,6 +128,31 @@ export default function MainPage() {
           })
         }
       }}
+      onClick={(e) => {
+        const canvasRect = canvasRef.current.getBoundingClientRect()
+        if (
+          selectedObj !== '' &&
+          e.clientX >= canvasRect.left &&
+          e.clientX <= canvasRect.right &&
+          e.clientY >= canvasRect.top &&
+          e.clientY <= canvasRect.bottom
+        ) {
+          const scaleX = canvasRef.current.width / canvasRect.width
+          const scaleY = canvasRef.current.height / canvasRect.height
+
+          const canvasX = (e.clientX - canvasRect.left) * scaleX
+          const canvasY = (e.clientY - canvasRect.top) * scaleY
+
+          drawObject({
+            positionX: canvasX,
+            positionY: canvasY,
+          })
+
+          setSelectedObj('')
+        } else if (selectedObj !== '') {
+          setSelectedObj('')
+        }
+      }}
     >
       <style.HeaderContainer>
         <style.ButtonContainer>
@@ -129,23 +179,6 @@ export default function MainPage() {
             })
           }
         }}
-        onClick={(e) => {
-          if (selectedObj !== '') {
-            const canvasRect = canvasRef.current.getBoundingClientRect()
-            const scaleX = canvasRef.current.width / canvasRect.width
-            const scaleY = canvasRef.current.height / canvasRect.height
-
-            const canvasX = (e.clientX - canvasRect.left) * scaleX
-            const canvasY = (e.clientY - canvasRect.top) * scaleY
-
-            drawObject({
-              positionX: canvasX,
-              positionY: canvasY,
-            })
-
-            setSelectedObj('')
-          }
-        }}
       >
         <style.CanvasComponent
           ref={canvasRef}
@@ -156,7 +189,7 @@ export default function MainPage() {
 
       <style.Line />
 
-      <BottomBar handleSelectedObj={handleSelectedObj} />
+      <BottomBar handleSelectedObj={handleSelectedObj} itemList={itemList} />
 
       {selectedObj !== '' &&
       mousePosition.positionX !== null &&
