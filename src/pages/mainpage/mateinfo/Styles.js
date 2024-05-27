@@ -35,12 +35,12 @@ export const ImageContainer = styled.div`
   height: 130px;
 `
 
-export const TextContainer = styled.div`
+export const InfoContainer = styled.div`
   display: flex;
   margin-top: 90px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: center;
   gap: 6px;
   span:first-child {
     color: black;
@@ -52,4 +52,12 @@ export const TextContainer = styled.div`
     font-size: 14px;
     font-weight: bold;
   }
+`
+
+export const TextContainer = styled.div`
+  font-weight: bold;
+`
+
+export const BioContainer = styled.div`
+  margin-bottom: 30px;
 `
