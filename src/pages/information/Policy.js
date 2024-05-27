@@ -1,54 +1,63 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MainContainer, InfoContainer } from '../../components/BgComponent'
 import InfoListSection from '../../components/./InfoListSection'
 import searchIcon from '../../assets/search-icon.svg'
 import Header from '../../components/header/Header'
-import PolicyData from '../../data/PolicyData'
+import { DOMAIN_NAME } from '../../App'
 
 export default function Policy() {
   const [searchTerm, setSearchTerm] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState('전체')
-  const [selectedRegion, setSelectedRegion] = useState('전국')
+  const [selectedCategory, setSelectedCategory] = useState('')
+  const [selectedRegion, setSelectedRegion] = useState('')
+  const [filteredPolicyData, setFilteredPolicyData] = useState([])
 
   const handleSearchTermChange = (event) => {
     setSearchTerm(event.target.value)
   }
 
   const handleCategoryChange = (event) => {
-    setSelectedCategory(event.target.value)
+    if (event.target.value === '전체') {
+      setSelectedCategory('')
+    } else setSelectedCategory(event.target.value)
   }
 
   const handleRegionChange = (event) => {
-    setSelectedRegion(event.target.value)
+    if (event.target.value === '전국') {
+      setSelectedRegion('')
+    } else setSelectedRegion(event.target.value)
   }
 
-  const filteredPolicyData = PolicyData.filter((policy) => {
-    if (selectedCategory === '전체' && selectedRegion === '전국') {
-      return (
-        policy.polyBizSjnm.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        policy.polyItcnCn.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    } else if (selectedCategory === '전체' && selectedRegion !== '전국') {
-      return (
-        policy.polyBizSecd === selectedRegion &&
-        (policy.polyBizSjnm.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          policy.polyItcnCn.toLowerCase().includes(searchTerm.toLowerCase()))
-      )
-    } else if (selectedCategory !== '전체' && selectedRegion === '전국') {
-      return (
-        policy.polyRlmCd === selectedCategory &&
-        (policy.polyBizSjnm.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          policy.polyItcnCn.toLowerCase().includes(searchTerm.toLowerCase()))
-      )
-    } else {
-      return (
-        policy.polyRlmCd === selectedCategory &&
-        policy.polyBizSecd === selectedRegion &&
-        (policy.polyBizSjnm.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          policy.polyItcnCn.toLowerCase().includes(searchTerm.toLowerCase()))
-      )
+  useEffect(() => {
+    const fetchPolicyData = async () => {
+      try {
+        let apiUrl = `${DOMAIN_NAME}/support/policy?`
+        let queryParams = []
+
+        if (searchTerm.length > 0) {
+          queryParams.push(`query=${searchTerm}`)
+        }
+        if (selectedCategory.length > 0) {
+          queryParams.push(`polyRlmCd=${selectedCategory}`)
+        }
+        if (selectedRegion.length > 0) {
+          queryParams.push(`supportLocationType=${selectedRegion}`)
+        }
+
+        if (queryParams.length > 0) {
+          apiUrl += `&${queryParams.join('&')}`
+        }
+
+        const response = await fetch(apiUrl)
+        const data = await response.json()
+
+        setFilteredPolicyData((prevData) => [...prevData, ...data.body])
+      } catch (error) {
+        console.error('Error fetching policy data:', error)
+      }
     }
-  })
+
+    fetchPolicyData()
+  }, [searchTerm, selectedCategory, selectedRegion])
 
   return (
     <MainContainer>
@@ -142,10 +151,18 @@ export default function Policy() {
                 margin: '0 10px',
               }}
             />
-            <img src={searchIcon} alt={searchIcon} style={{ padding: 0 }} />
+            <img
+              src={`${searchIcon}`}
+              alt='searchIcon'
+              style={{ padding: 0 }}
+            />
           </div>
-        </div>{' '}
-        {filteredPolicyData.length === 0 ? (
+        </div>
+        {filteredPolicyData && filteredPolicyData.length > 0 ? (
+          filteredPolicyData.map((policy) => (
+            <InfoListSection key={policy.id} item={policy} itemType='policy' />
+          ))
+        ) : (
           <div
             style={{
               display: 'flex',
@@ -157,10 +174,6 @@ export default function Policy() {
           >
             검색 결과가 없습니다.
           </div>
-        ) : (
-          filteredPolicyData.map((policy) => (
-            <InfoListSection key={policy.id} item={policy} itemType='policy' />
-          ))
         )}
       </InfoContainer>
     </MainContainer>
