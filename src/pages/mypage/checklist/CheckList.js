@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import Header from '../../components/header/Header'
-import { ReactComponent as Ic_Plus } from '../../assets/icons/icon-plus.svg'
+import Header from '../../../components/header/Header'
+import { ReactComponent as Ic_Plus } from '../../../assets/icons/icon-plus.svg'
 import * as style from './Styles'
-import { DOMAIN_NAME } from '../../App'
+import { DOMAIN_NAME } from '../../../App'
 
 export default function CheckList() {
   const [clickedItem, setClickedItem] = useState('') // 클릭된 아이템의 이름 상태
