@@ -45,7 +45,6 @@ export default function MyPage() {
             </style.ButtonContainer>
           </style.RightContainer>
         </style.ProfileContainer>
-        <style.Line />
 
         {/* 매칭 기능 활성화 */}
         <style.InnerContainer>
@@ -62,9 +61,7 @@ export default function MyPage() {
             </style.ToggleSwitch>
           </style.RightContainer>
         </style.InnerContainer>
-
         {/* 매칭 기능 활성화 시 매칭 정보 노출 */}
-        {isActive && <style.Line />}
         {isActive && (
           <style.InnerContainer>
             <Ic_Info />
@@ -76,9 +73,6 @@ export default function MyPage() {
             </style.RightContainer>
           </style.InnerContainer>
         )}
-
-        <style.Line />
-
         {/* 자립 체크 리스트 */}
         <style.InnerContainer>
           <Ic_CheckList />

@@ -13,14 +13,13 @@ export const CooingLogo = styled.div`
   width: 150px;
   height: 73px;
   justify-content: center;
-  margin-top: 20px;
-  margin-bottom: 10px;
+  margin-top: 30px;
+  margin-bottom: 15px;
 `
 
 export const MenuContainer = styled.div`
   display: flex;
   width: 376px;
-  //height: 271px;
   border-radius: 40px;
   background: #fff;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
@@ -29,12 +28,20 @@ export const MenuContainer = styled.div`
   justify-content: center;
 `
 
-export const Line = styled.div`
+export const InnerContainer = styled.div`
   display: flex;
-  width: 346px;
-  height: 1px;
   margin-left: 15px;
-  background: #a6a6a6;
+  margin-right: 15px;
+  width: 346px;
+  height: 56px;
+  align-items: center;
+  font-size: 16px;
+  gap: 6px;
+  justify-content: space-between;
+  border-bottom: solid 1px #a6a6a6;
+  &:last-child {
+    border-bottom: none;
+  }
 `
 
 export const ImageContainer = styled.div`
@@ -43,25 +50,18 @@ export const ImageContainer = styled.div`
 `
 
 export const ProfileContainer = styled.div`
+  border-bottom: solid 1px #a6a6a6;
   display: flex;
   height: 80px;
   align-items: center;
-  margin-left: 20px;
-  gap: 6px;
-`
-
-export const InnerContainer = styled.div`
-  display: flex;
-  height: 56px;
-  align-items: center;
-  font-size: 16px;
-  margin-left: 20px;
-  gap: 6px;
+  margin-left: 15px;
+  margin-right: 15px;
+  gap: 8px;
 `
 
 export const RightContainer = styled.div`
   margin-left: auto;
-  margin-right: 20px;
+  margin-right: 10px;
 `
 
 export const ButtonContainer = styled.div`
