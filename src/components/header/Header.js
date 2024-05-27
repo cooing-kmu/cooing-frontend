@@ -24,6 +24,8 @@ export default function Header(props) {
     '자립 체크리스트',
     '프로필 변경',
     '매칭 정보 변경',
+    '지원사업 스크랩 목록',
+    '채용공고 스크랩 목록',
   ]
   const ThreeHeaderNameList = [
     '자유 게시판', // 돋보기
@@ -39,11 +41,10 @@ export default function Header(props) {
   ]
 
   return (
-    // MATE 정보, 프로필 변경은 흰색 헤더 사용
     <>
       {props.title === TwoHeaderNameList[7] ||
       props.title === TwoHeaderNameList[10] ? (
-        <style.HeaderContainer IsBlack={false}>
+        <style.HeaderContainer style={{ color: 'white' }}>
           <style.ButtonContainer>
             <Ic_ArrowLeftWh onClick={() => navigate(-1)} />
           </style.ButtonContainer>
@@ -54,7 +55,7 @@ export default function Header(props) {
         </style.HeaderContainer>
       ) : (
         // 나머지는 검은색 헤더 사용
-        <style.HeaderContainer IsBlack={true}>
+        <style.HeaderContainer style={{ color: 'black' }}>
           <style.ButtonContainer>
             {props.title === ThreeHeaderNameList[8] ||
             props.title === ThreeHeaderNameList[9] ||
