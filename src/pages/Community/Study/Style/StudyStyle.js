@@ -26,32 +26,27 @@ export const ContentsContainer = styled.div`
   cursor: pointer;
 `
 
-export const detailData = [
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-]
-
 export const TitleSummary = styled.div`
   display: flex;
   flex-direction: column;
   width: 300px;
+  gap: 10px;
+  margin-left: 10px;
 `
 
-export const Title = styled.div`
+export const Text = styled.div`
   font-size: 12px;
   font-weight: bold;
+  color: black;
 `
-
+export const Title = styled.div`
+  font-size: 12px;
+  font-weight: normal;
+`
+export const Location = styled.div`
+  display:flex;
+  flex-direction: row;
+`
 export const Summary = styled.div`
   font-size: 12px;
 `
