@@ -1,6 +1,5 @@
 import './App.css'
-import { ThemeProvider } from 'styled-components' // 1. Global color를 사용하기 위한 import
-import React, { Component } from 'react'
+import React from 'react'
 import { RecoilRoot } from 'recoil'
 import { CookiesProvider } from 'react-cookie'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
@@ -17,6 +16,10 @@ import ClubWrite from './pages/community/club/ClubWrite'
 import StudyWrite from './pages/community/study/StudyWrite'
 import VolunteerWrite from './pages/community/volunteer/VolunteerWrite'
 import FreeBoardPost from './pages/community/freeboard/FreeBoardPost'
+import StudyPost from './pages/community/study/StudyPost'
+import ClubPost from './pages/community/club/ClubPost'
+import VolunteerPost from './pages/community/volunteer/VolunteerPost'
+
 
 function App() {
   return (
@@ -38,7 +41,10 @@ function App() {
               <Route path='/club-write' element={<ClubWrite />}></Route>
               <Route path='/study-write' element={<StudyWrite />}></Route>
               <Route path='/volunteer-write' element={<VolunteerWrite />}></Route>
-              <Route path='/free-board-post' element={<FreeBoardPost />}></Route>
+              <Route path="/free-board-post/:boardId" element={<FreeBoardPost />} />
+              <Route path="/study-post/:studyId" element={<StudyPost />} />
+              <Route path="/club-post/:clubId" element={<ClubPost />} />
+              <Route path="/volunteer-post/:volunteerId" element={<VolunteerPost />} />
             </Routes>
           </BrowserRouter>
         </CookiesProvider>
