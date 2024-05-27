@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import * as style from './Styles'
-import Header from '../../components/header/Header'
-import { ReactComponent as Ic_User } from '../../assets/icons/icon-user.svg'
-import { ReactComponent as Ic_Camera } from '../../assets/icons/icon-camera.svg'
+import Header from '../../../components/header/Header'
+import { ReactComponent as Ic_User } from '../../../assets/icons/icon-user.svg'
+import { ReactComponent as Ic_Camera } from '../../../assets/icons/icon-camera.svg'
 import { useNavigate } from 'react-router-dom'
 import { CircleContainer } from './Styles'
 
