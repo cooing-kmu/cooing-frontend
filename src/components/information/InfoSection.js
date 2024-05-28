@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import './InfoSection.css'
 
-import vector from '../assets/vector-right-white.svg'
+import vector from '../../assets/vector-right-white.svg'
 const InfoSection = ({
   title,
   detailLink,

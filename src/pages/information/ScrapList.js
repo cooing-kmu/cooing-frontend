@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import './ScrapList.css'
-import { InfoContainer, MainContainer } from '../../components/BgComponent'
+import {
+  InfoContainer,
+  MainContainer,
+} from '../../components/information/BgComponent'
 import Header from '../../components/header/Header'
 import { useParams } from 'react-router-dom'
 import { DOMAIN_NAME } from '../../App'
-import InfoListSection from '../../components/InfoListSection'
+import InfoListSection from '../../components/information/InfoListSection'
 import PolicyData from '../../data/PolicyData'
 import BusinessData from '../../data/BusinessData'
 import HiringData from '../../data/HiringData'

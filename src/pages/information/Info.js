@@ -1,9 +1,12 @@
 import React from 'react'
-import InfoSection from '../../components/InfoSection'
+import InfoSection from '../../components/information/InfoSection'
 import infoIcon1 from '../../assets/infoIcon1.svg'
 import infoIcon2 from '../../assets/infoIcon2.svg'
 import infoIcon3 from '../../assets/infoIcon3.svg'
-import { MainContainer, LogoContainer } from '../../components/BgComponent'
+import {
+  MainContainer,
+  LogoContainer,
+} from '../../components/information/BgComponent'
 import cooingLogo from '../../assets/cooingLogo.svg'
 
 export default function Info() {

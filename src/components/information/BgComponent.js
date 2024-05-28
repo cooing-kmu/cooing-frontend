@@ -21,8 +21,9 @@ export const InfoContainer = styled.div`
   margin: 97px 20px 0 20px;
   padding: 15px 0;
   overflow-y: auto;
-  &::-webkit-scrollbar{
-        display: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `
 
 export const LogoContainer = styled.div`
@@ -45,11 +46,13 @@ export const DetailBodyContainer = styled.div`
 `
 
 export const ScrollContainer = styled.div`
-  margin-right: 10px;
-    height: 85%;
-    overflow-y: auto;
-    &::-webkit-scrollbar{
+  margin-top: 20px;
+  margin-bottom: 10px;
+  overflow-y: auto;
+  height: 54vh;
+  &::-webkit-scrollbar {
     display: none;
+  }
 `
 
 export const DetailContainer = ({ title, content }) => {

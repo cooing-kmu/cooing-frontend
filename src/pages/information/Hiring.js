@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
-import { MainContainer, InfoContainer } from '../../components/BgComponent'
-import InfoListSection from '../../components/./InfoListSection'
+import {
+  MainContainer,
+  InfoContainer,
+} from '../../components/information/BgComponent'
+import InfoListSection from '../../components/information/InfoListSection'
 import searchIcon from '../../assets/search-icon.svg'
 import Header from '../../components/header/Header'
 import HiringData from '../../data/HiringData'

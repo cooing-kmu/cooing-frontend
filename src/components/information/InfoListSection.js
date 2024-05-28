@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import vector from '../assets/vector-right-black.svg'
-import locationIcon from '../assets/icon-location.svg'
+import vector from '../../assets/vector-right-black.svg'
+import locationIcon from '../../assets/icon-location.svg'
 
 export const ItemContainer = styled.div`
   color: white;
@@ -13,7 +13,7 @@ export const ItemContainer = styled.div`
   text-align: left;
   text-decoration: none;
   padding: 20px 26px;
-  margin: 20px 20px;
+  margin: 0 20px 20px 20px;
 `
 function truncateText(text, maxLength = 20) {
   if (text?.length <= maxLength) {
