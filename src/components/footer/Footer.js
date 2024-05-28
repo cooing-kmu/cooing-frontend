@@ -7,7 +7,7 @@ import { ReactComponent as Ic_Community } from '../../assets/icons/icon-communit
 import { ReactComponent as Ic_Chatting } from '../../assets/icons/icon-chatting.svg'
 import { ReactComponent as Ic_Profile } from '../../assets/icons/icon-profile.svg'
 
-export default function Footer(props) {
+export default function Footer() {
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -27,49 +27,59 @@ export default function Footer(props) {
   useEffect(() => {
     setSelectedIcon(currentPage || 'main-page')
   }, [currentPage])
-
-  return (
-    <style.FooterContainer>
-      <style.IconContainer>
-        <Link to='/announcement'>
-          <Ic_Announcement
-            onClick={() => handleClick('announcement', '/announcement')}
-            fill={selectedIcon === 'announcement' ? '#fc5242' : '#484C52'}
-          />
-        </Link>
-      </style.IconContainer>
-      <style.IconContainer>
-        <Link to='/community'>
-          <Ic_Community
-            onClick={() => handleClick('community', '/community')}
-            fill={selectedIcon === 'community' ? '#fc5242' : '#484C52'}
-          />
-        </Link>
-      </style.IconContainer>
-      <style.ButtonContainer>
-        <Link to='/main-page'>
-          <Ic_Candy
-            onClick={() => handleClick('candy', '/main-page')}
-            fill={selectedIcon === 'candy' ? '#fc5242' : '#484C52'}
-          />
-        </Link>
-      </style.ButtonContainer>
-      <style.IconContainer>
-        <Link to='/chatting'>
-          <Ic_Chatting
-            onClick={() => handleClick('chatting', '/chatting')}
-            fill={selectedIcon === 'chatting' ? '#fc5242' : '#484C52'}
-          />
-        </Link>
-      </style.IconContainer>
-      <style.IconContainer>
-        <Link to='/my-page'>
-          <Ic_Profile
-            onClick={() => handleClick('my-page', '/my-page')}
-            fill={selectedIcon === 'my-page' ? '#fc5242' : '#484C52'}
-          />
-        </Link>
-      </style.IconContainer>
-    </style.FooterContainer>
-  )
+  if (
+    //footer 없는 페이지
+    location.pathname !== '/sign-up' &&
+    location.pathname !== '/sign-in' &&
+    location.pathname !== '/checklist' &&
+    !location.pathname.includes('interest') && // policy가 들어간 링크에 안뜨게 하고 싶을 때
+    !location.pathname.includes('think')
+  ) {
+    return (
+      <style.FooterContainer>
+        <style.IconContainer>
+          <Link to='/info'>
+            <Ic_Announcement
+              onClick={() => handleClick('info', '/info')}
+              fill={selectedIcon === 'info' ? '#fc5242' : '#484C52'}
+            />
+          </Link>
+        </style.IconContainer>
+        <style.IconContainer>
+          <Link to='/community'>
+            <Ic_Community
+              onClick={() => handleClick('community', '/community')}
+              fill={selectedIcon === 'community' ? '#fc5242' : '#484C52'}
+            />
+          </Link>
+        </style.IconContainer>
+        <style.ButtonContainer>
+          <Link to='/main-page'>
+            <Ic_Candy
+              onClick={() => handleClick('candy', '/main-page')}
+              fill={selectedIcon === 'candy' ? '#fc5242' : '#484C52'}
+            />
+          </Link>
+        </style.ButtonContainer>
+        <style.IconContainer>
+          <Link to='/chatting'>
+            <Ic_Chatting
+              onClick={() => handleClick('chatting', '/chatting')}
+              fill={selectedIcon === 'chatting' ? '#fc5242' : '#484C52'}
+            />
+          </Link>
+        </style.IconContainer>
+        <style.IconContainer>
+          <Link to='/my-page'>
+            <Ic_Profile
+              onClick={() => handleClick('my-page', '/my-page')}
+              fill={selectedIcon === 'my-page' ? '#fc5242' : '#484C52'}
+            />
+          </Link>
+        </style.IconContainer>
+      </style.FooterContainer>
+    )
+  } else {
+    return null
+  }
 }

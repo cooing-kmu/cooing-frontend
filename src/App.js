@@ -9,13 +9,14 @@ import MyPage from './pages/mypage/MyPage'
 import Profile from './pages/profile/Profile'
 import CheckList from './pages/checklist/CheckList'
 import InterestInfo from './pages/interestinfo/InterestInfo'
-import Announcement from './pages/announcement/Announcement'
+import Info from './pages/information/Info'
 import Community from './pages/community/Community'
 import Chatting from './pages/chatting/Chatting'
 import MainPage from './pages/mainpage/MainPage'
 import ThinkInfo from './pages/thinkinfo/ThinkInfo'
 import InterestEdit from './pages/interestedit/InterestEdit'
 import ThinkEdit from './pages/thinkedit/ThinkEdit'
+import Footer from './components/footer/Footer'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       <div id='App'>
         <CookiesProvider>
           <BrowserRouter>
+            <Footer />
             <Routes>
               <Route path='/' element={<MyPage />}></Route>
               <Route path='/my-page' element={<MyPage />}></Route>
@@ -33,7 +35,7 @@ function App() {
               <Route path='/check-list' element={<CheckList />}></Route>
               <Route path='/sign-up' element={<SignUp />}></Route>
               <Route path='/sign-in' element={<SignIn />}></Route>
-              <Route path='/announcement' element={<Announcement />}></Route>
+              <Route path='/info' element={<Info />}></Route>
               <Route path='/community' element={<Community />}></Route>
               <Route path='/main-page' element={<MainPage />}></Route>
               <Route path='/chatting' element={<Chatting />}></Route>
