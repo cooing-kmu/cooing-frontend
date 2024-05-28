@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   MainContainer,
   InfoContainer,
@@ -6,14 +6,26 @@ import {
 } from '../../components/information/BgComponent'
 import { useParams } from 'react-router-dom'
 import Header from '../../components/header/Header'
-import BusinessData from '../../data/BusinessData'
 import fileIcon from '../../assets/fileIcon.svg'
+import { DOMAIN_NAME } from '../../App'
 
-const BusinessDetail = ({ businessId }) => {
+const BusinessDetail = () => {
   const { id } = useParams()
-  const business = BusinessData.find((item) => item.id === parseInt(id))
+  const [business, setBusiness] = useState([])
+  const [error, setError] = useState(false)
 
-  if (!business) {
+  useEffect(() => {
+    fetch(`${DOMAIN_NAME}/support/business/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setBusiness(data.body)
+      })
+      .catch((error) => {
+        setError(true)
+      })
+  }, [id])
+
+  if (error) {
     return (
       <MainContainer>
         <div>사업 데이터를 찾을 수 없습니다.</div>
@@ -23,7 +35,7 @@ const BusinessDetail = ({ businessId }) => {
   return (
     <MainContainer>
       <Header title={'지원사업'} />
-      <InfoContainer>
+      <InfoContainer style={{ whiteSpace: 'pre-line' }}>
         <div>
           <h1>{business.title}</h1>
           <div
@@ -69,7 +81,26 @@ const BusinessDetail = ({ businessId }) => {
                 marginBottom: 20,
               }}
             />
-            <div style={{ textAlign: 'center', whiteSpace: 'pre-line' }}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignContent: 'center',
+                alignItems: 'center',
+                textAlign: 'center',
+                whiteSpace: 'pre-line',
+              }}
+            >
+              <div>
+                {business.imageUrl && (
+                  <img
+                    src={business.imageUrl}
+                    alt='사업 포스터'
+                    width='300px'
+                  />
+                )}
+              </div>
+
               {business.content}
             </div>
 
@@ -107,23 +138,23 @@ const BusinessDetail = ({ businessId }) => {
                 marginBottom: 20,
               }}
             />
-            <div style={{ textAlign: 'center' }}>
-              {business.files.map((file, index) => (
-                <p>
-                  <img
-                    src={fileIcon}
-                    alt={fileIcon}
-                    style={{
-                      transform: 'translate(0, 20%)',
-                      marginRight: '3px',
-                    }}
-                  />
-                  <a key={index} href={file.fileName} download={file.downName}>
-                    {file.downName}
-                  </a>
-                </p>
-              ))}
-            </div>
+            {/*<div style={{ textAlign: 'center' }}>*/}
+            {/*  {business.files.map((file, index) => (*/}
+            {/*    <p>*/}
+            {/*      <img*/}
+            {/*        src={fileIcon}*/}
+            {/*        alt={fileIcon}*/}
+            {/*        style={{*/}
+            {/*          transform: 'translate(0, 20%)',*/}
+            {/*          marginRight: '3px',*/}
+            {/*        }}*/}
+            {/*      />*/}
+            {/*      <a key={index} href={file.fileName} download={file.downName}>*/}
+            {/*        {file.downName}*/}
+            {/*      </a>*/}
+            {/*    </p>*/}
+            {/*  ))}*/}
+            {/*</div>*/}
           </div>
         </div>
       </InfoContainer>

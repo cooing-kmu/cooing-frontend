@@ -47,7 +47,7 @@ const SearchComponent = ({
       if (itemType === 'policy') {
         queryParams.push(`polyRlmCd=${selectedCategory1}`)
       } else if (itemType === 'business') {
-        queryParams.push(`${categoryName1}=${selectedCategory1}`)
+        queryParams.push(`category=${selectedCategory1}`)
       } else if (itemType === 'hiring') {
         queryParams.push(`${categoryName1}=${selectedCategory1}`)
       }
@@ -56,7 +56,7 @@ const SearchComponent = ({
       if (itemType === 'policy') {
         queryParams.push(`supportLocationType=${selectedCategory2}`)
       } else if (itemType === 'business') {
-        queryParams.push(`${categoryName1}=${selectedCategory2}`)
+        queryParams.push(`registerYear=${selectedCategory2}`)
       } else if (itemType === 'hiring') {
         queryParams.push(`${categoryName1}=${selectedCategory2}`)
       }
