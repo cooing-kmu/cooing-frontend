@@ -1,11 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   MainContainer,
   InfoContainer,
 } from '../../components/information/BgComponent'
-import BusinessData from '../../data/BusinessData'
-import InfoListSection from '../../components/information/InfoListSection'
-import searchIcon from '../../assets/search-icon.svg'
 import Header from '../../components/header/Header'
 import { DOMAIN_NAME } from '../../App'
 import SearchComponent from '../../components/information/SearchComponent'

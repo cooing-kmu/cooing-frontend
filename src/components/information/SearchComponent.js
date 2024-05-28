@@ -49,16 +49,14 @@ const SearchComponent = ({
       } else if (itemType === 'business') {
         queryParams.push(`category=${selectedCategory1}`)
       } else if (itemType === 'hiring') {
-        queryParams.push(`${categoryName1}=${selectedCategory1}`)
+        queryParams.push(`ncsCdNmLst=${selectedCategory1}`)
       }
     }
     if (selectedCategory2.length > 0) {
-      if (itemType === 'policy') {
+      if (itemType === 'policy' || 'hiring') {
         queryParams.push(`supportLocationType=${selectedCategory2}`)
       } else if (itemType === 'business') {
         queryParams.push(`registerYear=${selectedCategory2}`)
-      } else if (itemType === 'hiring') {
-        queryParams.push(`${categoryName1}=${selectedCategory2}`)
       }
     }
     if (searchTerm.length > 0) {
@@ -116,17 +114,18 @@ const SearchComponent = ({
             alignContent: 'center',
           }}
         >
-          <span style={{ marginRight: 20 }}>{categoryName1}</span>
+          <span style={{ marginRight: 15 }}>{categoryName1}</span>
           <select
             value={selectedCategory1}
             onChange={handleCategory1Change}
             style={{
-              marginRight: 30,
+              marginRight: 20,
               fontSize: 20,
               borderRadius: '4px',
               backgroundColor: 'white',
               border: 'gray 1px solid',
               padding: '8px 11px',
+              width: 110,
             }}
           >
             {category1.map((category) => (
@@ -135,7 +134,7 @@ const SearchComponent = ({
               </option>
             ))}
           </select>
-          <span style={{ marginRight: 20 }}>{categoryName2}</span>
+          <span style={{ marginRight: 15 }}>{categoryName2}</span>
           <select
             value={selectedCategory2}
             onChange={handleCategory2Change}

@@ -15,11 +15,11 @@ export const ItemContainer = styled.div`
   padding: 20px 26px;
   margin: 0 20px 20px 20px;
 `
-function truncateText(text, maxLength = 20) {
+function truncateText(text, maxLength = 20, replacement = '...') {
   if (text?.length <= maxLength) {
     return text
   } else {
-    return text?.slice(0, maxLength) + '...'
+    return text?.slice(0, maxLength) + replacement
   }
 }
 
@@ -36,7 +36,7 @@ export const InfoItem = ({ itemTitle, itemContent, hiringContent }) => {
         }}
       >
         {truncateText(itemTitle)}
-        <img src={vector} alt={vector} />
+        <img src={vector} alt='vector' />
       </div>
       <div
         style={{
@@ -46,12 +46,12 @@ export const InfoItem = ({ itemTitle, itemContent, hiringContent }) => {
           justifyContent: 'space-between',
         }}
       >
-        {truncateText(itemContent)}
+        {truncateText(itemContent, 15)}
         {hiringContent && (
           <div>
             <img
               src={locationIcon}
-              alt={locationIcon}
+              alt='locationIcon'
               style={{ transform: 'translate(0, 20%)' }}
             />{' '}
             {hiringContent}
@@ -76,11 +76,12 @@ const InfoListSection = ({ item, itemType }) => {
       case 'business':
         return <InfoItem itemTitle={item.title} itemContent={item.category} />
       case 'hiring':
+        console.log(item.recrutSeNm)
         return (
           <InfoItem
             itemTitle={item.recrutPbancTtl}
-            itemContent={item.instNm}
-            hiringContent={`${item.workRgnNmLst} | ${item.recrutSeNm} ${item.acbgCondNmLst}`}
+            itemContent={truncateText(item.instNm, 8)}
+            hiringContent={`${truncateText(item.workRgnNmLst, 2, ' 외')} | ${item.recrutSeNm} ${truncateText(item.acbgCondNmLst, 4, ' 외')}`}
           />
         )
     }

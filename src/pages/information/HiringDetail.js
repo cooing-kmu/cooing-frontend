@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   MainContainer,
   InfoContainer,
@@ -6,13 +6,25 @@ import {
 } from '../../components/information/BgComponent'
 import { useParams } from 'react-router-dom'
 import Header from '../../components/header/Header'
-import HiringData from '../../data/HiringData'
+import { DOMAIN_NAME } from '../../App'
 
 const HiringDetail = () => {
   const { id } = useParams()
-  const hiring = HiringData.find((item) => item.id === parseInt(id))
+  const [hiring, setHiring] = useState([])
+  const [error, setError] = useState(false)
 
-  if (!hiring) {
+  useEffect(() => {
+    fetch(`${DOMAIN_NAME}/support/job/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setHiring(data.body)
+      })
+      .catch((error) => {
+        setError(true)
+      })
+  }, [id]) // id가 변경될 때마다 요청을 다시 보냅니다.
+
+  if (error) {
     return (
       <MainContainer>
         <div>채용 데이터를 찾을 수 없습니다.</div>
@@ -66,7 +78,10 @@ const HiringDetail = () => {
                 content={hiring.scrnprcdrMthdExpln}
               />
             </div>
-            <DetailContainer title='채용 사이트' content={hiring.srcUrl} />
+            <DetailContainer
+              title='채용 사이트'
+              content={<a href={hiring.srcUrl}> {hiring.srcUrl} </a>}
+            />
 
             <h4 style={{ textAlign: 'center', marginBottom: 5 }}>지원 자격</h4>
             <hr
