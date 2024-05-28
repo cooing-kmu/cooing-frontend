@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { MainContainer, InfoContainer } from '../../components/BgComponent'
+import {
+  MainContainer,
+  InfoContainer,
+  ScrollContainer,
+} from '../../components/BgComponent'
 import InfoListSection from '../../components/./InfoListSection'
 import searchIcon from '../../assets/search-icon.svg'
 import Header from '../../components/header/Header'
@@ -19,8 +23,6 @@ export default function Policy() {
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
 
-  let apiUrl = `${DOMAIN_NAME}/support/policy?`
-
   const handleSearchTermChange = (event) => {
     setSearchTerm(event.target.value)
   }
@@ -39,6 +41,7 @@ export default function Policy() {
 
   //API 호출
   const fetchData = () => {
+    let apiUrl = `${DOMAIN_NAME}/support/policy?`
     //api 주소에 검색 필터링 반영
     let queryParams = []
 
@@ -56,21 +59,25 @@ export default function Policy() {
       apiUrl += `&${queryParams.join('&')}`
     }
 
+    console.log(scrollData)
     console.log(apiUrl)
+
+    //이전 검색 데이터 초기화
+    setScrollData([])
+
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
         setFilteredPolicyData(data.body)
-        setScrollData(filteredPolicyData.slice(0, 10))
+        setScrollData(data.body.slice(0, 10))
         setPage(1)
+        console.log(scrollData)
       })
       .catch((error) => {
         console.error('Error fetching data:', error)
         setHasMore(false)
       })
   }
-
-  fetchData()
 
   //스크롤 1회마다 보여줄 데이터 추가
   const fetchMoreData = () => {
@@ -188,13 +195,14 @@ export default function Policy() {
             />
           </div>
         </div>
-        <div id='parentScrollDiv' style={{ height: 400, overflow: 'auto' }}>
+
+        <ScrollContainer id='parentScrollDiv'>
           <InfiniteScroll
-            dataLength={setScrollData.length}
+            dataLength={scrollData.length}
             next={fetchMoreData}
             hasMore={hasMore}
             loader={<h4>Loading...</h4>}
-            endMessage={<p>You are all set!</p>}
+            endMessage={<p>모든 데이터를 불러왔습니다.</p>} //테스트할 때만 띄울 메세지
             scrollableTarget='parentScrollDiv'
           >
             {filteredPolicyData && filteredPolicyData.length > 0 ? (
@@ -219,7 +227,7 @@ export default function Policy() {
               </div>
             )}
           </InfiniteScroll>
-        </div>
+        </ScrollContainer>
       </InfoContainer>
     </MainContainer>
   )

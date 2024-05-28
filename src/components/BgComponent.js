@@ -19,11 +19,7 @@ export const InfoContainer = styled.div`
   height: 68%;
   width: calc(100% - 40px);
   margin: 97px 20px 0 20px;
-  overflow-y: auto;
   padding: 15px 0;
-  &::-webkit-scrollbar {
-    display: none;
-  }
 `
 
 export const LogoContainer = styled.div`
@@ -43,6 +39,14 @@ export const DetailHeadContainer = styled.div`
 `
 export const DetailBodyContainer = styled.div`
   width: 72%;
+`
+
+export const ScrollContainer = styled.div`
+  
+    height: 80%;
+    overflow-y: auto;
+    &::-webkit-scrollbar{
+    display: none;
 `
 
 export const DetailContainer = ({ title, content }) => {
