@@ -18,6 +18,9 @@ import InterestEdit from './pages/interestedit/InterestEdit'
 import ThinkEdit from './pages/thinkedit/ThinkEdit'
 import Alarm from './pages/mainpage/alarm/Alarm'
 import MateInfo from './pages/mainpage/mateinfo/MateInfo'
+import FreeBoard from './pages/community/freeboard/FreeBoard'
+import FreeBoardWrite from './pages/community/freeboard/FreeBoardWrite'
+import FreeBoardPost from './pages/community/freeboard/FreeBoardPost'
 
 function App() {
   return (
@@ -44,6 +47,15 @@ function App() {
               <Route path='/think-edit' element={<ThinkEdit />}></Route>
               <Route path='/alarm' element={<Alarm />}></Route>
               <Route path='/mate-info' element={<MateInfo />}></Route>
+              <Route path='/free-board' element={<FreeBoard />}></Route>
+              <Route
+                path='/free-board-write'
+                element={<FreeBoardWrite />}
+              ></Route>
+              <Route
+                path='/free-board-post/:boardId'
+                element={<FreeBoardPost />}
+              />
             </Routes>
           </BrowserRouter>
         </CookiesProvider>
