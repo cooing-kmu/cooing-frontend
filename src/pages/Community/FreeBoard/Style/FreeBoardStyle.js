@@ -49,11 +49,6 @@ export const Time = styled.div`
   color: #a6a6a6;
 `
 
-export const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-`
-
 export const Button = styled.button`
   width: 150px;
   height: 40px;
@@ -68,4 +63,9 @@ export const Button = styled.button`
   justify-content: center;
   gap: 10px;
   margin-top: 15px;
+`
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
 `
