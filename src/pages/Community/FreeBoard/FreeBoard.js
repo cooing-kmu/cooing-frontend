@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import whitePencil from '../../../assets/whitePencil.svg'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Header from '../../../components/header/Header'
 import axios from 'axios'
 import * as style from './style/FreeBoardStyle'
@@ -22,6 +22,9 @@ export default function FreeBoard() {
     fetchData()
   }, []) // 빈 배열을 넣어 한 번만 실행되도록 설정
 
+  const handleBoardClick = (boardId) => {
+    navigate(`/free-board-post/${boardId}`)
+  }
   const handleWriteClick = () => {
     navigate('/free-board-write')
   }
@@ -33,9 +36,9 @@ export default function FreeBoard() {
       <style.MainContainer>
         {boardData.length > 0 &&
           boardData.map((item, index) => (
-            <Link
-              to={`/${item.boardId}`}
-              style={{ textDecoration: 'none', color: 'black' }}
+            <div
+              key={item.boardId}
+              onClick={() => handleBoardClick(item.boardId)}
             >
               <style.ContentsContainer key={item.boardId}>
                 <style.TitleSummary>
@@ -44,7 +47,7 @@ export default function FreeBoard() {
                 </style.TitleSummary>
                 <style.Time>{item.createDatetime}</style.Time>
               </style.ContentsContainer>
-            </Link>
+            </div>
           ))}
       </style.MainContainer>
 
