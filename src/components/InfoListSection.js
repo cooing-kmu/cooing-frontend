@@ -16,10 +16,10 @@ export const ItemContainer = styled.div`
   margin: 20px 20px;
 `
 function truncateText(text, maxLength = 20) {
-  if (text.length <= maxLength) {
+  if (text?.length <= maxLength) {
     return text
   } else {
-    return text.slice(0, maxLength) + '...'
+    return text?.slice(0, maxLength) + '...'
   }
 }
 
@@ -63,7 +63,6 @@ export const InfoItem = ({ itemTitle, itemContent, hiringContent }) => {
 }
 
 const InfoListSection = ({ item, itemType }) => {
-  console.log('리스트아이템:', item, itemType)
   // 아이템 유형에 따라 다른 방식으로 렌더링
   const renderItem = () => {
     switch (itemType) {

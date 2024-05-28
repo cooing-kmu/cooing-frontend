@@ -4,12 +4,22 @@ import InfoListSection from '../../components/./InfoListSection'
 import searchIcon from '../../assets/search-icon.svg'
 import Header from '../../components/header/Header'
 import { DOMAIN_NAME } from '../../App'
+import InfiniteScroll from 'react-infinite-scroll-component'
 
 export default function Policy() {
+  //검색 필터링
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('')
   const [selectedRegion, setSelectedRegion] = useState('')
+
   const [filteredPolicyData, setFilteredPolicyData] = useState([])
+
+  //무한 스크롤
+  const [scrollData, setScrollData] = useState([])
+  const [page, setPage] = useState(1)
+  const [hasMore, setHasMore] = useState(true)
+
+  let apiUrl = `${DOMAIN_NAME}/support/policy?`
 
   const handleSearchTermChange = (event) => {
     setSearchTerm(event.target.value)
@@ -27,36 +37,56 @@ export default function Policy() {
     } else setSelectedRegion(event.target.value)
   }
 
-  useEffect(() => {
-    const fetchPolicyData = async () => {
-      try {
-        let apiUrl = `${DOMAIN_NAME}/support/policy?`
-        let queryParams = []
+  //API 호출
+  const fetchData = () => {
+    //api 주소에 검색 필터링 반영
+    let queryParams = []
 
-        if (searchTerm.length > 0) {
-          queryParams.push(`query=${searchTerm}`)
-        }
-        if (selectedCategory.length > 0) {
-          queryParams.push(`polyRlmCd=${selectedCategory}`)
-        }
-        if (selectedRegion.length > 0) {
-          queryParams.push(`supportLocationType=${selectedRegion}`)
-        }
-
-        if (queryParams.length > 0) {
-          apiUrl += `&${queryParams.join('&')}`
-        }
-
-        const response = await fetch(apiUrl)
-        const data = await response.json()
-
-        setFilteredPolicyData((prevData) => [...prevData, ...data.body])
-      } catch (error) {
-        console.error('Error fetching policy data:', error)
-      }
+    if (selectedCategory.length > 0) {
+      queryParams.push(`polyRlmCd=${selectedCategory}`)
+    }
+    if (selectedRegion.length > 0) {
+      queryParams.push(`supportLocationType=${selectedRegion}`)
+    }
+    if (searchTerm.length > 0) {
+      queryParams.push(`query=${searchTerm}`)
     }
 
-    fetchPolicyData()
+    if (queryParams.length > 0) {
+      apiUrl += `&${queryParams.join('&')}`
+    }
+
+    console.log(apiUrl)
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        setFilteredPolicyData(data.body)
+        setScrollData(filteredPolicyData.slice(0, 10))
+        setPage(1)
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error)
+        setHasMore(false)
+      })
+  }
+
+  fetchData()
+
+  //스크롤 1회마다 보여줄 데이터 추가
+  const fetchMoreData = () => {
+    if (scrollData.length < filteredPolicyData.length) {
+      setTimeout(() => {
+        const newData = filteredPolicyData.slice(page * 10, (page + 1) * 10)
+        setScrollData(scrollData.concat(newData))
+        setPage((prevPage) => prevPage + 1)
+      }, 1000)
+    } else {
+      setHasMore(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
   }, [searchTerm, selectedCategory, selectedRegion])
 
   return (
@@ -158,23 +188,38 @@ export default function Policy() {
             />
           </div>
         </div>
-        {filteredPolicyData && filteredPolicyData.length > 0 ? (
-          filteredPolicyData.map((policy) => (
-            <InfoListSection key={policy.id} item={policy} itemType='policy' />
-          ))
-        ) : (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: '50vh',
-              fontSize: '20px',
-            }}
+        <div id='parentScrollDiv' style={{ height: 400, overflow: 'auto' }}>
+          <InfiniteScroll
+            dataLength={setScrollData.length}
+            next={fetchMoreData}
+            hasMore={hasMore}
+            loader={<h4>Loading...</h4>}
+            endMessage={<p>You are all set!</p>}
+            scrollableTarget='parentScrollDiv'
           >
-            검색 결과가 없습니다.
-          </div>
-        )}
+            {filteredPolicyData && filteredPolicyData.length > 0 ? (
+              scrollData.map((policy) => (
+                <InfoListSection
+                  key={policy.id}
+                  item={policy}
+                  itemType='policy'
+                />
+              ))
+            ) : (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '50vh',
+                  fontSize: '20px',
+                }}
+              >
+                검색 결과가 없습니다.
+              </div>
+            )}
+          </InfiniteScroll>
+        </div>
       </InfoContainer>
     </MainContainer>
   )
