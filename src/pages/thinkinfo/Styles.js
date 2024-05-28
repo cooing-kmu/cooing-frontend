@@ -22,17 +22,16 @@ export const MainContainer = styled.div`
 // `
 
 export const CardContainer = styled.div`
-    gap: 16px;
-    margin-top: 100px;
-    margin-bottom: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow: auto;
-    //height: calc(100vh - 224px);
-    &::-webkit-scrollbar {
-      display: none;
-    }
+  gap: 16px;
+  margin-top: 100px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: auto;
+  //height: calc(100vh - 224px);
+  &::-webkit-scrollbar {
+    display: none;
   }
 `
 
