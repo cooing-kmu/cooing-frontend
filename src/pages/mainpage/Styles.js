@@ -27,7 +27,7 @@ export const ButtonContainer = styled.div`
 `
 
 export const Line = styled.div`
-  width: 400px;
+  width: 410px;
   height: 1px;
   background: #fd814a;
   display: flex;
@@ -42,8 +42,8 @@ export const CanvasContainer = styled.div`
 `
 
 export const SelectedObj = styled.div`
-  width: 90px;
-  height: 90px;
+  width: 80px;
+  height: 80px;
   background-image: url(${(props) => props.backgroundImg});
   background-size: cover;
   transform: translate(-50%, -50%);
@@ -51,3 +51,49 @@ export const SelectedObj = styled.div`
 `
 
 export const CanvasComponent = styled.canvas``
+
+export const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+export const ModalContent = styled.div`
+  background: white;
+  padding: 20px;
+  max-height: 180px;
+  max-width: 330px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 40px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  p:first-child {
+    font-weight: 800;
+    font-size: 16px;
+    color: black;
+  }
+  font-size: 14px;
+  color: #a6a6a6;
+`
+
+export const ConfirmButton = styled.button`
+  background-color: #fd814a;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 40px;
+  margin-top: 10px;
+  width: 100px;
+`

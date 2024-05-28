@@ -1,3 +1,4 @@
+// MainPage.js
 import React, { useState, useRef, useEffect } from 'react'
 import * as style from './Styles'
 import { useNavigate } from 'react-router-dom'
@@ -14,8 +15,11 @@ import Img_Obj5 from '../../assets/images/image-obj5.png'
 import Img_Obj6 from '../../assets/images/image-obj6.png'
 import Img_Obj7 from '../../assets/images/image-obj7.png'
 import Img_Obj8 from '../../assets/images/image-obj8.png'
+import Img_Cloud from '../../assets/images/image-cloud.png'
+import Img_Box_3 from '../../assets/images/image-box-3.png'
+import MateModal from './MateModal' // 모달 컴포넌트 임포트
 
-const OBJECT_SIZE = 90 // 객체의 크기
+const OBJECT_SIZE = 80 // 객체의 크기
 
 const objList = [
   Img_Obj1,
@@ -28,6 +32,17 @@ const objList = [
   Img_Obj8,
 ]
 
+const itemList = [
+  { name: '빼빼로', count: 5 },
+  { name: '도넛', count: 1 },
+  { name: '크래커', count: 3 },
+  { name: '캔디케인', count: 1 },
+  { name: '하트', count: 0 },
+  { name: '곰젤리', count: 1 },
+  { name: '당고', count: 2 },
+  { name: '수박바', count: 1 },
+]
+
 export default function MainPage() {
   const canvasRef = useRef(null)
   const [selectedObj, setSelectedObj] = useState('')
@@ -35,7 +50,8 @@ export default function MainPage() {
     positionX: null,
     positionY: null,
   })
-  const [itemList, setItemList] = useState([5, 1, 3, 1, 0, 1, 2, 1])
+  const [items, setItems] = useState(itemList)
+  const [showModal, setShowModal] = useState(false) // 모달 표시 상태
 
   useEffect(() => {
     const handleResize = () => {
@@ -57,10 +73,30 @@ export default function MainPage() {
   useEffect(() => {
     const canvasCur = canvasRef.current
     const ctx = canvasCur.getContext('2d')
+
     const bgImage = new Image()
     bgImage.src = Img_CookieHouse
+    const cloudImage = new Image()
+    cloudImage.src = Img_Cloud
+    const box3Image = new Image()
+    box3Image.src = Img_Box_3
+
     bgImage.onload = () => {
       ctx.drawImage(bgImage, 0, 0, canvasCur.width, canvasCur.height)
+
+      cloudImage.onload = () => {
+        ctx.drawImage(cloudImage, 10, 10, 130, 130) // 좌측 상단에 배치
+      }
+
+      box3Image.onload = () => {
+        ctx.drawImage(
+          box3Image,
+          canvasCur.width - 110,
+          canvasCur.height - 110,
+          110,
+          110
+        ) // 우측 하단에 배치
+      }
     }
   }, [])
 
@@ -89,14 +125,25 @@ export default function MainPage() {
 
       // 아이템 갯수 차감
       const objIndex = objList.findIndex((img) => img === selectedObj)
-      const newItemList = [...itemList]
-      newItemList[objIndex] -= 1
-      setItemList(newItemList)
+      const newItemList = [...items]
+      newItemList[objIndex].count -= 1
+      setItems(newItemList)
+
+      // 로그 출력
+      const selectedItem = newItemList[objIndex]
+      console.log(
+        `Object placed: ${selectedItem.name}, Count: ${selectedItem.count}`
+      )
     }
   }
 
   const handleSelectedObj = (obj) => {
     setSelectedObj(obj)
+
+    const objIndex = objList.findIndex((img) => img === obj)
+    if (objIndex !== -1) {
+      const selectedItem = items[objIndex]
+    }
 
     // 마우스 위치 초기화
     setMousePosition({
@@ -106,6 +153,19 @@ export default function MainPage() {
   }
 
   const navigate = useNavigate()
+  const matchingActive = false // 조건을 여기서 설정, MATE 매칭 활성화 시 true, 비활성화 시 false
+
+  const handlePeopleIconClick = () => {
+    if (matchingActive) {
+      navigate('/mate-info')
+    } else {
+      setShowModal(true)
+    }
+  }
+
+  const closeModal = () => {
+    setShowModal(false)
+  }
 
   return (
     <style.MainContainer
@@ -162,7 +222,7 @@ export default function MainPage() {
           <CooingLogo />
         </style.CooingLogo>
         <style.ButtonContainer>
-          <Ic_People onClick={() => navigate('/mate-info')} />
+          <Ic_People onClick={handlePeopleIconClick} />
         </style.ButtonContainer>
       </style.HeaderContainer>
 
@@ -182,14 +242,14 @@ export default function MainPage() {
       >
         <style.CanvasComponent
           ref={canvasRef}
-          width={400} // Canvas 요소의 너비를 창의 너비로 설정
-          height={400} // Canvas 요소의 높이를 창의 높이로 설정
+          width={380} // Canvas 요소의 너비를 창의 너비로 설정
+          height={380} // Canvas 요소의 높이를 창의 높이로 설정
         />
       </style.CanvasContainer>
 
       <style.Line />
 
-      <BottomBar handleSelectedObj={handleSelectedObj} itemList={itemList} />
+      <BottomBar handleSelectedObj={handleSelectedObj} itemList={items} />
 
       {selectedObj !== '' &&
       mousePosition.positionX !== null &&
@@ -198,14 +258,20 @@ export default function MainPage() {
           backgroundImg={selectedObj}
           style={{
             position: 'absolute',
-            left: mousePosition.positionX + OBJECT_SIZE / 2 - 5,
-            top: mousePosition.positionY + OBJECT_SIZE + 15,
-            // width: OBJECT_SIZE,
-            // height: OBJECT_SIZE,
+            left: mousePosition.positionX + OBJECT_SIZE - 20,
+            top: mousePosition.positionY + OBJECT_SIZE + 35,
             pointerEvents: 'none',
           }}
         />
       ) : null}
+
+      <MateModal
+        show={showModal}
+        onClose={closeModal}
+        title='MATE 정보'
+        message='MATE 매칭을 위해 [마이페이지 - 매칭 기능 활성화]
+에서 MATE 매칭을 활성화 해주세요. 😊'
+      />
     </style.MainContainer>
   )
 }
