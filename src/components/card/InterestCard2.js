@@ -28,7 +28,7 @@ const SubContainer = styled.div`
       : 'grid-template-columns: repeat(16, 1fr);'}
   font-weight: 200;
   overflow-x: auto; /* 가로 스크롤 추가 */
-  max-width: 480px; /* 최대 너비 설정 */
+  max-width: 460px; /* 최대 너비 설정 */
   &::-webkit-scrollbar {
     display: none;
   }
