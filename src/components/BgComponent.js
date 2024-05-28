@@ -20,6 +20,9 @@ export const InfoContainer = styled.div`
   width: calc(100% - 40px);
   margin: 97px 20px 0 20px;
   padding: 15px 0;
+  overflow-y: auto;
+  &::-webkit-scrollbar{
+        display: none;
 `
 
 export const LogoContainer = styled.div`
@@ -42,8 +45,8 @@ export const DetailBodyContainer = styled.div`
 `
 
 export const ScrollContainer = styled.div`
-  
-    height: 80%;
+  margin-right: 10px;
+    height: 85%;
     overflow-y: auto;
     &::-webkit-scrollbar{
     display: none;
@@ -51,9 +54,11 @@ export const ScrollContainer = styled.div`
 
 export const DetailContainer = ({ title, content }) => {
   return (
-    <div style={{ display: 'flex', paddingBottom: '10px' }}>
+    <div
+      style={{ display: 'flex', paddingBottom: '10px', whiteSpace: 'pre-line' }}
+    >
       <DetailHeadContainer>{title}</DetailHeadContainer>
-      <DetailBodyContainer>{content}</DetailBodyContainer>
+      <DetailBodyContainer>{content ? content : '-'}</DetailBodyContainer>
     </div>
   )
 }

@@ -86,6 +86,7 @@ export default function Policy() {
         const newData = filteredPolicyData.slice(page * 10, (page + 1) * 10)
         setScrollData(scrollData.concat(newData))
         setPage((prevPage) => prevPage + 1)
+        //console.log(`스크롤 후 ${page}`)
       }, 1000)
     } else {
       setHasMore(false)
@@ -93,7 +94,9 @@ export default function Policy() {
   }
 
   useEffect(() => {
+    setPage(1)
     fetchData()
+    //console.log(`검색 후 ${page}`)
   }, [searchTerm, selectedCategory, selectedRegion])
 
   return (

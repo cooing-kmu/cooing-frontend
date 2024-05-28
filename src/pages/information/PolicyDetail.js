@@ -1,19 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   MainContainer,
   InfoContainer,
   DetailContainer,
 } from '../../components/BgComponent'
-import policyData from '../../data/PolicyData'
 import { useParams } from 'react-router-dom'
-import styled from 'styled-components'
 import Header from '../../components/header/Header'
+import { DOMAIN_NAME } from '../../App'
 
-const PolicyDetail = ({ policyId }) => {
+const PolicyDetail = () => {
   const { id } = useParams()
-  const policy = policyData.find((item) => item.id === parseInt(id))
+  const [policy, setPolicy] = useState([])
+  const [error, setError] = useState(false)
 
-  if (!policy) {
+  useEffect(() => {
+    fetch(`${DOMAIN_NAME}/support/policy/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setPolicy(data.body)
+      })
+      .catch((error) => {
+        setError(true)
+      })
+  }, [id]) // id가 변경될 때마다 요청을 다시 보냅니다.
+
+  if (error) {
     return (
       <MainContainer>
         <div>정책 데이터를 찾을 수 없습니다.</div>
@@ -96,7 +107,10 @@ const PolicyDetail = ({ policyId }) => {
 
             <DetailContainer title='신청 절차' content={policy.rqutProcCn} />
             <DetailContainer title='심사 및 발표' content={policy.jdgnPresCn} />
-            <DetailContainer title='신청 사이트' content={policy.rqutUrla} />
+            <DetailContainer
+              title='신청 사이트'
+              content={<a href={policy.rqutUrla}>{policy.rqutUrla}</a>}
+            />
             <DetailContainer title='제출 서류' content={policy.pstnPaprCn} />
 
             <h4 style={{ textAlign: 'center', marginBottom: 5 }}>기타</h4>
