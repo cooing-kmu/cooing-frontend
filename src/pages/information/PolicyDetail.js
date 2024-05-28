@@ -3,7 +3,7 @@ import {
   MainContainer,
   InfoContainer,
   DetailContainer,
-} from '../../components/BgComponent'
+} from '../../components/information/BgComponent'
 import { useParams } from 'react-router-dom'
 import Header from '../../components/header/Header'
 import { DOMAIN_NAME } from '../../App'
