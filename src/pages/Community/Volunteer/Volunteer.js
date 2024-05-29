@@ -48,6 +48,7 @@ export default function Volunteer() {
                                     <style.Summary>{item.summary}</style.Summary>
                                 </style.Location>
                             </style.TitleSummary>
+                            <style.Time>{item.createDatetime}</style.Time>
                         </style.ContentsContainer>
                     </div>
                 ))}
