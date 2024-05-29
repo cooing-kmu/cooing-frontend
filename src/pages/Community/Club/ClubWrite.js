@@ -19,19 +19,16 @@ export default function ClubWrite() {
   const handleClubClick = async () => {
     try {
       // FormData 객체 생성
-      const request = {
-        title : "",
-        summary : "",
-        recruitDate : "",
-        content : "",
-      };
       const formData = new FormData();
-      const jsonData = JSON.stringify(request);
-      const image = new Blob([jsonData], { type: 'application/json' });
-      formData.append('request', image);
-      formData.append('imageUrl', file);
+      formData.append('title', title);
+      formData.append('summary', summary);
+      formData.append('recruitDate', recruitDate);
+      formData.append('content', content);
+      if (file) {
+        formData.append('imageUrl', file);
+      }
 
-    for (let [key, value] of formData.entries()) {
+      for (let [key, value] of formData.entries()) {
         console.log(`${key}: ${value}`);
       }
 
@@ -43,11 +40,18 @@ export default function ClubWrite() {
       });
 
       // 전송된 데이터를 콘솔에 출력
-      console.log('Club Creation Request Data:', formData.get('imageUrl'));
+      console.log('클럽 생성 요청 데이터:', {
+        title,
+        summary,
+        recruitDate,
+        content,
+        imageUrl: file ? URL.createObjectURL(file) : '이미지 없음',
+      });
+
       alert('동아리가 성공적으로 생성되었습니다!');
       navigate('/club');
     } catch (error) {
-      console.error('There was an error creating the club!', error);
+      console.error('동아리 생성 중 오류 발생!', error);
       alert('동아리 생성에 실패했습니다. 다시 시도해주세요.');
     }
   };
