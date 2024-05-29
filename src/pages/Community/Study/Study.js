@@ -49,6 +49,7 @@ export default function Study() {
                                     <style.Summary>{item.category}</style.Summary>
                                 </style.Location>
                             </style.TitleSummary>
+                            <style.Time>{item.createDatetime}</style.Time>
                         </style.ContentsContainer>
                     </div>
                 ))}
