@@ -19,18 +19,19 @@ export default function ClubWrite() {
   const handleClubClick = async () => {
     try {
       // FormData 객체 생성
+      const request = {
+        title : "",
+        summary : "",
+        recruitDate : "",
+        content : "",
+      };
       const formData = new FormData();
-      formData.append('title', title);
-      formData.append('summary', summary);
-      formData.append('recruitDate', recruitDate);
-      formData.append('content', content);
+      const jsonData = JSON.stringify(request);
+      const image = new Blob([jsonData], { type: 'application/json' });
+      formData.append('request', image);
+      formData.append('imageUrl', file);
 
-      // 파일이 있는 경우에만 FormData에 파일 추가
-      if (file) {
-        formData.append('imageUrl', file);  // 이미지 파일 추가
-      }
-
-      for (let [key, value] of formData.entries()) {
+    for (let [key, value] of formData.entries()) {
         console.log(`${key}: ${value}`);
       }
 
