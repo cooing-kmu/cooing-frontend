@@ -13,4 +13,16 @@ export const RecommendContainer = styled.div`
 export const ChattingContainer = styled.div`
   display: flex;
   flex-direction: row;
+  padding: 17px;
+  height: '20%';
+`
+export const ChattingCountContainer = styled.div`
+  background-color: ${theme.red};
+  border-radius: 4px;
+  height: 25px;
+  width: 25px;
+  color: white;
+  font-weight: bolder;
+  font-size: 15px;
+  text-align: center;
 `
