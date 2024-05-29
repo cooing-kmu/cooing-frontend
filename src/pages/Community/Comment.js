@@ -1,11 +1,13 @@
-import React from 'react'
-import styled from 'styled-components'
-import Header from '../../components/header/Header'
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import Header from '../../components/header/Header';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Div = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
 
 const MainContainer = styled.div`
   width: 370px;
@@ -16,7 +18,7 @@ const MainContainer = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
-`
+`;
 
 const ContentsContainer = styled.div`
   height: 80px;
@@ -26,63 +28,62 @@ const ContentsContainer = styled.div`
   justify-content: start;
   border-bottom: #a6a6a6 solid 1px;
   cursor: pointer;
-`
-const DetailContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: start;
-`
-
-const detailData = [
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-    { Title: '안녕', summary: '나는 찬우야', time: '04/04 10:16' },
-]
+`;
 
 const TitleSummary = styled.div`
   display: flex;
   flex-direction: column;
   width: 300px;
-`
+`;
 
 const Title = styled.div`
   font-size: 12px;
   font-weight: bold;
-`
+`;
 
 const Summary = styled.div`
   font-size: 12px;
-`
+`;
 
 const Time = styled.div`
   display: flex;
   font-size: 10px;
   color: #a6a6a6;
-`
+`;
 
 export default function Comment() {
+    const navigate = useNavigate();
+    const [commentData, setCommentData] = useState([]);
+
+    useEffect(() => {
+        async function fetchCommentData() {
+            try {
+                const response = await axios.get('http://15.165.25.19:8080/boards?boardType=COMMENT');
+                setCommentData(response.data.body);
+            } catch (error) {
+                console.error('스크랩 데이터를 불러오는 중 오류 발생:', error);
+            }
+        }
+
+        fetchCommentData();
+    }, []);
+
+    const handleBoardClick = (boardId) => {
+        navigate(`/free-board-post/${boardId}`);
+    };
 
     return (
         <Div>
             <Header title='댓글 단 글' />
 
             <MainContainer>
-                {detailData.map((item, index) => (
-                    <ContentsContainer>
-                        <TitleSummary key={index}>
-                            <Title>{item.Title}</Title>
-                            <Summary>{item.summary}</Summary>
+                {commentData.map((item, index) => (
+                    <ContentsContainer key={index} onClick={() => handleBoardClick(item.boardId)}>
+                        <TitleSummary>
+                            <Title>{item.title}</Title>
+                            <Summary>{item.contentSummary}</Summary>
                         </TitleSummary>
-                        <Time>{item.time}</Time>
+                        <Time>{item.createDatetime}</Time>
                     </ContentsContainer>
                 ))}
             </MainContainer>
