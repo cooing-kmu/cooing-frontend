@@ -99,8 +99,8 @@ const ThinkCard = ({ isClickable, buttonName }) => {
           <ItemContainer
             key={index}
             onClick={isClickable ? () => handleItemClick(index) : undefined}
-            clicked={clickedItems[index]}
-            isClickable={isClickable}
+            clicked={clickedItems[index] ? 1 : 0}
+            isclickable={isClickable.toString()} // isClickable prop을 문자열로 변환하여 전달
           >
             <h1>{item[0]}</h1>
             {item[1]}
