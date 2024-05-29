@@ -1,5 +1,11 @@
 /* ChattingList */
 
+.chatting-list {
+    display: flex;
+    flex-direction: row;
+    padding: 17px;
+    height: 20%;
+}
 .chatting-list-img {
     display: flex;
     align-items: center;
@@ -106,4 +112,148 @@
 .recommend-list-user-text {
     text-align: center;
     height: 20%;
+}
+
+/*ChattingRoom*/
+.chatting-room {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: linear-gradient(to top, #FC5C4C, #FD814A);
+    height: 100vh;
+    width: 100%;
+    position: relative;
+}
+.chatting-room-header {
+    width: 100%;
+    color: white;
+    font-weight: 600;
+    font-size: 25px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    padding-top: 20px;
+}
+.chatting-room-header img {
+    height: 30px;
+    width: 30px;
+    transform: translateY(7%);
+    padding: 0 20px;
+
+}
+.chatting-room-header span {
+    text-align: left;
+    width: 80%;
+}
+
+.chatting-room-chat {
+    height: calc(100% - 100px);
+    justify-content: center;
+    width: 100%;
+    background-color: white;
+    position: absolute; /* 절대 위치 설정 */
+    bottom: 0; /* 부모 요소의 맨 아래에 배치 */
+    border-radius: 40px 40px 0 0;
+    display: flex;
+}
+
+
+/*Messages*/
+
+.messages{
+    padding: 0 10px 10px 10px;
+    height: calc(100% - 160px);
+    width: 100%;
+    overflow-y: auto;
+    margin-top: 10px;
+}
+
+/*Message*/
+
+.message{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+    align-items: flex-end;
+}
+
+.message-user{
+    height: 100%;
+    width: 15%;
+    margin: 10px;
+}
+.message-content {
+    display: flex;
+    width: 85%;
+    justify-items: left;
+}
+.message-content-text{
+    background-color:#FD814A ;
+    padding:10px 15px;
+    border-radius: 40px 30px 30px 0;
+    color:white;
+    font-size: 19px;
+    margin-bottom: 3px;
+}
+
+.message.owner{
+    flex-direction: row-reverse;
+}
+
+.message-content.owner {
+    justify-items: right;
+}
+
+.message-content.owner span{
+    justify-items: right;
+    justify-self: right;
+    text-align: right;
+    align-items: end;
+    align-content: flex-end;
+
+}
+
+.message-content-text.owner{
+    background-color: #FC5C4C;
+    border-radius: 30px 40px 0 30px;
+    color:white;
+    font-size: 19px;
+    margin-bottom: 3px;
+
+}
+
+/*Input*/
+
+.input{
+    height: 80px;
+    width: 90%;
+    border-radius: 50px;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    bottom: 30px; /* 부모 요소의 맨 아래에 배치 */
+    position: absolute; /* 절대 위치 설정 */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+
+}
+.input input {
+    width: 77%;
+    border: none;
+    outline: none;
+    color: black;
+    font-size: 20px;
+    text-align: left;
+    margin-left: 20px;
+}
+
+
+.send button{
+    border:none;
+    background-color: transparent;
+}
+.send img{
+    width: 60px;
+    height: 60px;
 }

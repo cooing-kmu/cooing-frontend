@@ -7,6 +7,7 @@ import SignUp from './pages/SignUp'
 import SignIn from './pages/SignIn'
 import Footer from './components/footer/Footer'
 import Chatting from './pages/chatting/Chatting'
+import ChattingRoom from './pages/chatting/ChattingRoom'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               <Route path='/sign-up' element={<SignUp />}></Route>
               <Route path='/sign-in' element={<SignIn />}></Route>
               <Route path='/chatting' element={<Chatting />}></Route>
+              <Route path='/chatting/room' element={<ChattingRoom />}></Route>
             </Routes>
           </BrowserRouter>
         </CookiesProvider>

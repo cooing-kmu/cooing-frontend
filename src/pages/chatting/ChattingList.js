@@ -1,13 +1,13 @@
 import React from 'react'
 import './Chatting.css'
 import ChattingListData from '../../data/ChattingListData'
-import { ChattingContainer } from '../../components/chatting/BgComponent'
 import theme from '../../Theme'
+import { Link } from 'react-router-dom'
 
 const ChattingItem = (item) => {
   console.log(item)
   return (
-    <ChattingContainer>
+    <div className='chatting-list'>
       <div className='chatting-list-img'>
         <img
           src={item.user.img}
@@ -41,7 +41,7 @@ const ChattingItem = (item) => {
           {item.recentMsgCount}
         </div>
       </div>
-    </ChattingContainer>
+    </div>
   )
 }
 
@@ -57,7 +57,12 @@ export default function ChattingList() {
             alignItems: 'center',
           }}
         >
-          <ChattingItem {...item} />
+          <Link
+            to={`/chatting/room`}
+            style={{ textDecoration: 'none', color: 'black' }}
+          >
+            <ChattingItem {...item} />
+          </Link>
           <hr
             style={{
               margin: 0,
