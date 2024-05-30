@@ -18,34 +18,23 @@ export default function ClubWrite() {
 
   const handleClubClick = async () => {
     try {
-      // FormData 객체 생성
+      const request = {
+        title: title,
+        summary: summary,
+        recruitDate: recruitDate,
+        content: recruitDate
+      };
       const formData = new FormData();
-      formData.append('title', title);
-      formData.append('summary', summary);
-      formData.append('recruitDate', recruitDate);
-      formData.append('content', content);
-      if (file) {
-        formData.append('imageUrl', file);
-      }
-
-      for (let [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-      }
+      const jsonData = JSON.stringify(request);
+      const imgData = new Blob([jsonData], { type: 'application/json' });
+      formData.append('request', imgData);
+      formData.append('image', file);
 
       // 클럽 정보와 이미지를 백엔드로 전송
-      const response = await axios.post('http://15.165.25.19:8080/club', formData, {
+      await axios.post(`${process.env.REACT_APP_BASE_URL}club`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-      });
-
-      // 전송된 데이터를 콘솔에 출력
-      console.log('클럽 생성 요청 데이터:', {
-        title,
-        summary,
-        recruitDate,
-        content,
-        imageUrl: file ? URL.createObjectURL(file) : '이미지 없음',
       });
 
       alert('동아리가 성공적으로 생성되었습니다!');
@@ -65,8 +54,6 @@ export default function ClubWrite() {
       setPreviewUrl(previewUrl); // 미리보기 URL 상태 업데이트
     }
   };
-
-  console.log(previewUrl); // 여기서 미리보기 URL을 출력하면 오류가 발생하지 않습니다.
 
   return (
       <style.Div>

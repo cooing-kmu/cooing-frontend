@@ -29,7 +29,7 @@ export const Detail = styled.div`
   gap: 16px;
 `
 export const TextContainer = styled.div`
-  margin: 17px;
+  margin: 25px;
   flex-direction: column;
   display: flex;
   gap: 10px;
@@ -59,5 +59,5 @@ export const MainTextInput = styled.div`
 export const ImageContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 40px;
+  margin-left: 10px;
 `;
