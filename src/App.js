@@ -20,10 +20,8 @@ import StudyPost from './pages/community/study/StudyPost'
 import ClubPost from './pages/community/club/ClubPost'
 import VolunteerPost from './pages/community/volunteer/VolunteerPost'
 
-
 function App() {
   return (
-    // <ThemeProvider>
     <RecoilRoot>
       <div id='App'>
         <CookiesProvider>
@@ -50,8 +48,7 @@ function App() {
         </CookiesProvider>
       </div>
     </RecoilRoot>
-    // </ThemeProvider>
   )
 }
+export default App;
 
-export default App
