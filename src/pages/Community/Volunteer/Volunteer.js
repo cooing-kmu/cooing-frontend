@@ -27,7 +27,7 @@ export default function Volunteer() {
     };
 
     const handleWriteClick = () => {
-        navigate('/volunteer-write')
+        navigate('/volunteer1-write')
     }
 
     return (

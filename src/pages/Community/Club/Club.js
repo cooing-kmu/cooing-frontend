@@ -28,7 +28,7 @@ export default function Club() {
         navigate(`/club-post/${clubId}`);
     };
     const handleWriteClick = () => {
-        navigate('/club-write');
+        navigate('/club1-write');
     };
 
     return (

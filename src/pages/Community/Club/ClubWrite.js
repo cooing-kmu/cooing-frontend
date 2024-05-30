@@ -38,7 +38,7 @@ export default function ClubWrite() {
       });
 
       alert('동아리가 성공적으로 생성되었습니다!');
-      navigate('/club');
+      navigate('/club1');
     } catch (error) {
       console.error('동아리 생성 중 오류 발생!', error);
       alert('동아리 생성에 실패했습니다. 다시 시도해주세요.');

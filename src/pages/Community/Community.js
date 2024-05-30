@@ -84,25 +84,25 @@ export default function Community() {
       <MainContainer>
 
         <SubLineContainer onClick={handleFreeBoardClick}>
-            <img src={freeBoard} />
+            <img src={freeBoard} alt={"img"}/>
             자유 게시판
         </SubLineContainer>
         <Line/>
 
         <SubLineContainer onClick={handleMyWroteClick}>
-          <img src={pencil} />
+          <img src={pencil} alt={"img"}/>
           내가 쓴 글
         </SubLineContainer>
         <Line/>
 
         <SubLineContainer onClick={handleCommentClick}>
-          <img src={message} />
+          <img src={message} alt={"img"}/>
           댓글 단 글
         </SubLineContainer>
         <Line/>
 
         <SubLineContainer onClick={handleScrapClick}>
-          <img src={star} />
+          <img src={star} alt={"img"}/>
           스크랩한 글
         </SubLineContainer>
 
@@ -112,19 +112,19 @@ export default function Community() {
       <MainContainer>
 
         <SubLineContainer onClick={handleVolunteerClick}>
-          <img src={volunteer} />
+          <img src={volunteer} alt={"img"}/>
           봉사활동
         </SubLineContainer>
         <Line/>
 
         <SubLineContainer onClick={handleClubClick}>
-          <img src={club} />
+          <img src={club} alt={"img"}/>
           동아리 및 소모임
         </SubLineContainer>
         <Line/>
 
         <SubLineContainer onClick={handleStudyClick}>
-          <img src={study} />
+          <img src={study} alt={"img"}/>
           스터디
         </SubLineContainer>
 

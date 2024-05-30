@@ -28,7 +28,7 @@ export default function Study() {
     };
 
     const handleWriteClick = () => {
-        navigate('/study-write')
+        navigate('/study1-write')
     }
 
     return (
