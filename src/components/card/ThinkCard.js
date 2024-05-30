@@ -108,10 +108,10 @@ const ThinkCard = ({ isClickable, buttonName }) => {
         ))}
       </SubContainer>
       <div>
-        {buttonName === '완료' ? ( // 찬우오빠 네비게이션 수정
+          {buttonName === '완료' ? ( // 찬우오빠 네비게이션 수정
           <Button
             disabled={!isAnyItemSelected}
-            onClick={() => navigate('/interest-info')}
+            onClick={() => navigate('/sign-up5')}
           >
             {buttonName}
           </Button>

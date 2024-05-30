@@ -120,7 +120,7 @@ const InterestCard = ({ isClickable, buttonName }) => {
         {buttonName === '다음' ? ( // 찬우오빠 네비게이션 수정
           <Button
             disabled={!isAnyItemSelected}
-            onClick={() => navigate('/interest-info')}
+            onClick={() => navigate('/sign-up4')}
           >
             {buttonName}
           </Button>

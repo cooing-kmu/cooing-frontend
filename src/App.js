@@ -1,6 +1,5 @@
 import './App.css'
-import { ThemeProvider } from 'styled-components'; // 1. Global color를 사용하기 위한 import
-import React, { Component } from 'react';
+import React  from 'react';
 import { RecoilRoot } from 'recoil';
 import { CookiesProvider } from 'react-cookie';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -14,7 +13,6 @@ import SignUp5 from "./pages/signup/SignUp5";
 
 function App() {
   return (
-    // <ThemeProvider>
       <RecoilRoot>
         <div id="App">
           <CookiesProvider>
@@ -31,7 +29,6 @@ function App() {
           </CookiesProvider>
         </div>
       </RecoilRoot>
-    // </ThemeProvider>
   )
 }
 

@@ -1,3 +1,83 @@
+// import styled from "styled-components";
+// import Header from '../../components/header/Header';
+// import { useNavigate, useLocation } from 'react-router-dom';
+// import React, { useState } from 'react';
+// import ThinkCard from '../../components/card/ThinkCard';
+//
+// const MainContainer = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   background-color: #fff;
+//   height: 100vh;
+//   width: 100%;
+// `;
+//
+// function useQuery() {
+//     return new URLSearchParams(useLocation().search);
+// }
+//
+// export default function ThinkEdit() {
+//     const navigate = useNavigate();
+//     const query = useQuery();
+//     const nickname = query.get("nickname");
+//     const profileMessage = query.get("profileMessage");
+//     const role = query.get("role");
+//     const interestKeyword = JSON.parse(query.get("interestKeyword"));
+//
+//     const [clickedItems, setClickedItems] = useState(Array(8).fill(false)); // 아이템의 개수에 맞게 초기 상태 설정
+//
+//     const handleItemClick = (index) => {
+//         const newClickedItems = [...clickedItems]; // 기존 배열 복사
+//         newClickedItems[index] = !newClickedItems[index]; // 클릭된 아이템의 상태를 반전
+//         setClickedItems(newClickedItems); // 새로운 클릭된 아이템 배열로 상태 업데이트
+//     };
+//
+//     const handleSubmit = async () => {
+//         const concernKeyword = clickedItems.map(item => (item ? 1 : 0));
+//         const userData = {
+//             nickname,
+//             profileMessage,
+//             role,
+//             interestKeyword,
+//             concernKeyword
+//         };
+//         console.log('POST data:', userData); // POST할 데이터를 콘솔에 출력
+//
+//         try {
+//             const response = await fetch('/15.165.25.19:8080/signup', {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                 },
+//                 body: JSON.stringify(userData),
+//             });
+//
+//             if (response.ok) {
+//                 navigate('/sign-up5'); // 성공 시 성공 페이지로 이동
+//             } else {
+//                 console.error('회원가입 실패');
+//             }
+//         } catch (error) {
+//             console.error('회원가입 중 오류 발생:', error);
+//         }
+//     };
+//
+//     return (
+//         <MainContainer>
+//             <Header title='프로필 등록' />
+//
+//             <ThinkCard
+//                 clickedItems={clickedItems}
+//                 handleItemClick={handleItemClick}
+//                 isClickable={true}
+//                 buttonName={'완료'}
+//                 onButtonClick={handleSubmit} // ThinkCard에서 버튼 클릭 시 handleSubmit 호출
+//             />
+//         </MainContainer>
+//     );
+// }
+
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
