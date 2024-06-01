@@ -10,37 +10,37 @@ const ChattingItem = (item) => {
     <div className='chatting-list'>
       <div className='chatting-list-img'>
         <img
-          src={item.user.img}
-          alt={item.user.name}
+          src={item.user.profileImageUrl}
+          alt={item.user.username}
           // 이미지에 상대적으로 더 많은 높이 할당
         />
       </div>
 
-      <div className='chatting-list-text'>
-        <div className='chatting-list-name'>
-          {item.user.name} {item.user.role}님
-        </div>
-        <div
-          className='chatting-list-msg'
-          style={{ color: `${theme.darkGray}` }}
-        >
-          {item.recentMsg}
-        </div>
-      </div>
-      <div className='chatting-list-content'>
-        <div
-          className='chatting-list-time'
-          style={{ color: `${theme.darkGray}` }}
-        >
-          {item.recentMsgTime}
-        </div>
-        <div
-          className='chatting-list-count'
-          style={{ backgroundColor: `${theme.red}` }}
-        >
-          {item.recentMsgCount}
-        </div>
-      </div>
+      {/*<div className='chatting-list-text'>*/}
+      {/*  <div className='chatting-list-name'>*/}
+      {/*    {item.user.username} {item.user.role}님*/}
+      {/*  </div>*/}
+      {/*  <div*/}
+      {/*    className='chatting-list-msg'*/}
+      {/*    style={{ color: `${theme.darkGray}` }}*/}
+      {/*  >*/}
+      {/*    {item.recentMsg}*/}
+      {/*  </div>*/}
+      {/*</div>*/}
+      {/*<div className='chatting-list-content'>*/}
+      {/*  <div*/}
+      {/*    className='chatting-list-time'*/}
+      {/*    style={{ color: `${theme.darkGray}` }}*/}
+      {/*  >*/}
+      {/*    {item.recentMsgTime}*/}
+      {/*  </div>*/}
+      {/*  <div*/}
+      {/*    className='chatting-list-count'*/}
+      {/*    style={{ backgroundColor: `${theme.red}` }}*/}
+      {/*  >*/}
+      {/*    {item.recentMsgCount}*/}
+      {/*  </div>*/}
+      {/*</div>*/}
     </div>
   )
 }

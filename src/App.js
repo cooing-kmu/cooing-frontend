@@ -6,8 +6,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import SignUp from './pages/SignUp'
 import SignIn from './pages/SignIn'
 import Footer from './components/footer/Footer'
-import Chatting from './pages/chatting/Chatting'
+import Chatting from './pages/chatting/test/testChatting'
 import ChattingRoom from './pages/chatting/ChattingRoom'
+
+export const DOMAIN_NAME = 'http://15.165.25.19:8080'
 
 function App() {
   return (
