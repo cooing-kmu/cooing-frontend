@@ -1,4 +1,3 @@
-// MainPage.js
 import React, { useState, useRef, useEffect } from 'react'
 import * as style from './Styles'
 import { useNavigate } from 'react-router-dom'
@@ -18,6 +17,8 @@ import Img_Obj8 from '../../assets/images/image-obj8.png'
 import Img_Cloud from '../../assets/images/image-cloud.png'
 import Img_Box_3 from '../../assets/images/image-box-3.png'
 import MateModal from './MateModal' // 모달 컴포넌트 임포트
+import axios from 'axios'
+import { DOMAIN_NAME } from '../../App'
 
 const OBJECT_SIZE = 80 // 객체의 크기
 
@@ -52,6 +53,46 @@ export default function MainPage() {
   })
   const [items, setItems] = useState(itemList)
   const [showModal, setShowModal] = useState(false) // 모달 표시 상태
+  const [houseState, setHouseState] = useState(null) // 과자집 상태
+
+  // 과자집 상태 가져오기
+  useEffect(() => {
+    const fetchHouseState = async () => {
+      try {
+        const tokenResponse = await axios.get(`${DOMAIN_NAME}/test-user`)
+        const token = tokenResponse.data.body
+        const userResponse = await axios.get(`${DOMAIN_NAME}/house`, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        setHouseState(userResponse.data.body.house)
+      } catch (error) {
+        console.error('Error fetching house state:', error)
+      }
+    }
+    fetchHouseState()
+  }, [])
+
+  // 과자집 상태 업데이트
+  const updateHouseState = async (newItems) => {
+    try {
+      const tokenResponse = await axios.get(`${DOMAIN_NAME}/test-user`)
+      const token = tokenResponse.data.body
+      await axios.post(
+        `${DOMAIN_NAME}/house`,
+        { house: { items: newItems } },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
+      setHouseState({ items: newItems })
+    } catch (error) {
+      console.error('Error updating house state:', error)
+    }
+  }
 
   useEffect(() => {
     const handleResize = () => {
@@ -134,6 +175,13 @@ export default function MainPage() {
       console.log(
         `Object placed: ${selectedItem.name}, Count: ${selectedItem.count}`
       )
+
+      // 업데이트된 상태 서버에 저장
+      const updatedItems = [
+        ...houseState.items,
+        { name: selectedItem.name, x: objectX, y: objectY },
+      ]
+      updateHouseState(updatedItems)
     }
   }
 
@@ -153,7 +201,7 @@ export default function MainPage() {
   }
 
   const navigate = useNavigate()
-  const matchingActive = false // 조건을 여기서 설정, MATE 매칭 활성화 시 true, 비활성화 시 false
+  const matchingActive = true // 조건을 여기서 설정, MATE 매칭 활성화 시 true, 비활성화 시 false
 
   const handlePeopleIconClick = () => {
     if (matchingActive) {
