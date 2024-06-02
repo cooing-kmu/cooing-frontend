@@ -3,6 +3,8 @@ import Header from '../../../components/header/Header'
 import { useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
 import ThinkCard from '../../../components/card/ThinkCard'
+import axios from 'axios'
+import { DOMAIN_NAME } from '../../../App'
 
 export default function ThinkEdit() {
   const navigate = useNavigate()
@@ -15,6 +17,31 @@ export default function ThinkEdit() {
     setClickedItems(newClickedItems) // 새로운 클릭된 아이템 배열로 상태 업데이트
   }
 
+  const handleSubmit = async () => {
+    try {
+      const token = await axios
+        .get(`${DOMAIN_NAME}/test-user`)
+        .then((res) => res.data.body)
+
+      const concernKeyword = clickedItems.map((item) => (item ? 1 : 0))
+
+      await axios.put(
+        `${DOMAIN_NAME}/user/keyword`,
+        { concernKeyword }, // concernKeyword만 포함하도록 수정
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
+
+      // 페이지 이동 시에 URL 매개변수를 사용하여 데이터 전달
+      navigate(`/think-info?concernKeyword=${concernKeyword.join(',')}`)
+    } catch (error) {
+      console.error('사용자 관심 키워드 업데이트 중 오류 발생:', error)
+    }
+  }
+
   return (
     <style.MainContainer>
       <Header title='매칭 정보 변경' />
@@ -24,6 +51,7 @@ export default function ThinkEdit() {
         handleItemClick={handleItemClick}
         isClickable={true}
         buttonName={'변경 완료'}
+        onSubmit={handleSubmit} // handleSubmit 함수 전달
       />
     </style.MainContainer>
   )

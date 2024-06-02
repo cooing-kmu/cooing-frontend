@@ -1,13 +1,42 @@
 import * as style from './Styles'
 import Header from '../../../components/header/Header'
 import { useNavigate } from 'react-router-dom'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ThinkCard2 from '../../../components/card/ThinkCard2'
+import axios from 'axios'
+import { DOMAIN_NAME } from '../../../App'
 
 export default function ThinkInfo() {
   const navigate = useNavigate()
+  const [user, setUser] = useState(null)
+  const [concernKeyword, setConcernKeyword] = useState([])
 
-  const UserThinkKeyword = [0, 1, 0, 0, 1, 0, 1, 1]
+  useEffect(() => {
+    async function getUserInfo() {
+      try {
+        const token = await axios
+          .get(`${DOMAIN_NAME}/test-user`)
+          .then((res) => res.data.body)
+        const userInfo = await axios
+          .get(`${DOMAIN_NAME}/user`, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((res) => {
+            const _user = res.data.body
+            setUser(_user)
+            setConcernKeyword(_user.concernKeyword)
+            console.log(_user)
+            return _user
+          })
+        return userInfo
+      } catch (error) {
+        console.error('Error fetching user information:', error)
+      }
+    }
+    getUserInfo()
+  }, [])
 
   return (
     <style.MainContainer>
@@ -15,7 +44,7 @@ export default function ThinkInfo() {
 
       <ThinkCard2
         layout={0}
-        interestList={UserThinkKeyword}
+        interestList={concernKeyword}
         buttonName={'수정'}
       />
     </style.MainContainer>
