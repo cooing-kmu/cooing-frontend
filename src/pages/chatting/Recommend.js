@@ -3,13 +3,15 @@ import UserData from '../../data/UserData'
 import RecommendData from '../../data/RecommendData'
 import theme from '../../Theme'
 import './Chatting.css'
+import { useRecoilState } from 'recoil'
+import { userState } from '../../utils/userAtom'
 
 export default function Recommend() {
-  const user = UserData[0]
+  const [user, setUser] = useRecoilState(userState)
   return (
     <div className='recommend'>
       <div className='recommend-text'>
-        {user.name} {user.role}
+        {user.username} {user.role}
         {user.role === '헨젤'
           ? '님의 고민을 해결해 줄 그레텔'
           : '님이 도움을 줄 수 있는 헨젤'}

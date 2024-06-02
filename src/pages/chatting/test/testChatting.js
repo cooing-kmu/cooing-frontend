@@ -2,8 +2,6 @@ import React, { useState, useRef, useEffect } from 'react'
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
 import TestLogin from './testLogin'
-import UserBox from './UserBox'
-import UserListBox from './UserListBox'
 import ChatListBox from './ChatListBox'
 import { DOMAIN_NAME } from '../../../App'
 
@@ -26,6 +24,7 @@ const ChatPage = () => {
     return undefined
   }
 
+  //채팅방
   const getChatList = async () => {
     if (!sender.current || !user) return undefined
 
@@ -63,12 +62,15 @@ const ChatPage = () => {
   const handleRecv = async (_user) => {
     if (!user) return
     sender.current = getCurrentSenderSocket(_user)
+
+    //채팅방
     const userChatList = await getChatList()
     if (!sender.current || !userChatList) return
     setChatList(() => userChatList)
     recv.current = _user
   }
 
+  //채팅방
   function updateChatUnread(chatMessage) {
     console.log('update chat unread')
     setChatList((currentChatList) => {
@@ -84,15 +86,17 @@ const ChatPage = () => {
   }
 
   useEffect(() => {
+    //채팅 목록
     if (!user) return
     socketList.current.map((socket) => socket.socket.deactivate())
     socketList.current = []
     const _userList = []
 
+    //채팅 목록
     userList.map(async (_user) => {
       _userList.push(
         <div onClick={() => handleRecv(_user)}>
-          <UserBox user={_user} />
+          <div>{_user.username}</div>
         </div>
       )
       const room = await fetch(
@@ -152,6 +156,7 @@ const ChatPage = () => {
     setUserListTsx(() => _userList)
   }, [userList])
 
+  //채팅방
   const messageSubmitHandler = () => {
     if (!sender.current || !user) {
       console.log('no sender')
@@ -173,7 +178,7 @@ const ChatPage = () => {
       {!user && <TestLogin setUser={setUser} setUserList={setUserList} />}
       {user && userList && (
         <div>
-          <UserListBox userListTsx={userListTsx} />
+          <div className='userListBoxContainer'>{userListTsx}</div>
           <ChatListBox user={user} chatList={chatList} />
           <div>
             <input type='text' onChange={(e) => setInput(e.target.value)} />

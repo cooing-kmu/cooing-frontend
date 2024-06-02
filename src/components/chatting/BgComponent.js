@@ -1,8 +1,10 @@
 import styled from 'styled-components'
 
-export const ChattingContainer = styled.div`
+export const MainContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  padding: 17px;
-  height: '20%';
+  flex-direction: column;
+  text-align: center;
+  background-color: #fffad0;
+  height: 100vh;
+  width: 100%;
 `

@@ -1,74 +1,36 @@
 import React from 'react'
-import Message from './Message'
-import user1 from '../../assets/images/user1.png'
 import user2 from '../../assets/images/user2.png'
 
-const Messages = () => {
+const Messages = ({ user, chatList }) => {
   return (
     <div className='messages'>
-      <Message />
-      <div className='message'>
-        <div className='message-user '>
-          <img src={user2} alt='user' />
+      {chatList.map((chat) => (
+        <div
+          className={chat.userId === user?.id ? 'messeage owner' : 'message'}
+          key={`${chat.id}-${chat.userId}-${chat.unread}`}
+        >
+          <div className='message-user'>
+            <img src={user2} alt='user' />
+          </div>
+          <div
+            className={
+              chat.userId === user?.id ? 'messeage-content owner' : 'message'
+            }
+          >
+            <div
+              className={
+                chat.userId === user?.id
+                  ? 'message-content-text owner'
+                  : 'message'
+              }
+            >
+              {chat.content}
+            </div>
+            <span>{chat.unread}</span>
+            <span>보낸 시간</span>
+          </div>
         </div>
-        <div className='messeage-content'>
-          <div className='message-content-text'>안녕</div>
-          <span>14:33</span>
-        </div>
-      </div>
-
-      <div className='message owner'>
-        <div className='message-user '>
-          <img src={user1} alt='user' />
-        </div>
-        <div className='messeage-content owner'>
-          <div className='message-content-text owner'>Hello</div>
-          <span>14:33</span>
-        </div>
-      </div>
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
+      ))}
     </div>
   )
 }

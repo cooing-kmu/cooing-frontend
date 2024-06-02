@@ -1,9 +1,13 @@
 import { useState } from 'react'
 import { DOMAIN_NAME } from '../../../App'
 import { useNavigate } from 'react-router-dom'
+import { userListState, userState } from '../../../utils/userAtom'
+import { useRecoilState } from 'recoil'
 
-const TestLogin = (props) => {
+const TestLogin = () => {
   const [username, setUsername] = useState('')
+  const [user, setUser] = useRecoilState(userState)
+  const [userList, setUserList] = useRecoilState(userListState)
   const navigate = useNavigate()
 
   const handleUsernameInput = (e) => {
@@ -23,13 +27,12 @@ const TestLogin = (props) => {
         console.log(user.email, user.username)
         if (username === user.username) {
           console.log('same')
-          props.setUser(() => user)
-          navigate('/chatting') // 채팅 페이지로 이동
+          setUser(user)
           return
         }
         lst.push(user)
       })
-      props.setUserList(() => lst)
+      setUserList(() => lst)
     } catch (err) {
       console.log(err)
     }
