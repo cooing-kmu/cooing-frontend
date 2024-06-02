@@ -1,23 +1,61 @@
-import * as style from './Styles'
+import React, { useState, useEffect } from 'react'
 import Header from '../../../components/header/Header'
-import { useNavigate } from 'react-router-dom'
-import React, { useState } from 'react'
 import InterestCard2 from '../../../components/card/InterestCard2'
+import axios from 'axios'
+import { DOMAIN_NAME } from '../../../App'
+import * as style from './Styles'
+import { useLocation } from 'react-router-dom'
 
 export default function InterestInfo() {
-  const navigate = useNavigate()
+  const location = useLocation()
+  const [user, setUser] = useState(null)
+  const [interestKeyword, setInterestKeyword] = useState([])
 
-  const UserInterestKeyword = [0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0]
+  // useEffect 밖에서 getUserInfo 함수 정의 및 호출
+  const getUserInfo = async () => {
+    try {
+      const token = await axios
+        .get(`${DOMAIN_NAME}/test-user`)
+        .then((res) => res.data.body)
+      const userInfo = await axios
+        .get(`${DOMAIN_NAME}/user`, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((res) => {
+          const _user = res.data.body
+          setUser(_user)
+          setInterestKeyword(_user.interestKeyword)
+          return _user
+        })
+      return userInfo
+    } catch (error) {
+      console.error('Error fetching user information:', error)
+    }
+  }
+
+  useEffect(() => {
+    // URL 매개변수에서 데이터를 가져와서 설정
+    const searchParams = new URLSearchParams(location.search)
+    const interestKeywordParam = searchParams.get('interestKeyword')
+    if (interestKeywordParam) {
+      setInterestKeyword(interestKeywordParam.split(','))
+    } else {
+      getUserInfo() // getUserInfo 함수 호출
+    }
+  }, [location])
 
   return (
     <style.MainContainer>
       <Header title='매칭 정보 - 관심' />
-
-      <InterestCard2
-        layout={0}
-        interestList={UserInterestKeyword}
-        buttonName={'수정'}
-      />
+      {user && (
+        <InterestCard2
+          layout={0}
+          interestList={interestKeyword}
+          buttonName={'수정'}
+        />
+      )}
     </style.MainContainer>
   )
 }
