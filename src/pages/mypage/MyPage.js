@@ -45,10 +45,39 @@ export default function MyPage() {
 
         await getUserInfo()
         console.log('Matching status updated successfully', response.data)
+
+        // 사용자 정보 업데이트
         setUser((prevUser) => ({
           ...prevUser,
           isMatchingActive: newIsActive,
         }))
+
+        // 만약 매칭이 활성화되면, 1초 후에 '/set-interest-keyword'로 네비게이션
+        if (newIsActive) {
+          setTimeout(() => {
+            navigate('/set-interest-keyword')
+          }, 1000)
+        }
+
+        // 만약 매칭이 비활성화되면 관련 정보를 백엔드에 전송
+        if (!newIsActive) {
+          const interestKeyword = Array(16).fill(0)
+          const concernKeyword = Array(8).fill(0)
+
+          await axios.put(
+            `${DOMAIN_NAME}/user/keyword`,
+            {
+              interestKeyword,
+              concernKeyword,
+            },
+            {
+              headers: {
+                Authorization: user.token,
+              },
+            }
+          )
+          console.log('Interest and concern keywords updated successfully')
+        }
       } catch (err) {
         console.error('Error updating matching status', err)
       }
