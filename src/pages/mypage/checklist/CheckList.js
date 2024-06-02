@@ -82,7 +82,7 @@ export default function CheckList() {
             <React.Fragment key={item.name}>
               <style.ItemContainer
                 onClick={() => handleItemClick(item.name)}
-                clicked={clickedItem === item.name}
+                clicked={clickedItem === item.name ? 'true' : undefined} // 여기서 수정
               >
                 {item.text}
                 <Ic_Plus
