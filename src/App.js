@@ -16,6 +16,8 @@ import MainPage from './pages/mainpage/MainPage'
 import ThinkInfo from './pages/mypage/think/ThinkInfo'
 import InterestEdit from './pages/mypage/interest/InterestEdit'
 import ThinkEdit from './pages/mypage/think/ThinkEdit'
+import SetInterestKeyword from './pages/mypage/interest/SetInterestKeyword'
+import SetThinkKeyword from './pages/mypage/think/SetThinkKeyword'
 import Footer from './components/footer/Footer'
 
 export const DOMAIN_NAME = 'http://15.165.25.19:8080'
@@ -43,6 +45,14 @@ function App() {
               <Route path='/chatting' element={<Chatting />}></Route>
               <Route path='/interest-edit' element={<InterestEdit />}></Route>
               <Route path='/think-edit' element={<ThinkEdit />}></Route>
+              <Route
+                path='/set-interest-keyword'
+                element={<SetInterestKeyword />}
+              ></Route>
+              <Route
+                path='/set-think-keyword'
+                element={<SetThinkKeyword />}
+              ></Route>
             </Routes>
           </BrowserRouter>
         </CookiesProvider>
