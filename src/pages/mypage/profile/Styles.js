@@ -6,6 +6,7 @@ export const MainContainer = styled.div`
   align-items: center;
   background-color: #fff;
   height: 100vh;
+  width: 100%;
 `
 
 export const BackgroundContainer = styled.div`
@@ -14,34 +15,43 @@ export const BackgroundContainer = styled.div`
   height: 250px;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
   flex-shrink: 0;
   background: linear-gradient(180deg, #fd814a 0%, #fc5c4c 100%);
 `
 
 export const CircleContainer = styled.div`
   position: absolute;
+  align-items: center;
   width: 140px;
   height: 140px;
-  border-radius: 100px;
-  margin-top: 175px;
+  border-radius: 50%;
+  margin-top: 180px;
   background-color: #fff;
 `
 
 export const ImageContainer = styled.div`
   position: relative;
-  margin-top: 180px;
+  align-items: center;
   width: 130px;
   height: 130px;
+  top: 185px;
+  overflow: hidden;
+  border-radius: 50%; // 둥근 프로필 이미지로 만들기 위해 추가
+`
+
+export const ProfileImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `
 
 export const CameraContainer = styled.div`
-  position: absolute; /* Camera를 절대 위치로 설정 */
-  bottom: 5px; /* ImageContainer 상단부터의 거리 */
-  right: 0; /* ImageContainer 왼쪽부터의 거리 */
+  position: absolute;
   width: 50px;
   height: 50px;
   cursor: pointer;
+  top: 270px;
+  right: 170px;
 `
 
 export const NickNameContainer = styled.div`
