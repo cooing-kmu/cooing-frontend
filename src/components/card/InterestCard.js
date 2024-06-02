@@ -112,17 +112,35 @@ const InterestCard = ({
         ))}
       </SubContainer>
       <div>
-        <Button
-          disabled={!isAnyItemSelected}
-          onClick={async () => {
-            if (buttonName === '변경 완료') {
+        {buttonName === '다음' ? ( // 찬우오빠 네비게이션 수정
+          <Button
+            disabled={!isAnyItemSelected}
+            onClick={() => navigate('/interest-info')}
+          >
+            {buttonName}
+          </Button>
+        ) : buttonName === '변경 완료' ? ( // 매칭 정보 변경 완료
+          <Button
+            disabled={!isAnyItemSelected}
+            onClick={async () => {
               await onSubmit() // 비동기 함수 호출
-            }
-            navigate('/interest-info')
-          }}
-        >
-          {buttonName}
-        </Button>
+              alert('관심 키워드 변경이 완료 되었습니다.')
+              navigate('/interest-info')
+            }}
+          >
+            {buttonName}
+          </Button>
+        ) : buttonName === '등록 완료' ? (
+          <Button
+            disabled={!isAnyItemSelected}
+            onClick={async () => {
+              await onSubmit() // 비동기 함수 호출
+              navigate('/set-think-keyword')
+            }}
+          >
+            {buttonName}
+          </Button>
+        ) : null}
       </div>
     </MainContainer>
   )
