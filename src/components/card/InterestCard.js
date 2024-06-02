@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 
@@ -62,20 +62,15 @@ const Button = styled.button`
   margin-top: 10px;
 `
 
-const InterestCard = ({ isClickable, buttonName }) => {
-  const [clickedItems, setClickedItems] = useState(Array(16).fill(false))
-
-  const handleItemClick = (index) => {
-    const newClickedItems = [...clickedItems]
-    newClickedItems[index] = !newClickedItems[index]
-    setClickedItems(newClickedItems)
-  }
-
+const InterestCard = ({
+  clickedItems,
+  handleItemClick,
+  isClickable,
+  buttonName,
+  onSubmit,
+}) => {
   const isAnyItemSelected = clickedItems.includes(true)
-
   const navigate = useNavigate()
-
-  const selectedItemsList = clickedItems.map((item) => (item ? 1 : 0))
 
   const items = [
     ['🍳', '요리'],
@@ -117,24 +112,17 @@ const InterestCard = ({ isClickable, buttonName }) => {
         ))}
       </SubContainer>
       <div>
-        {buttonName === '다음' ? ( // 찬우오빠 네비게이션 수정
-          <Button
-            disabled={!isAnyItemSelected}
-            onClick={() => navigate('/interest-info')}
-          >
-            {buttonName}
-          </Button>
-        ) : buttonName === '변경 완료' ? ( // 매칭 정보 변경 완료
-          <Button
-            disabled={!isAnyItemSelected}
-            onClick={() => {
-              navigate('/interest-info')
-              console.log('선택된 리스트:', selectedItemsList)
-            }}
-          >
-            {buttonName}
-          </Button>
-        ) : null}
+        <Button
+          disabled={!isAnyItemSelected}
+          onClick={async () => {
+            if (buttonName === '변경 완료') {
+              await onSubmit() // 비동기 함수 호출
+            }
+            navigate('/interest-info')
+          }}
+        >
+          {buttonName}
+        </Button>
       </div>
     </MainContainer>
   )
