@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const MainContainer = styled.div`
   display: flex;
@@ -6,6 +6,7 @@ export const MainContainer = styled.div`
   align-items: center;
   background-color: #fffad0;
   height: 100vh;
+  width: 100%;
 `
 
 export const CooingLogo = styled.div`
@@ -47,6 +48,14 @@ export const InnerContainer = styled.div`
 export const ImageContainer = styled.div`
   width: 44px;
   height: 44px;
+  overflow: hidden;
+  border-radius: 50%; // 둥근 프로필 이미지로 만들기 위해 추가
+`
+
+export const ProfileImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `
 
 export const ProfileContainer = styled.div`
@@ -103,7 +112,6 @@ export const ToggleSlider = styled.span`
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: 0.4s;
   transition: 0.4s;
   border-radius: 34px;
 
@@ -115,10 +123,19 @@ export const ToggleSlider = styled.span`
     left: 4px;
     bottom: 5px;
     background-color: white;
-    -webkit-transition: 0.4s;
     transition: 0.4s;
     border-radius: 50%;
   }
+
+  ${({ isActive }) =>
+    isActive &&
+    css`
+      background-color: #fc5c4c;
+
+      &:before {
+        transform: translateX(26px);
+      }
+    `}
 `
 
 export const CheckBox = styled.input`

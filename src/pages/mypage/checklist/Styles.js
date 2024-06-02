@@ -6,6 +6,7 @@ export const MainContainer = styled.div`
   align-items: center;
   background-color: #fffad0;
   height: 100vh;
+  width: 100%;
 `
 
 export const MenuContainer = styled.div`
