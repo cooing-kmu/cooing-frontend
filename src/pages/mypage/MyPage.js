@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import * as style from './Styles'
 import { ReactComponent as CooingLogo } from '../../assets/cooingLogo.svg'
 import { ReactComponent as Ic_Matching } from '../../assets/icons/icon-matching.svg'
@@ -7,38 +8,102 @@ import { ReactComponent as Ic_ArrowRight } from '../../assets/icons/icon-arrow-r
 import { ReactComponent as Ic_User } from '../../assets/icons/icon-user.svg'
 import { ReactComponent as Ic_Info } from '../../assets/icons/icon-infomation.svg'
 import { useNavigate } from 'react-router-dom'
-import Footer from '../../components/footer/Footer'
+import { DOMAIN_NAME } from '../../App'
+
+const ToggleSlider = ({ $isActive }) => (
+  <style.ToggleSlider $isActive={$isActive} />
+)
 
 export default function MyPage() {
+  const [user, setUser] = useState(null)
+  const [nickname, setNickname] = useState('')
+  const [role, setRole] = useState('')
+  const [profileImageUrl, setProfileImageUrl] = useState(null)
   const [isActive, setIsActive] = useState(false)
-
-  const handleToggle = () => {
-    setIsActive(!isActive)
-  }
-
-  const showLogoutModal = () => {
-    console.log('로그아웃 test')
-    // 이곳에 페이지 이동 등의 작업을 추가할 수 있습니다.
-  }
 
   const navigate = useNavigate()
 
+  useEffect(() => {
+    getUserInfo()
+  }, [])
+
+  const handleToggle = async () => {
+    if (user) {
+      const newIsActive = !user.isMatchingActive
+      try {
+        const response = await axios.put(
+          `${DOMAIN_NAME}/user/status`,
+          {
+            isMatchingActive: newIsActive,
+          },
+          {
+            headers: {
+              Authorization: user.token,
+            },
+          }
+        )
+
+        await getUserInfo()
+        console.log('Matching status updated successfully', response.data)
+        setUser((prevUser) => ({
+          ...prevUser,
+          isMatchingActive: newIsActive,
+        }))
+      } catch (err) {
+        console.error('Error updating matching status', err)
+      }
+    }
+  }
+
+  const getUserInfo = async () => {
+    try {
+      const tokenResponse = await axios.get(`${DOMAIN_NAME}/test-user`)
+      const token = tokenResponse.data.body
+
+      const userResponse = await axios
+        .get(`${DOMAIN_NAME}/user`, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((res) => {
+          const _user = res.data.body
+          setUser({ ..._user, token })
+          setNickname(_user.name)
+          setRole(_user.role)
+          setProfileImageUrl(_user.profileImageUrl)
+          setIsActive(_user.isMatchingActive)
+        })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const showLogoutModal = () => {
+    console.log('로그아웃 테스트')
+  }
+
+  if (!user) {
+    return <div>Loading...</div>
+  }
+
   return (
     <style.MainContainer>
-      {/* 로고 */}
       <style.CooingLogo>
         <CooingLogo />
       </style.CooingLogo>
 
-      {/* 메뉴 */}
       <style.MenuContainer>
-        {/* 프로필 */}
         <style.ProfileContainer>
           <style.ImageContainer>
-            <Ic_User />
+            {user.profileImageUrl ? (
+              <style.ProfileImage src={user.profileImageUrl} alt='Profile' />
+            ) : (
+              <Ic_User />
+            )}
           </style.ImageContainer>
-          <style.NameTextContainer>닉네임</style.NameTextContainer>
-          <style.RoleTextContainer>역할</style.RoleTextContainer>
+          <style.NameTextContainer>{user.name}</style.NameTextContainer>
+          <style.RoleTextContainer>{user.role}</style.RoleTextContainer>
           <style.RightContainer>
             <style.ButtonContainer>
               <Ic_ArrowRight onClick={() => navigate('/profile')} />
@@ -46,7 +111,6 @@ export default function MyPage() {
           </style.RightContainer>
         </style.ProfileContainer>
 
-        {/* 매칭 기능 활성화 */}
         <style.InnerContainer>
           <Ic_Matching />
           매칭 기능 활성화
@@ -54,15 +118,14 @@ export default function MyPage() {
             <style.ToggleSwitch>
               <style.CheckBox
                 type='checkbox'
-                checked={isActive}
+                checked={user.isMatchingActive}
                 onChange={handleToggle}
               />
-              <style.ToggleSlider isActive={isActive} />
+              <ToggleSlider $isActive={user.isMatchingActive} />
             </style.ToggleSwitch>
           </style.RightContainer>
         </style.InnerContainer>
-        {/* 매칭 기능 활성화 시 매칭 정보 노출 */}
-        {isActive && (
+        {user.isMatchingActive && (
           <style.InnerContainer>
             <Ic_Info />
             매칭 정보
@@ -73,7 +136,6 @@ export default function MyPage() {
             </style.RightContainer>
           </style.InnerContainer>
         )}
-        {/* 자립 체크 리스트 */}
         <style.InnerContainer>
           <Ic_CheckList />
           자립 체크 리스트
@@ -85,13 +147,11 @@ export default function MyPage() {
         </style.InnerContainer>
       </style.MenuContainer>
 
-      {/* 로그아웃 버튼 */}
       <style.ButtonContainer>
         <style.LogoutTextContainer onClick={showLogoutModal}>
           로그아웃
         </style.LogoutTextContainer>
       </style.ButtonContainer>
-      <Footer />
     </style.MainContainer>
   )
 }
