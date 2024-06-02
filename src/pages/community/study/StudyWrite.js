@@ -21,10 +21,15 @@ export default function StudyWrite() {
             content: content,
         };
 
-        axios.post('http://15.165.25.19:8080/study', studyData)
+        axios.post('http://15.165.25.19:8080/study', studyData,
+            {
+                headers:{
+                    Authorization: window.localStorage.getItem('Authorization')
+                }
+            })
             .then(response => {
                 alert('스터디 성공적으로 생성되었습니다!');
-                navigate('/study1');
+                navigate('/study');
             })
             .catch(error => {
                 console.error('There was an error creating the study1!', error);

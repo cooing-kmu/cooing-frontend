@@ -52,21 +52,25 @@ const Time = styled.div`
   color: #a6a6a6;
 `;
 
-export default function Comment() {
+export default function MyWrote() {
     const navigate = useNavigate();
-    const [commentData, setCommentData] = useState([]);
+    const [myWroteData, setMyWroteData] = useState([]);
 
     useEffect(() => {
-        async function fetchCommentData() {
+        async function fetchMyWroteData() {
             try {
-                const response = await axios.get('http://15.165.25.19:8080/boards?boardType=COMMENT');
-                setCommentData(response.data.body);
+                const response = await axios.get('http://15.165.25.19:8080/boards?boardType=POST',{
+                    headers:{
+                        Authorization: window.localStorage.getItem('Authorization')
+                    }
+                });
+                setMyWroteData(response.data.body);
             } catch (error) {
                 console.error('스크랩 데이터를 불러오는 중 오류 발생:', error);
             }
         }
 
-        fetchCommentData();
+        fetchMyWroteData();
     }, []);
 
     const handleBoardClick = (boardId) => {
@@ -75,10 +79,10 @@ export default function Comment() {
 
     return (
         <Div>
-            <Header title='댓글 단 글' />
+            <Header title='내가 쓴 글' />
 
             <MainContainer>
-                {commentData.map((item, index) => (
+                {myWroteData.map((item, index) => (
                     <ContentsContainer key={index} onClick={() => handleBoardClick(item.boardId)}>
                         <TitleSummary>
                             <Title>{item.title}</Title>

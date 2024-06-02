@@ -34,11 +34,12 @@ export default function ClubWrite() {
       await axios.post(`${process.env.REACT_APP_BASE_URL}club`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          Authorization: window.localStorage.getItem('Authorization')
         },
       });
 
       alert('동아리가 성공적으로 생성되었습니다!');
-      navigate('/club1');
+      navigate('/club');
     } catch (error) {
       console.error('동아리 생성 중 오류 발생!', error);
       alert('동아리 생성에 실패했습니다. 다시 시도해주세요.');

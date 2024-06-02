@@ -11,7 +11,12 @@ export default function VolunteerPost() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await axios.get(`http://15.165.25.19:8080/volunteer/${volunteerId}`);
+                const response = await axios.get(`http://15.165.25.19:8080/volunteer/${volunteerId}`,
+                    {
+                        headers:{
+                            Authorization: window.localStorage.getItem('Authorization')
+                        }
+                    });
                 setVolunteerData(response.data.body);
             } catch (error) {
                 console.error("스터디 데이터를 불러오는 중 오류 발생:", error);

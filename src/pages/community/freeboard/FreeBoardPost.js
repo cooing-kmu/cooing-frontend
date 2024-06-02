@@ -22,7 +22,11 @@ export default function FreeBoardPost() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await axios.get(`http://15.165.25.19:8080/board/${boardId}`);
+                const response = await axios.get(`http://15.165.25.19:8080/board/${boardId}`, {
+                        headers:{
+                            Authorization: window.localStorage.getItem('Authorization')
+                        }
+                    });
                 setBoardData(response.data.body);
                 setComments(response.data.body.comments);
                 console.log("data:", response.data.body); // 데이터가 올바르게 들어왔는지 확인하기 위한 콘솔 출력

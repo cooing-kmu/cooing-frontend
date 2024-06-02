@@ -22,6 +22,11 @@ export default function FreeBoardWrite() {
             await axios.post(
                 'http://15.165.25.19:8080/board',
                 {
+                    headers:{
+                        Authorization: window.localStorage.getItem('Authorization')
+                    }
+                },
+                {
                     title: title,
                     content: content,
                 });

@@ -14,7 +14,12 @@ export default function Club() {
         // 컴포넌트가 마운트될 때 데이터를 가져오기 위해 useEffect 사용
         async function fetchData() {
             try {
-                const response = await axios.get('http://15.165.25.19:8080/clubs');
+                const response = await axios.get('http://15.165.25.19:8080/clubs',
+                    {
+                        headers:{
+                            Authorization: window.localStorage.getItem('Authorization')
+                        }
+                    });
                 console.log('Fetched data:', response.data);
                 setClubData(response.data.body); // 가져온 데이터를 상태에 설정
             } catch (error) {
@@ -28,7 +33,7 @@ export default function Club() {
         navigate(`/club-post/${clubId}`);
     };
     const handleWriteClick = () => {
-        navigate('/club1-write');
+        navigate('/club-write');
     };
 
     return (

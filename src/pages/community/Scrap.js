@@ -60,7 +60,11 @@ export default function Scrap() {
     useEffect(() => {
         async function fetchScrapData() {
             try {
-                const response = await axios.get('http://15.165.25.19:8080/boards?boardType=SCRAP');
+                const response = await axios.get('http://15.165.25.19:8080/boards?boardType=SCRAP',{
+                    headers:{
+                        Authorization: window.localStorage.getItem('Authorization')
+                    }
+                });
                 setScrapData(response.data.body);
             } catch (error) {
                 console.error('스크랩 데이터를 불러오는 중 오류 발생:', error);
