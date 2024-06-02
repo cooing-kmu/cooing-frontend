@@ -11,7 +11,7 @@ const MainContainer = styled.div`
   gap: 360px;
 `
 
-export default function Announcement() {
+export default function Info() {
   return (
     <MainContainer>
       공지 페이지 네비게이션 테스트
