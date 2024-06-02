@@ -11,7 +11,6 @@ export const HeaderContainer = styled.div`
   font-size: 16px;
   text-align: center;
   margin-top: 30px;
-  color: ${(props) => (props.IsBlack ? 'black' : 'white')};
   &:first-child {
     float: left;
     position: absolute;
