@@ -105,14 +105,14 @@ export default function SignUp3() {
             formData.append('profileImage',profileImage);
 
             // 클럽 정보와 이미지를 백엔드로 전송
-            await axios.post(`http://15.165.25.19:8080/signup`, formData, {
+            const response = await axios.post(`http://15.165.25.19:8080/signup`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: window.localStorage.getItem('Authorization'),
                 },
             });
-            // 요청이 성공하면 다음 페이지로 이동
-            navigate('/sign-up5');
+            const userId = response.data.body.userId; // response에서 userId 추출
+            navigate('/sign-up5', { state: { userId } }); // navigate로 상태 전달
         } catch (error) {
             console.error('데이터 제출 중 오류 발생', error);
             // 에러 처리 (예: 사용자에게 에러 메시지 표시)

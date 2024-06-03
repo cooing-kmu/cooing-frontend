@@ -91,9 +91,9 @@ export default function SignIn() {
                 for 자립준비청년
             </TitleContainer>
             <LoginButton
-                signInSuccessUrl="/sign-up2"
+                signInSuccessUrl="/"
                 signUpUrl="/sign-up"
-                signInFailureUrl="/sign-up3"
+                signInFailureUrl="/"
             />
         </MainContainer>
     );

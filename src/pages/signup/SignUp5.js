@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import hand from '../../assets/hand.svg';
 import { useRecoilState } from 'recoil';
@@ -27,6 +28,9 @@ export default function SignUp5() {
     const [interestKeyword, setInterestKeyword] = useRecoilState(interestState);
     const [concernKeywords, setConcernKeywords] = useRecoilState(concernKeywordState);
     const [isMatchingActive, setIsMatchingActive] = useRecoilState(isMatchingActiveState);
+    const location = useLocation();
+    const Navigate = useNavigate();
+    const userId = location.state?.userId;
 
     // Recoil 상태를 리셋하는 함수
     const resetRecoilState = () => {
@@ -38,6 +42,15 @@ export default function SignUp5() {
         setConcernKeywords(Array(8).fill(0));
         setIsMatchingActive('ture');
     };
+    useEffect(() => {
+        // 3초 후에 메인 페이지로 이동
+        const timer = setTimeout(() => {
+            Navigate('/'); // 이동할 경로를 설정
+        }, 3000); // 3초 후에 이동하도록 설정
+
+        // 컴포넌트가 언마운트될 때 타이머 해제
+        return () => clearTimeout(timer);
+    }, [Navigate]);
 
     useEffect(() => {
         return () => {
@@ -51,11 +64,11 @@ export default function SignUp5() {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_BASE_URL}users`);
                 const users = response.data.body;
-                const currentUserEmail = "chanwoo000@kookmin.ac.kr"; // 여기에 현재 사용자의 이메일을 넣어주세요
-                const currentUser = users.find(user => user.email === currentUserEmail);
+                const currentUser = users.find(user => user.id === userId);
                 if (currentUser) {
                     setNickname(currentUser.username);
                 }
+                console.log(response.data.body.id)
             } catch (error) {
                 console.error('Error fetching nickname:', error);
             }
@@ -69,7 +82,7 @@ export default function SignUp5() {
             <MainContainer>
 
                     <>
-                        <h2>{nickname}</h2>
+                        <h2>{nickname}님</h2>
                         <img src={hand} alt="손" />
                         <h2>환영합니다!</h2>
                     </>
