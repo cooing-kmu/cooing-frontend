@@ -53,6 +53,7 @@ const ChattingList = () => {
   const [userList, setUserList] = useRecoilState(userListState)
   const [userListTsx, setUserListTsx] = useState([])
 
+  console.log(chatUser)
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -85,6 +86,7 @@ const ChattingList = () => {
               }}
               onClick={() => {
                 setChatUser(user)
+                console.log(chatUser)
               }}
             >
               <ChattingItem {...user} />

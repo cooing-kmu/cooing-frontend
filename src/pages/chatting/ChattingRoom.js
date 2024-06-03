@@ -19,62 +19,58 @@ export default function ChattingRoom() {
   const sender = useRef(undefined)
   const socketList = useRef([])
 
-  const fetchRoomInfo = async () => {
-    const room = await fetch(
-      `${DOMAIN_NAME}/chatroom?userIdList=${user?.id},${chatUser.id}`,
+  console.log('user', user, 'chatUser', chatUser)
+  const getCurrentSenderSocket = (receiver) => {
+    for (let i = 0; i < socketList.current.length; i++) {
+      const sock = socketList.current[i]
+      if (sock.recvId === receiver.id) return sock
+    }
+    return undefined
+  }
+
+  const getChatList = async () => {
+    if (!sender.current || !user) return undefined
+
+    const userChatList = await fetch(
+      `${DOMAIN_NAME}/chat/${sender.current.roomId}`,
       {
         credentials: 'include',
       }
     )
       .then(async (res) => (await res.json()).body)
-      .catch((err) => console.log(err))
-    const roomId = room.id
-    const socket = Stomp.over(() => {
-      const sock = new SockJS(`${DOMAIN_NAME}/ws`)
-      return sock
-    })
-    socket.connect({ user: user.id }, async () => {
-      const decoder = new TextDecoder('utf-8')
-      console.log(`/queue/chatting/${roomId}`)
-      socket.subscribe(`/queue/chatting/${roomId}`, (message) => {
-        if (!recv.current || !sender.current) return
-        const userMessage = JSON.parse(decoder.decode(message.binaryBody))
-        const newChat = {
-          id: userMessage.chatId,
-          unread: 1,
-          userId: userMessage.senderId,
-          chatRoomId: roomId,
-          content: userMessage.content,
-        }
-        console.log(userMessage)
-        if (sender.current.roomId === newChat.chatRoomId) {
-          setChatList((prev) => [...prev, newChat])
-          if (newChat.chatRoomId === roomId && newChat.userId !== user.id) {
-            socket.send(
-              `/app/chat/${newChat.id}`,
-              {},
-              JSON.stringify({
-                id: newChat.id,
-                senderId: user.id,
-                unread: newChat.unread,
-              })
-            )
-          }
-        }
+      .catch((err) => {
+        console.log(err)
+        return undefined
       })
-      socket.subscribe(`/queue/chat/`, (message) => {
-        const chatMessage = JSON.parse(decoder.decode(message.binaryBody))
-        console.log(chatMessage)
-        updateChatUnread(chatMessage)
-      })
-      socketList.current.push({
-        recvId: chatUser.id,
-        roomId: roomId,
-        socket: socket,
-      })
-    })
+
+    if (!userChatList) return undefined
+
+    for (let i = 0; i < userChatList.length; i++) {
+      const chat = userChatList[i]
+      if (chat.unread > 0 && chat.userId !== user?.id) {
+        sender.current.socket.send(
+          `/app/chat/${chat.id}`,
+          {},
+          JSON.stringify({
+            id: chat.id,
+            senderId: user.id,
+            unread: chat.unread,
+          })
+        )
+      }
+    }
+    return userChatList
   }
-  //채팅방
+
+  const handleRecv = async (_user) => {
+    if (!user) return
+    sender.current = getCurrentSenderSocket(_user)
+    const userChatList = await getChatList()
+    if (!sender.current || !userChatList) return
+    setChatList(() => userChatList)
+    recv.current = _user
+  }
+
   function updateChatUnread(chatMessage) {
     console.log('update chat unread')
     setChatList((currentChatList) => {
@@ -88,13 +84,72 @@ export default function ChattingRoom() {
       )
     })
   }
+
   useEffect(() => {
+    if (!user) return
     socketList.current.map((socket) => socket.socket.deactivate())
     socketList.current = []
 
-    //fetchRoomInfo()
+    console.log(user.id, chatUser)
+    handleRecv(chatUser)
 
-    const _userList = []
+    const fetchRoomInfo = async () => {
+      const room = await fetch(
+        `${DOMAIN_NAME}/chatroom?userIdList=${user?.id},${chatUser.id}`,
+        {
+          credentials: 'include',
+        }
+      )
+        .then(async (res) => (await res.json()).body)
+        .catch((err) => console.log(err))
+      const roomId = room.id
+      const socket = Stomp.over(() => {
+        const sock = new SockJS(`${DOMAIN_NAME}/ws`)
+        return sock
+      })
+      socket.connect({ user: user.id }, async () => {
+        const decoder = new TextDecoder('utf-8')
+        console.log(`/queue/chatting/${roomId}`)
+        socket.subscribe(`/queue/chatting/${roomId}`, (message) => {
+          if (!recv.current || !sender.current) return
+          const userMessage = JSON.parse(decoder.decode(message.binaryBody))
+          const newChat = {
+            id: userMessage.chatId,
+            unread: 1,
+            userId: userMessage.senderId,
+            chatRoomId: roomId,
+            content: userMessage.content,
+          }
+          console.log(userMessage)
+          if (sender.current.roomId === newChat.chatRoomId) {
+            setChatList((prev) => [...prev, newChat])
+            if (newChat.chatRoomId === roomId && newChat.userId !== user.id) {
+              socket.send(
+                `/app/chat/${newChat.id}`,
+                {},
+                JSON.stringify({
+                  id: newChat.id,
+                  senderId: user.id,
+                  unread: newChat.unread,
+                })
+              )
+            }
+          }
+        })
+        socket.subscribe(`/queue/chat/`, (message) => {
+          const chatMessage = JSON.parse(decoder.decode(message.binaryBody))
+          console.log(chatMessage)
+          updateChatUnread(chatMessage)
+        })
+        socketList.current.push({
+          recvId: chatUser.id,
+          roomId: roomId,
+          socket: socket,
+        })
+      })
+    }
+
+    fetchRoomInfo()
   }, [user, chatUser])
 
   //채팅방
@@ -112,6 +167,7 @@ export default function ChattingRoom() {
         content: input,
       })
     )
+    setInput('')
   }
 
   return (
