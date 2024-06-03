@@ -3,6 +3,7 @@ import { DOMAIN_NAME } from '../../../App'
 import { useNavigate } from 'react-router-dom'
 import { userListState, userState } from '../../../utils/userAtom'
 import { useRecoilState } from 'recoil'
+import axios from 'axios'
 
 const TestLogin = () => {
   const [username, setUsername] = useState('')
@@ -16,23 +17,20 @@ const TestLogin = () => {
 
   const loginhandler = async () => {
     try {
-      const users = await fetch(`${DOMAIN_NAME}/users`, {
-        credentials: 'include',
-      }).then(async (res) => (await res.json()).body)
+      const tokenResponse = await axios.get(`${DOMAIN_NAME}/test-user`)
+      const token = tokenResponse.data.body
 
-      console.log(users)
-      if (!users) return
-      const lst = []
-      users.forEach((user) => {
-        console.log(user.email, user.username)
-        if (username === user.username) {
-          console.log('same')
-          setUser(user)
-          return
-        }
-        lst.push(user)
-      })
-      setUserList(() => lst)
+      const userResponse = await axios
+        .get(`${DOMAIN_NAME}/user`, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((res) => {
+          const _user = res.data.body
+          setUser({ ..._user, token })
+          console.log(_user)
+        })
     } catch (err) {
       console.log(err)
     }

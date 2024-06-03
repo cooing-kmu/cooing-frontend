@@ -1,26 +1,26 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Chatting.css'
 import theme from '../../Theme'
 import { Link } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
-import { chatUserState, userListState, userState } from '../../utils/userAtom'
+import { chatUserState, userListState } from '../../utils/userAtom'
 import user1 from '../../assets/images/user1.png'
+import { DOMAIN_NAME } from '../../App'
 
-const ChattingItem = (item) => {
-  console.log(item)
+const ChattingItem = ({ profileImageUrl, username, role }) => {
   return (
     <div className='chatting-list'>
       <div className='chatting-list-img'>
-        {!item.profileImageUrl ? (
-          <img src={user1} alt={item.username} />
+        {!profileImageUrl ? (
+          <img src={user1} alt={username} />
         ) : (
-          <img src={item.profileImageUrl} alt={item.username} />
+          <img src={profileImageUrl} alt={username} />
         )}
       </div>
 
       <div className='chatting-list-text'>
         <div className='chatting-list-name'>
-          {item.username} {item.role}님
+          {username} {role}님
         </div>
         <div
           className='chatting-list-msg'
@@ -51,26 +51,62 @@ const ChattingItem = (item) => {
 const ChattingList = () => {
   const [chatUser, setChatUser] = useRecoilState(chatUserState)
   const [userList, setUserList] = useRecoilState(userListState)
-
   const [userListTsx, setUserListTsx] = useState([])
 
-  // useEffect(() => {
-  //   // 사용자 목록을 렌더링합니다.
-  //   const _userListTsx = userList.map((_user) => (
-  //     <Link
-  //       to={`/chatting/room`}
-  //       key={_user.id}
-  //       style={{ textDecoration: 'none', color: 'black' }}
-  //       onClick={() => {
-  //         setChatUser(_user)
-  //       }}
-  //     >
-  //       <ChattingItem {..._user} />
-  //     </Link>
-  //   ))
-  //   setUserListTsx(_userListTsx)
-  // }, [userList])
-  console.log(userList)
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch(`${DOMAIN_NAME}/users`, {
+          credentials: 'include',
+        })
+        const data = await response.json()
+        const users = data.body
+
+        console.log(users)
+        if (!users) return
+
+        const lst = users.map((user, index) => (
+          <div
+            key={index}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              width: '100%',
+            }}
+          >
+            <Link
+              to={`/chatting/room`}
+              key={user.id}
+              style={{
+                textDecoration: 'none',
+                color: 'black',
+                width: '100%',
+              }}
+              onClick={() => {
+                setChatUser(user)
+              }}
+            >
+              <ChattingItem {...user} />
+            </Link>
+            <hr
+              style={{
+                margin: 0,
+                width: '90%',
+                border: 0,
+                borderTop: `1px solid ${theme.orange}`,
+              }}
+            />
+          </div>
+        ))
+        setUserListTsx(lst)
+      } catch (error) {
+        console.error('Failed to fetch users:', error)
+      }
+    }
+
+    fetchUsers()
+  }, [userList, chatUser])
 
   return (
     <div
@@ -79,40 +115,7 @@ const ChattingList = () => {
         height: '650px',
       }}
     >
-      {userList.map((item, index) => (
-        <div
-          key={index}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            width: '100%',
-          }}
-        >
-          <Link
-            to={`/chatting/room`}
-            key={item.id}
-            style={{
-              textDecoration: 'none',
-              color: 'black',
-              width: '100%',
-            }}
-            onClick={() => {
-              setChatUser(item)
-            }}
-          >
-            <ChattingItem {...item} />
-          </Link>
-          <hr
-            style={{
-              margin: 0,
-              width: '90%',
-              border: 0,
-              borderTop: `1px solid ${theme.orange} `,
-            }}
-          />
-        </div>
-      ))}
+      {userListTsx}
     </div>
   )
 }
