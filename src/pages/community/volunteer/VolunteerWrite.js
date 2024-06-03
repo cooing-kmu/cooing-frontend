@@ -21,7 +21,7 @@ export default function VolunteerWrite() {
             content: content,
         };
 
-        axios.post('http://15.165.25.19:8080/volunteer', volunteerData,
+        axios.post(`${process.env.REACT_APP_BASE_URL}volunteer`, volunteerData,
             {
                 headers:{
                     Authorization: window.localStorage.getItem('Authorization')

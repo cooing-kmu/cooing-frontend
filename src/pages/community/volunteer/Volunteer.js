@@ -13,7 +13,7 @@ export default function Volunteer() {
         // 컴포넌트가 마운트될 때 데이터를 가져오기 위해 useEffect 사용
         async function fetchData() {
             try {
-                const response = await axios.get('http://15.165.25.19:8080/volunteers',
+                const response = await axios.get(`${process.env.REACT_APP_BASE_URL}volunteers`,
                     {
                         headers:{
                             Authorization: window.localStorage.getItem('Authorization')

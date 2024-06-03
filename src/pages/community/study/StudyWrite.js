@@ -21,7 +21,7 @@ export default function StudyWrite() {
             content: content,
         };
 
-        axios.post('http://15.165.25.19:8080/study', studyData,
+        axios.post(`${process.env.REACT_APP_BASE_URL}study`, studyData,
             {
                 headers:{
                     Authorization: window.localStorage.getItem('Authorization')

@@ -13,7 +13,7 @@ export default function ClubPost() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await axios.get(`http://15.165.25.19:8080/club/${clubId}`,
+                const response = await axios.get(`${process.env.REACT_APP_BASE_URL}club/${clubId}`,
                     {
                         headers:{
                             Authorization: window.localStorage.getItem('Authorization')

@@ -11,7 +11,7 @@ export default function VolunteerPost() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await axios.get(`http://15.165.25.19:8080/volunteer/${volunteerId}`,
+                const response = await axios.get(`${process.env.REACT_APP_BASE_URL}volunteer/${volunteerId}`,
                     {
                         headers:{
                             Authorization: window.localStorage.getItem('Authorization')

@@ -59,7 +59,7 @@ export default function MyWrote() {
     useEffect(() => {
         async function fetchMyWroteData() {
             try {
-                const response = await axios.get('http://15.165.25.19:8080/boards?boardType=POST',{
+                const response = await axios.get(`${process.env.REACT_APP_BASE_URL}boards?boardType=POST`,{
                     headers:{
                         Authorization: window.localStorage.getItem('Authorization')
                     }
