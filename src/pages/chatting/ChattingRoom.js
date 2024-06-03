@@ -9,12 +9,15 @@ import SockJS from 'sockjs-client'
 import theme from '../../Theme'
 import sendIcon from '../../assets/icons/icon-send.svg'
 import { useRecoilState } from 'recoil'
-import { chatUserState, userState } from '../../utils/userAtom'
+import { chatUserState, tokenState, userState } from '../../utils/userAtom'
+
 export default function ChattingRoom() {
+  const [token, setToken] = useRecoilState(tokenState)
   const [user, setUser] = useRecoilState(userState)
   const [chatUser, setChatUser] = useRecoilState(chatUserState)
   const [chatList, setChatList] = useState([])
   const [input, setInput] = useState('')
+
   const recv = useRef()
   const sender = useRef(undefined)
   const socketList = useRef([])
@@ -23,8 +26,10 @@ export default function ChattingRoom() {
   const getCurrentSenderSocket = (receiver) => {
     for (let i = 0; i < socketList.current.length; i++) {
       const sock = socketList.current[i]
+      console.log(sock)
       if (sock.recvId === receiver.id) return sock
     }
+
     return undefined
   }
 
@@ -34,7 +39,9 @@ export default function ChattingRoom() {
     const userChatList = await fetch(
       `${DOMAIN_NAME}/chat/${sender.current.roomId}`,
       {
-        credentials: 'include',
+        headers: {
+          Authorization: token,
+        },
       }
     )
       .then(async (res) => (await res.json()).body)
@@ -65,6 +72,7 @@ export default function ChattingRoom() {
   const handleRecv = async (_user) => {
     if (!user) return
     sender.current = getCurrentSenderSocket(_user)
+    console.log('sfdsafsdaf', sender.current)
     const userChatList = await getChatList()
     if (!sender.current || !userChatList) return
     setChatList(() => userChatList)
@@ -97,15 +105,16 @@ export default function ChattingRoom() {
       const room = await fetch(
         `${DOMAIN_NAME}/chatroom?userIdList=${user?.id},${chatUser.id}`,
         {
-          credentials: 'include',
+          headers: {
+            Authorization: token,
+          },
         }
       )
         .then(async (res) => (await res.json()).body)
         .catch((err) => console.log(err))
       const roomId = room.id
       const socket = Stomp.over(() => {
-        const sock = new SockJS(`${DOMAIN_NAME}/ws`)
-        return sock
+        return new SockJS(`${DOMAIN_NAME}/ws`)
       })
       socket.connect({ user: user.id }, async () => {
         const decoder = new TextDecoder('utf-8')
@@ -150,6 +159,7 @@ export default function ChattingRoom() {
     }
 
     fetchRoomInfo()
+    console.log(socketList.current)
   }, [user, chatUser])
 
   //채팅방

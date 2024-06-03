@@ -3,7 +3,7 @@ import './Chatting.css'
 import theme from '../../Theme'
 import { Link } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
-import { chatUserState, userListState } from '../../utils/userAtom'
+import { chatUserState, tokenState, userListState } from '../../utils/userAtom'
 import user1 from '../../assets/images/user1.png'
 import { DOMAIN_NAME } from '../../App'
 
@@ -49,6 +49,7 @@ const ChattingItem = ({ profileImageUrl, username, role }) => {
 }
 
 const ChattingList = () => {
+  const [token, setToken] = useRecoilState(tokenState)
   const [chatUser, setChatUser] = useRecoilState(chatUserState)
   const [userList, setUserList] = useRecoilState(userListState)
   const [userListTsx, setUserListTsx] = useState([])
@@ -58,7 +59,9 @@ const ChattingList = () => {
     const fetchUsers = async () => {
       try {
         const response = await fetch(`${DOMAIN_NAME}/users`, {
-          credentials: 'include',
+          headers: {
+            Authorization: token,
+          },
         })
         const data = await response.json()
         const users = data.body

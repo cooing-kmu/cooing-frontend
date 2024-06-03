@@ -8,6 +8,8 @@ import { userState } from '../../utils/userAtom'
 
 export default function Recommend() {
   const [user, setUser] = useRecoilState(userState)
+
+  console.log(user)
   return (
     <div className='recommend'>
       <div className='recommend-text'>
