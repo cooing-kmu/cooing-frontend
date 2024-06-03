@@ -16,7 +16,7 @@ import Img_Obj7 from '../../assets/images/image-obj7.png'
 import Img_Obj8 from '../../assets/images/image-obj8.png'
 import Img_Cloud from '../../assets/images/image-cloud.png'
 import Img_Box_3 from '../../assets/images/image-box-3.png'
-import MateModal from './MateModal' // 모달 컴포넌트 임포트
+import MateModal from './MateModal'
 import axios from 'axios'
 import { DOMAIN_NAME } from '../../App'
 
@@ -33,15 +33,15 @@ const objList = [
   Img_Obj8,
 ]
 
-const itemList = [
-  { name: '빼빼로', count: 5 },
-  { name: '도넛', count: 1 },
-  { name: '크래커', count: 3 },
-  { name: '캔디케인', count: 1 },
+var itemList = [
+  { name: '빼빼로', count: 0 },
+  { name: '도넛', count: 0 },
+  { name: '크래커', count: 0 },
+  { name: '캔디케인', count: 0 },
   { name: '하트', count: 0 },
-  { name: '곰젤리', count: 1 },
-  { name: '당고', count: 2 },
-  { name: '수박바', count: 1 },
+  { name: '곰젤리', count: 0 },
+  { name: '당고', count: 0 },
+  { name: '수박바', count: 0 },
 ]
 
 export default function MainPage() {
@@ -51,9 +51,10 @@ export default function MainPage() {
     positionX: null,
     positionY: null,
   })
+  const [_user, setUser] = useState(null)
   const [items, setItems] = useState(itemList)
-  const [showModal, setShowModal] = useState(false) // 모달 표시 상태
-  const [houseState, setHouseState] = useState(null) // 과자집 상태
+  const [showModal, setShowModal] = useState(false)
+  const [houseState, setHouseState] = useState(null)
 
   // 과자집 상태 가져오기
   useEffect(() => {
@@ -66,13 +67,41 @@ export default function MainPage() {
             Authorization: token,
           },
         })
-        setHouseState(userResponse.data.body.house)
+        const _user = userResponse.data.body
+        setUser({ ...userResponse.data.body, token })
+        _user.rewardList.forEach((item, idx) => {
+          itemList[idx]['count'] = item
+        })
+        console.log('here')
+        setHouseState(_user.house)
+        drawInitialObjects(_user.house.items)
+        console.log('User Response Data:', userResponse.data) // 데이터 확인용 콘솔 로그
       } catch (error) {
         console.error('Error fetching house state:', error)
       }
     }
     fetchHouseState()
   }, [])
+
+  // 초기 객체들을 캔버스에 그리기
+  const drawInitialObjects = (items) => {
+    const canvasCur = canvasRef.current
+    const ctx = canvasCur.getContext('2d')
+
+    // ctx.clearRect(0, 0, canvasCur.width, canvasCur.height); // 기존 캔버스 내용을 지우기
+
+    items.forEach((item) => {
+      const objIndex = itemList.findIndex((i) => i.name === item.name)
+      if (objIndex !== -1) {
+        const objImage = new Image()
+        objImage.src = objList[objIndex]
+        console.log('items', item) // 이 부분이 제대로 실행될 것입니다.
+        objImage.onload = () => {
+          ctx.drawImage(objImage, item.x, item.y, OBJECT_SIZE, OBJECT_SIZE)
+        }
+      }
+    })
+  }
 
   // 과자집 상태 업데이트
   const updateHouseState = async (newItems) => {
@@ -126,7 +155,7 @@ export default function MainPage() {
       ctx.drawImage(bgImage, 0, 0, canvasCur.width, canvasCur.height)
 
       cloudImage.onload = () => {
-        ctx.drawImage(cloudImage, 10, 10, 130, 130) // 좌측 상단에 배치
+        ctx.drawImage(cloudImage, 10, 10, 130, 130)
       }
 
       box3Image.onload = () => {
@@ -136,7 +165,7 @@ export default function MainPage() {
           canvasCur.height - 110,
           110,
           110
-        ) // 우측 하단에 배치
+        )
       }
     }
   }, [])
@@ -151,34 +180,28 @@ export default function MainPage() {
       const scaleX = canvasCur.width / canvasRect.width
       const scaleY = canvasCur.height / canvasRect.height
 
-      // 마우스 커서와 캔버스의 중심 간의 상대적인 위치 계산
       const canvasCenterX = canvasRect.width / 2
       const canvasCenterY = canvasRect.height / 2
       const relativeMouseX = mouseEndPosition.positionX - canvasCenterX
       const relativeMouseY = mouseEndPosition.positionY - canvasCenterY
 
-      // 객체의 X, Y 좌표 계산
       const objectX = canvasCur.width / 2 + relativeMouseX - OBJECT_SIZE / 2
       const objectY = canvasCur.height / 2 + relativeMouseY - OBJECT_SIZE / 2
 
-      // 객체 그리기
       ctx.drawImage(objImage, objectX, objectY, OBJECT_SIZE, OBJECT_SIZE)
 
-      // 아이템 갯수 차감
       const objIndex = objList.findIndex((img) => img === selectedObj)
       const newItemList = [...items]
       newItemList[objIndex].count -= 1
       setItems(newItemList)
 
-      // 로그 출력
       const selectedItem = newItemList[objIndex]
       console.log(
         `Object placed: ${selectedItem.name}, Count: ${selectedItem.count}`
       )
 
-      // 업데이트된 상태 서버에 저장
       const updatedItems = [
-        ...houseState.items,
+        ...(houseState?.items || []),
         { name: selectedItem.name, x: objectX, y: objectY },
       ]
       updateHouseState(updatedItems)
@@ -193,7 +216,6 @@ export default function MainPage() {
       const selectedItem = items[objIndex]
     }
 
-    // 마우스 위치 초기화
     setMousePosition({
       positionX: null,
       positionY: null,
@@ -201,7 +223,7 @@ export default function MainPage() {
   }
 
   const navigate = useNavigate()
-  const matchingActive = true // 조건을 여기서 설정, MATE 매칭 활성화 시 true, 비활성화 시 false
+  const matchingActive = true
 
   const handlePeopleIconClick = () => {
     if (matchingActive) {
@@ -225,7 +247,6 @@ export default function MainPage() {
           const mouseX = e.clientX - canvasRect.left
           const mouseY = e.clientY - canvasRect.top
 
-          // 마우스 커서와 캔버스의 중심 간의 상대적인 위치 계산
           const relativeMouseX = mouseX - canvasCenterX + OBJECT_SIZE * 2 + 19
           const relativeMouseY = mouseY - canvasCenterY + OBJECT_SIZE * 2 + 18
 
@@ -288,11 +309,7 @@ export default function MainPage() {
           }
         }}
       >
-        <style.CanvasComponent
-          ref={canvasRef}
-          width={380} // Canvas 요소의 너비를 창의 너비로 설정
-          height={380} // Canvas 요소의 높이를 창의 높이로 설정
-        />
+        <style.CanvasComponent ref={canvasRef} width={380} height={380} />
       </style.CanvasContainer>
 
       <style.Line />
