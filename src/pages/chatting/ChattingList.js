@@ -15,7 +15,7 @@ import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
 import axios from 'axios'
 
-const ChattingItem = ({ profileImageUrl, username, role }) => {
+const ChattingItem = ({ profileImageUrl, username, roleType }) => {
   return (
     <div className='chatting-list'>
       <div className='chatting-list-img'>
@@ -28,7 +28,7 @@ const ChattingItem = ({ profileImageUrl, username, role }) => {
 
       <div className='chatting-list-text'>
         <div className='chatting-list-name'>
-          {username} {role}님
+          {username} {roleType}님
         </div>
         <div
           className='chatting-list-msg'
