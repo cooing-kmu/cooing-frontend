@@ -1,7 +1,11 @@
 import React from 'react'
 import user2 from '../../assets/images/user2.png'
+import { useRecoilState } from 'recoil'
+import { chatUserState, userState } from '../../utils/userAtom'
 
-const Messages = ({ user, chatList }) => {
+const Messages = ({ chatList }) => {
+  const [user, setUser] = useRecoilState(userState)
+  const [chatUser, setChatUser] = useRecoilState(chatUserState)
   return (
     <div className='messages'>
       {chatList.map((chat) => (

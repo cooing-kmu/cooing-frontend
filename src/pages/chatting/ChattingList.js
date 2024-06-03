@@ -11,7 +11,7 @@ const ChattingItem = (item) => {
   return (
     <div className='chatting-list'>
       <div className='chatting-list-img'>
-        {item.profileImageUrl === 'string' ? (
+        {!item.profileImageUrl ? (
           <img src={user1} alt={item.username} />
         ) : (
           <img src={item.profileImageUrl} alt={item.username} />

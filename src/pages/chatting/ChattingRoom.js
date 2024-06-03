@@ -92,8 +92,10 @@ export default function ChattingRoom() {
     socketList.current.map((socket) => socket.socket.deactivate())
     socketList.current = []
 
-    fetchRoomInfo()
-  }, [chatUser])
+    //fetchRoomInfo()
+
+    const _userList = []
+  }, [user, chatUser])
 
   //채팅방
   const messageSubmitHandler = () => {
@@ -120,7 +122,7 @@ export default function ChattingRoom() {
         <img src={moreIcon} alt='더보기' />
       </div>
       <div className='chatting-room-chat'>
-        <Messages user={user} chatList={chatList} />
+        <Messages chatList={chatList} />
         <div className='input'>
           <input
             type='text'
