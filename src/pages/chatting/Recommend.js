@@ -1,23 +1,39 @@
-import React from 'react'
+import React, { useState } from 'react'
 import UserData from '../../data/UserData'
 import RecommendData from '../../data/RecommendData'
 import theme from '../../Theme'
 import './Chatting.css'
 import { useRecoilState } from 'recoil'
 import { userState } from '../../utils/userAtom'
-
+import concernIcon from '../../assets/icons/icon-concern.svg'
+import interestIcon from '../../assets/icons/icon-heart.svg'
 export default function Recommend() {
   const [user, setUser] = useRecoilState(userState)
 
+  const [currentRecommend, setCurrentRecommend] = useState(true)
+  const icon = currentRecommend ? concernIcon : interestIcon
+  const recommendText = currentRecommend
+    ? `${user.username} ${user.roleType}님과 비슷한 관심사를 가진 헨젤•그레텔님과 대화를 나누어 보세요!`
+    : `${user.username} ${user.roleType}${
+        user.roleType === '헨젤'
+          ? '님의 고민을 해결해 줄 그레텔'
+          : '님이 도움을 줄 수 있는 헨젤'
+      }님과 대화를 나누어 보세요!`
+
   console.log(user)
+
   return (
     <div className='recommend'>
-      <div className='recommend-text'>
-        {user.username} {user.role}
-        {user.role === '헨젤'
-          ? '님의 고민을 해결해 줄 그레텔'
-          : '님이 도움을 줄 수 있는 헨젤'}
-        님과 대화를 나누어 보세요!
+      <div className='recommend-header'>
+        <div className='recommend-text'>{recommendText}</div>
+        <div className='recommend-icon'>
+          <img
+            src={icon}
+            alt={icon}
+            style={{ height: '35px', width: '35px' }}
+            onClick={() => setCurrentRecommend(!currentRecommend)}
+          />
+        </div>
       </div>
       <div className='recommend-list'>
         {RecommendData.map((item, index) => (
