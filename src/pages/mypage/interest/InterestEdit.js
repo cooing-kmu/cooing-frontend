@@ -17,18 +17,18 @@ export default function InterestEdit() {
 
   const handleSubmit = async () => {
     try {
-      const token = await axios
-        .get(`${DOMAIN_NAME}/test-user`)
-        .then((res) => res.data.body)
+      // const token = await axios
+      //   .get(`${DOMAIN_NAME}/test-user`)
+      //   .then((res) => res.data.body)
 
       const interestKeyword = clickedItems.map((item) => (item ? 1 : 0))
 
       await axios.put(
-        `${DOMAIN_NAME}/user/keyword`,
+        `${process.env.REACT_APP_BASE_URL}user/keyword`,
         { interestKeyword }, // interestKeyword만 포함하도록 수정
         {
           headers: {
-            Authorization: token,
+            Authorization: window.localStorage.getItem('Authorization'),
           },
         }
       )

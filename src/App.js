@@ -11,7 +11,6 @@ import Profile from './pages/mypage/profile/Profile'
 import CheckList from './pages/mypage/checklist/CheckList'
 import InterestInfo from './pages/mypage/interest/InterestInfo'
 import Info from './pages/information/Info'
-import Community from './pages/community/Community'
 import Chatting from './pages/chatting/Chatting'
 import MainPage from './pages/mainpage/MainPage'
 import ThinkInfo from './pages/mypage/think/ThinkInfo'
@@ -43,7 +42,6 @@ function App() {
               <Route path='/sign-up' element={<SignUp />}></Route>
               <Route path='/sign-in' element={<SignIn />}></Route>
               <Route path='/info' element={<Info />}></Route>
-              <Route path='/community' element={<Community />}></Route>
               <Route path='/main-page' element={<MainPage />}></Route>
               <Route path='/chatting' element={<Chatting />}></Route>
               <Route path='/interest-edit' element={<InterestEdit />}></Route>

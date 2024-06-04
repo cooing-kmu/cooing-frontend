@@ -16,7 +16,7 @@ const ToggleSlider = ({ $isActive }) => (
 
 export default function MyPage() {
   const [user, setUser] = useState(null)
-  const [nickname, setNickname] = useState('')
+  const [name, setName] = useState('')
   const [role, setRole] = useState('')
   const [profileImageUrl, setProfileImageUrl] = useState(null)
   const [isActive, setIsActive] = useState(false)
@@ -30,21 +30,20 @@ export default function MyPage() {
   const handleToggle = async () => {
     if (user) {
       const newIsActive = !user.isMatchingActive
+
       try {
-        const response = await axios.put(
-          `${DOMAIN_NAME}/user/status`,
+        await response = axios.put(
+          `${process.env.REACT_APP_BASE_URL}user/status`,
           {
             isMatchingActive: newIsActive,
           },
           {
             headers: {
-              Authorization: user.token,
+              Authorization: window.localStorage.getItem('Authorization'),
             },
           }
         )
-
         await getUserInfo()
-        console.log('Matching status updated successfully', response.data)
 
         // 사용자 정보 업데이트
         setUser((prevUser) => ({
@@ -65,18 +64,16 @@ export default function MyPage() {
           const concernKeyword = Array(8).fill(0)
 
           await axios.put(
-            `${DOMAIN_NAME}/user/keyword`,
+            `${process.env.REACT_APP_BASE_URL}user/keyword`,
             {
               interestKeyword,
-              concernKeyword,
-            },
+              concernKeyword, },
             {
               headers: {
-                Authorization: user.token,
+                Authorization: window.localStorage.getItem('Authorization'),
               },
             }
           )
-          console.log('Interest and concern keywords updated successfully')
         }
       } catch (err) {
         console.error('Error updating matching status', err)
@@ -89,20 +86,24 @@ export default function MyPage() {
       const tokenResponse = await axios.get(`${DOMAIN_NAME}/test-user`)
       const token = tokenResponse.data.body
 
-      const userResponse = await axios
-        .get(`${DOMAIN_NAME}/user`, {
+      const userInfo = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}user`,
+        {
           headers: {
-            Authorization: token,
+            Authorization: window.localStorage.getItem('Authorization'),
           },
-        })
+        }
+      )
         .then((res) => {
           const _user = res.data.body
           setUser({ ..._user, token })
-          setNickname(_user.name)
-          setRole(_user.role)
+          setName(_user.username)
+          setRole(_user.roleType)
           setProfileImageUrl(_user.profileImageUrl)
           setIsActive(_user.isMatchingActive)
+          return _user
         })
+      return userInfo
     } catch (err) {
       console.log(err)
     }
@@ -125,14 +126,14 @@ export default function MyPage() {
       <style.MenuContainer>
         <style.ProfileContainer>
           <style.ImageContainer>
-            {user.profileImageUrl ? (
-              <style.ProfileImage src={user.profileImageUrl} alt='Profile' />
+            {profileImageUrl ? (
+              <style.ProfileImage src={profileImageUrl} alt='Profile' />
             ) : (
               <Ic_User />
             )}
           </style.ImageContainer>
-          <style.NameTextContainer>{user.name}</style.NameTextContainer>
-          <style.RoleTextContainer>{user.role}</style.RoleTextContainer>
+          <style.NameTextContainer>{name}</style.NameTextContainer>
+          <style.RoleTextContainer>{role}</style.RoleTextContainer>
           <style.RightContainer>
             <style.ButtonContainer>
               <Ic_ArrowRight onClick={() => navigate('/profile')} />
@@ -147,14 +148,14 @@ export default function MyPage() {
             <style.ToggleSwitch>
               <style.CheckBox
                 type='checkbox'
-                checked={user.isMatchingActive}
+                checked={isActive}
                 onChange={handleToggle}
               />
-              <ToggleSlider $isActive={user.isMatchingActive} />
+              <ToggleSlider $isActive={isActive} />
             </style.ToggleSwitch>
           </style.RightContainer>
         </style.InnerContainer>
-        {user.isMatchingActive && (
+        {isActive && (
           <style.InnerContainer>
             <Ic_Info />
             매칭 정보

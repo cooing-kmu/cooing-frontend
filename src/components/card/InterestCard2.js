@@ -3,8 +3,9 @@ import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 
 const MainContainer = styled.div`
+  justify-content: center;
   gap: 16px;
-  margin-top: 80px;
+  ${({ layout }) => (layout === 0 ? 'margin-top: 80px;' : 'margin-top: -50px;')}
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,11 +14,12 @@ const MainContainer = styled.div`
     display: none;
   }
   overflow: auto;
-  margin-bottom: 20px;
+  ${({ layout }) =>
+    layout === 0 ? 'margin-bottom: 20px;' : 'margin-bottom: -30px;'}
 `
 
 const SubContainer = styled.div`
-  margin-top: 30px;
+  ${({ layout }) => (layout === 0 ? 'margin-top: 30px;' : 'margin-top: 0px;')}
   gap: 24px;
   display: grid;
   ${({ layout }) =>

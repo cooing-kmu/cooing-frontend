@@ -14,11 +14,14 @@ export default function CheckList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log('Fetching data...')
-        const response = await axios.get(`${DOMAIN_NAME}/user/checklist`, {
-          withCredentials: true, // 쿠키 전송 활성화
-        })
-        console.log('Data fetched successfully!')
+        const response = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}user/checklist`,
+          {
+            headers: {
+              Authorization: window.localStorage.getItem('Authorization'),
+            },
+          }
+        )
         setData(response.data.body)
         setIsLoading(false)
       } catch (error) {
@@ -82,7 +85,7 @@ export default function CheckList() {
             <React.Fragment key={item.name}>
               <style.ItemContainer
                 onClick={() => handleItemClick(item.name)}
-                clicked={clickedItem === item.name ? 'true' : undefined} // 여기서 수정
+                $clicked={clickedItem === item.name ? 'true' : undefined} // 여기서 수정
               >
                 {item.text}
                 <Ic_Plus

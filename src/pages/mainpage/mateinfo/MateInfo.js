@@ -9,7 +9,7 @@ import { DOMAIN_NAME } from '../../../App'
 
 export default function MateInfo() {
   const [user, setUser] = useState(null)
-  const [nickname, setNickname] = useState('')
+  const [name, setName] = useState('')
   const [role, setRole] = useState('')
   const [profileMessage, setProfileMessage] = useState('')
   const [profileImageUrl, setProfileImageUrl] = useState(null)
@@ -19,18 +19,18 @@ export default function MateInfo() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const tokenResponse = await axios.get(`${DOMAIN_NAME}/test-user`)
-        const token = tokenResponse.data.body
+        const response = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}user/mate`,
+          {
+            headers: {
+              Authorization: window.localStorage.getItem('Authorization'),
+            },
+          }
+        )
 
-        const userResponse = await axios.get(`${DOMAIN_NAME}/user/mate`, {
-          headers: {
-            Authorization: token,
-          },
-        })
-
-        const _user = userResponse.data.body
+        const _user = response.data.body
         setUser({ ..._user, token })
-        setNickname(_user.name)
+        setName(_user.name)
         setRole(_user.role)
         setProfileMessage(_user.profileMessage)
         setProfileImageUrl(_user.profileImageUrl)
@@ -58,7 +58,7 @@ export default function MateInfo() {
         </style.ImageContainer>
       </style.BackgroundContainer>
       <style.InfoContainer>
-        <span>{nickname}</span>
+        <span>{name}</span>
         <span>{role}</span>
       </style.InfoContainer>
       <style.BioContainer>{profileMessage}</style.BioContainer>

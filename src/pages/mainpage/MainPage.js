@@ -60,22 +60,23 @@ export default function MainPage() {
   useEffect(() => {
     const fetchHouseState = async () => {
       try {
-        const tokenResponse = await axios.get(`${DOMAIN_NAME}/test-user`)
-        const token = tokenResponse.data.body
-        const userResponse = await axios.get(`${DOMAIN_NAME}/house`, {
-          headers: {
-            Authorization: token,
-          },
-        })
-        const _user = userResponse.data.body
-        setUser({ ...userResponse.data.body, token })
+        const response = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}house`,
+          {
+            headers: {
+              Authorization: window.localStorage.getItem('Authorization'),
+            },
+          }
+        )
+        const _user = response.data.body
+        setUser({ ...response.data.body })
         _user.rewardList.forEach((item, idx) => {
           itemList[idx]['count'] = item
         })
         console.log('here')
         setHouseState(_user.house)
         drawInitialObjects(_user.house.items)
-        console.log('User Response Data:', userResponse.data) // 데이터 확인용 콘솔 로그
+        console.log('User Response Data:', response.data) // 데이터 확인용 콘솔 로그
       } catch (error) {
         console.error('Error fetching house state:', error)
       }
@@ -106,14 +107,15 @@ export default function MainPage() {
   // 과자집 상태 업데이트
   const updateHouseState = async (newItems) => {
     try {
-      const tokenResponse = await axios.get(`${DOMAIN_NAME}/test-user`)
-      const token = tokenResponse.data.body
+      // const tokenResponse = await axios.get(`${DOMAIN_NAME}/test-user`)
+      // const token = tokenResponse.data.body
+
       await axios.post(
-        `${DOMAIN_NAME}/house`,
+        `${process.env.REACT_APP_BASE_URL}house`,
         { house: { items: newItems } },
         {
           headers: {
-            Authorization: token,
+            Authorization: window.localStorage.getItem('Authorization'),
           },
         }
       )

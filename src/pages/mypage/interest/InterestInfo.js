@@ -14,19 +14,17 @@ export default function InterestInfo() {
   // useEffect 밖에서 getUserInfo 함수 정의 및 호출
   const getUserInfo = async () => {
     try {
-      const token = await axios
-        .get(`${DOMAIN_NAME}/test-user`)
-        .then((res) => res.data.body)
       const userInfo = await axios
-        .get(`${DOMAIN_NAME}/user`, {
+        .get(`${process.env.REACT_APP_BASE_URL}user`, {
           headers: {
-            Authorization: token,
+            Authorization: window.localStorage.getItem('Authorization'),
           },
+          // .then((res) => res.data.body),
         })
         .then((res) => {
           const _user = res.data.body
           setUser(_user)
-          setInterestKeyword(_user.interestKeyword)
+          setInterestKeyword(_user.userInterestKeyword)
           return _user
         })
       return userInfo

@@ -14,20 +14,17 @@ export default function ThinkInfo() {
   useEffect(() => {
     async function getUserInfo() {
       try {
-        const token = await axios
-          .get(`${DOMAIN_NAME}/test-user`)
-          .then((res) => res.data.body)
         const userInfo = await axios
-          .get(`${DOMAIN_NAME}/user`, {
+          .get(`${process.env.REACT_APP_BASE_URL}user`, {
             headers: {
-              Authorization: token,
+              Authorization: window.localStorage.getItem('Authorization'),
             },
+            // .then((res) => res.data.body),
           })
           .then((res) => {
             const _user = res.data.body
             setUser(_user)
-            setConcernKeyword(_user.concernKeyword)
-            console.log(_user)
+            setInterestKeyword(_user.userConcernKeyword)
             return _user
           })
         return userInfo

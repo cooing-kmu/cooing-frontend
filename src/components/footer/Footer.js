@@ -33,6 +33,7 @@ export default function Footer() {
     location.pathname !== '/sign-in' &&
     location.pathname !== '/check-list' &&
     location.pathname !== '/mate-info' &&
+    location.pathname !== '/alarm' &&
     !location.pathname.includes('interest') && // policy가 들어간 링크에 안뜨게 하고 싶을 때
     !location.pathname.includes('think') &&
     location.pathname !== '/profile'
@@ -48,12 +49,12 @@ export default function Footer() {
           </Link>
         </style.IconContainer>
         <style.IconContainer>
-          <Link to='/community'>
-            <Ic_Community
-              onClick={() => handleClick('community', '/community')}
-              fill={selectedIcon === 'community' ? '#fc5242' : '#484C52'}
-            />
-          </Link>
+          {/*<Link to='/community'>*/}
+          {/*  <Ic_Community*/}
+          {/*    onClick={() => handleClick('community', '/community')}*/}
+          {/*    fill={selectedIcon === 'community' ? '#fc5242' : '#484C52'}*/}
+          {/*  />*/}
+          {/*</Link>*/}
         </style.IconContainer>
         <style.ButtonContainer>
           <Link to='/main-page'>

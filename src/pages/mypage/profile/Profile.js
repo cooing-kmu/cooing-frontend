@@ -10,7 +10,7 @@ import { DOMAIN_NAME } from '../../../App'
 export default function Profile() {
   const navigate = useNavigate()
   const [user, setUser] = useState(null)
-  const [nickname, setNickname] = useState('')
+  const [name, setName] = useState('')
   const [profileMessage, setProfileMessage] = useState('')
   const [profileImageUrl, setProfileImageUrl] = useState(null)
   const fileInputRef = useRef(null)
@@ -18,20 +18,16 @@ export default function Profile() {
   // 사용자 정보를 가져오는 함수
   const getUserInfo = async () => {
     try {
-      const token = await axios
-        .get(`${DOMAIN_NAME}/test-user`)
-        .then((res) => res.data.body)
-
       const userInfo = await axios
-        .get(`${DOMAIN_NAME}/user`, {
+        .get(`${process.env.REACT_APP_BASE_URL}user`, {
           headers: {
-            Authorization: token,
+            Authorization: window.localStorage.getItem('Authorization'),
           },
         })
         .then((res) => {
           const _user = res.data.body
           setUser({ ..._user, token })
-          setNickname(_user.name)
+          setName(_user.username)
           setProfileMessage(_user.profileMessage)
           setProfileImageUrl(_user.profileImageUrl) // 백엔드에서 받은 이미지 설정
           return _user
@@ -49,13 +45,13 @@ export default function Profile() {
 
   const handleNicknameChange = (e) => {
     const newNickname = e.target.value
-    setNickname(newNickname === '' ? user.name : newNickname)
+    setName(newNickname === '' ? name : newNickname)
   }
 
   const handleProfileMessageChange = (e) => {
     const newProfileMessage = e.target.value
     setProfileMessage(
-      newProfileMessage === '' ? user.profileMessage : newProfileMessage
+      newProfileMessage === '' ? profileMessage : newProfileMessage
     )
   }
 
@@ -76,7 +72,7 @@ export default function Profile() {
         formData.append(
           'request',
           JSON.stringify({
-            name: nickname,
+            name: name,
             profileMessage: profileMessage,
           })
         )
@@ -86,12 +82,16 @@ export default function Profile() {
           formData.append('profileImage', file)
         }
 
-        await axios.put(`${DOMAIN_NAME}/user/profile`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: user.token,
-          },
-        })
+        await axios.put(
+          `${process.env.REACT_APP_BASE_URL}user/profile`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: window.localStorage.getItem('Authorization'),
+            },
+          }
+        )
 
         // 프로필 업데이트가 성공하면 사용자 정보 다시 가져오기
         await getUserInfo()
@@ -137,13 +137,13 @@ export default function Profile() {
       <style.NickNameContainer>
         닉네임
         <style.NicknameInput
-          value={nickname}
+          value={name}
           onChange={handleNicknameChange}
           onFocus={(e) => {
-            if (e.target.value === user.name) setNickname('')
+            if (e.target.value === name) setName('')
           }}
           onBlur={(e) => {
-            if (e.target.value === '') setNickname(user.name)
+            if (e.target.value === '') setName(name)
           }}
         />
       </style.NickNameContainer>
@@ -154,10 +154,10 @@ export default function Profile() {
           value={profileMessage}
           onChange={handleProfileMessageChange}
           onFocus={(e) => {
-            if (e.target.value === user.profileMessage) setProfileMessage('')
+            if (e.target.value === profileMessage) setProfileMessage('')
           }}
           onBlur={(e) => {
-            if (e.target.value === '') setProfileMessage(user.profileMessage)
+            if (e.target.value === '') setProfileMessage(profileMessage)
           }}
         />
       </style.MessageContainer>
