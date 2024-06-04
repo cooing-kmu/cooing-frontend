@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import * as style from './Styles'
 import { useNavigate } from 'react-router-dom'
-import { ReactComponent as CooingLogo } from '../../assets/cooingLogo.svg'
+import { ReactComponent as CooingLogo } from '../../assets/icons/icon-cooingLogo.svg'
 import { ReactComponent as Ic_Alarm } from '../../assets/icons/icon-alarm.svg'
 import { ReactComponent as Ic_People } from '../../assets/icons/icon-people.svg'
 import Img_CookieHouse from '../../assets/images/image-cookiehouse.png'
