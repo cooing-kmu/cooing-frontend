@@ -15,27 +15,26 @@ import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
 import axios from 'axios'
 
-const ChattingItem = ({ profileImageUrl, username, roleType }) => {
+const ChattingItem = ({ recv, room }) => {
   return (
     <div className='chatting-list'>
       <div className='chatting-list-img'>
-        {!profileImageUrl ? (
-          <img src={user1} alt={username} />
+        {!recv.profileImageUrl ? (
+          <img src={user1} alt={recv.username} />
         ) : (
-          <img src={profileImageUrl} alt={username} />
+          <img src={recv.profileImageUrl} alt={recv.username} />
         )}
       </div>
 
       <div className='chatting-list-text'>
         <div className='chatting-list-name'>
-          {username} {roleType}님
+          {recv.username} {recv.roleType}님
         </div>
         <div
           className='chatting-list-msg'
           style={{ color: `${theme.darkGray}` }}
         >
-          안녕안녕
-          {/*{item.recentMsg}*/}
+          {room.lastChat}
         </div>
       </div>
       <div className='chatting-list-content'>
@@ -43,13 +42,14 @@ const ChattingItem = ({ profileImageUrl, username, roleType }) => {
           className='chatting-list-time'
           style={{ color: `${theme.darkGray}` }}
         >
-          2분 전{/*{item.recentMsgTime}*/}
+          {room.lastUpdate}
         </div>
+
         <div
           className='chatting-list-count'
           style={{ backgroundColor: `${theme.red}` }}
         >
-          3{/*{item.recentMsgCount}*/}
+          {room.unreadChat}
         </div>
       </div>
     </div>
@@ -60,115 +60,100 @@ const ChattingList = () => {
   const [token, setToken] = useRecoilState(tokenState)
   const [user, setUser] = useRecoilState(userState)
   const [chatUser, setChatUser] = useRecoilState(chatUserState)
-  const [userList, setUserList] = useRecoilState(userListState)
   const [userListTsx, setUserListTsx] = useState([])
-  const socketList = useRef([])
+  const socketList = useRef(null)
+
   // console.log(chatUser)
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch(`${DOMAIN_NAME}/users`, {
+    const roomInfo = async () => {
+      //로그인 유저의 현재 채팅방 목록 조회
+      const roomData = await axios
+        .get(`${DOMAIN_NAME}/chatroom?sender=2`, {
           headers: {
-            Authorization: token,
+            Authorization: window.localStorage.getItem('Authorization'),
           },
         })
-        const data = await response.json()
-        const users = data.body
+        .then((res) => res.data.body)
 
-        console.log(users)
+      console.log(roomData)
 
-        if (!users) return
+      if (!roomData) return
 
-        // Promise.all을 사용하여 모든 비동기 작업이 완료될 때까지 기다립니다.
-        const lst = await Promise.all(
-          users.map(async (recv, index) => {
-            const room = await axios
-              .get(
-                `http://15.165.25.19:8080/chatroom?userIdList=${user.id}, ${recv.id}`,
-                {
-                  headers: {
-                    Authorization: window.localStorage.getItem('Authorization'),
-                  },
-                }
-              )
-              .then((res) => res.data.body)
-
-            // SockJS와 Stomp 설정은 비동기 작업의 결과에 직접적으로 영향을 주지 않으므로,
-            // 이 부분은 제외하고, 필요한 데이터만 상태로 관리합니다.
-            const socket = Stomp.over(() => {
-              const sock = new SockJS('http://15.165.25.19:8080/ws')
-              return sock
+      if (!socketList.current) {
+        const socket = Stomp.over(() => new SockJS(`${DOMAIN_NAME}/ws`))
+        socket.connect({ user: user.id }, () => {
+          roomData.forEach((room) => {
+            const decoder = new TextDecoder('utf-8')
+            socket.subscribe(`/queue/chatting/${room.id}`, (message) => {
+              const userMessage = JSON.parse(decoder.decode(message.binaryBody))
+              const newChat = {
+                id: userMessage.chatId,
+                unread: 1,
+                userId: userMessage.senderId,
+                chatRoomId: room.id,
+                content: userMessage.content,
+              }
+              console.log(newChat)
             })
-            socket.connect({ user: recv.id }, async () => {
-              const decoder = new TextDecoder('utf-8')
-              socket.subscribe(`/queue/chatting/${room.id}`, (message) => {
-                const userMessage = JSON.parse(
-                  decoder.decode(message.binaryBody)
-                )
-                const newChat = {
-                  id: userMessage.chatId,
-                  unread: 1,
-                  userId: userMessage.senderId,
-                  chatRoomId: room.id,
-                  content: userMessage.content,
-                }
-                console.log(newChat)
-              })
-            })
-            socketList.current.push(socket)
-            // 컴포넌트를 반환하는 대신 필요한 정보를 객체로 반환합니다.
-            return {
-              recv,
-              index,
-            }
           })
-        )
+        })
+        socketList.current = socket
+      }
 
-        // 모든 비동기 작업이 완료된 후, 상태 업데이트
-        setUserListTsx(
-          lst.map(({ recv, index }) => (
-            <div
-              key={index}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                width: '100%',
-              }}
-            >
-              <Link
-                to={`/chatting/room`}
-                key={recv.id}
+      const roomComponents = await Promise.all(
+        roomData.map(async (room, index) => {
+          const recv = await axios
+            .get(`${DOMAIN_NAME}/user/${room.receiverId}`, {
+              headers: {
+                Authorization: window.localStorage.getItem('Authorization'),
+              },
+            })
+            .then((res) => res.data.body)
+
+          console.log(recv)
+          return (
+            room.lastChat && (
+              <div
+                key={index}
                 style={{
-                  textDecoration: 'none',
-                  color: 'black',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
                   width: '100%',
                 }}
-                onClick={() => {
-                  setChatUser(recv)
-                  console.log(chatUser)
-                }}
               >
-                <ChattingItem {...recv} />
-              </Link>
-              <hr
-                style={{
-                  margin: 0,
-                  width: '90%',
-                  border: 0,
-                  borderTop: `1px solid ${theme.orange}`,
-                }}
-              />
-            </div>
-          ))
-        )
-      } catch (error) {
-        console.error('Failed to fetch users:', error)
-      }
+                <Link
+                  to={`/chatting/room`}
+                  style={{
+                    textDecoration: 'none',
+                    color: 'black',
+                    width: '100%',
+                  }}
+                  onClick={() => {
+                    console.log(chatUser)
+                  }}
+                >
+                  <ChattingItem recv={recv} room={room} />
+                </Link>
+                <hr
+                  style={{
+                    margin: 0,
+                    width: '90%',
+                    border: 0,
+                    borderTop: `1px solid ${theme.orange}`,
+                  }}
+                />
+              </div>
+            )
+          )
+        })
+      )
+
+      setUserListTsx(roomComponents)
     }
 
-    fetchUsers()
-  }, [userList]) // 의존성 배열에 userList를 포함
+    roomInfo()
+  }, [user])
 
   return (
     <div
