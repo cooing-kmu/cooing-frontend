@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import * as style from './Styles'
-import { ReactComponent as CooingLogo } from '../../assets/cooingLogo.svg'
+import { ReactComponent as CooingLogo } from '../../assets/icons/icon-cooingLogo.svg'
 import { ReactComponent as Ic_Matching } from '../../assets/icons/icon-matching.svg'
 import { ReactComponent as Ic_CheckList } from '../../assets/icons/icon-checklist.svg'
 import { ReactComponent as Ic_ArrowRight } from '../../assets/icons/icon-arrow-r.svg'
@@ -32,7 +32,7 @@ export default function MyPage() {
       const newIsActive = !user.isMatchingActive
 
       try {
-        await response = axios.put(
+        const response = await axios.put(
           `${process.env.REACT_APP_BASE_URL}user/status`,
           {
             isMatchingActive: newIsActive,
@@ -67,7 +67,8 @@ export default function MyPage() {
             `${process.env.REACT_APP_BASE_URL}user/keyword`,
             {
               interestKeyword,
-              concernKeyword, },
+              concernKeyword,
+            },
             {
               headers: {
                 Authorization: window.localStorage.getItem('Authorization'),
@@ -83,20 +84,15 @@ export default function MyPage() {
 
   const getUserInfo = async () => {
     try {
-      const tokenResponse = await axios.get(`${DOMAIN_NAME}/test-user`)
-      const token = tokenResponse.data.body
-
-      const userInfo = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}user`,
-        {
+      const userInfo = await axios
+        .get(`${process.env.REACT_APP_BASE_URL}user`, {
           headers: {
             Authorization: window.localStorage.getItem('Authorization'),
           },
-        }
-      )
+        })
         .then((res) => {
           const _user = res.data.body
-          setUser({ ..._user, token })
+          setUser({ ..._user })
           setName(_user.username)
           setRole(_user.roleType)
           setProfileImageUrl(_user.profileImageUrl)
@@ -109,8 +105,22 @@ export default function MyPage() {
     }
   }
 
-  const showLogoutModal = () => {
-    console.log('로그아웃 테스트')
+  const logout = async () => {
+    try {
+      await axios.get(`${process.env.REACT_APP_BASE_URL}signout`, {
+        headers: {
+          Authorization: window.localStorage.getItem('Authorization'),
+        },
+      })
+
+      // 로컬 스토리지 초기화
+      window.localStorage.removeItem('Authorization')
+
+      // 로그인 페이지로 이동
+      navigate('/sign-in')
+    } catch (err) {
+      console.log('로그아웃 중 에러 발생:', err)
+    }
   }
 
   if (!user) {
@@ -178,7 +188,7 @@ export default function MyPage() {
       </style.MenuContainer>
 
       <style.ButtonContainer>
-        <style.LogoutTextContainer onClick={showLogoutModal}>
+        <style.LogoutTextContainer onClick={logout}>
           로그아웃
         </style.LogoutTextContainer>
       </style.ButtonContainer>
