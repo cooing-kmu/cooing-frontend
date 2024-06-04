@@ -4,6 +4,6 @@ export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #fffad0;
+  background-color: #fff;
   height: 100vh;
 `

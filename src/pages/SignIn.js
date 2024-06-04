@@ -36,15 +36,15 @@ const LoginButton = styled.button`
 
 export default function SignIn() {
   return(
-        <MainContainer>
-            <TitleContainer>
-                <img src={cooingLogo} alt="로고" />
-                for 자립준비청년
-            </TitleContainer>
+    <MainContainer>
+      <TitleContainer>
+        <img src={cooingLogo} alt="로고" />
+        for 자립준비청년
+      </TitleContainer>
 
-            <LoginButton>
-                <img src={google} alt="로고" /> Google 로그인
-            </LoginButton>
-        </MainContainer>
+      <LoginButton>
+        <img src={google} alt="로고" /> Google 로그인
+      </LoginButton>
+    </MainContainer>
   )
 };
