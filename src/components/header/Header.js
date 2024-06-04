@@ -25,6 +25,7 @@ export default function Header(props) {
     '매칭 정보 변경',
     '지원사업 스크랩 목록',
     '채용공고 스크랩 목록',
+    '글쓰기',
   ]
   const ThreeHeaderNameList = [
     '자유 게시판', // 돋보기
@@ -60,6 +61,16 @@ export default function Header(props) {
             props.title === ThreeHeaderNameList[9] ||
             props.title === ThreeHeaderNameList[11] ? (
               <Ic_ArrowLeftBk onClick={() => navigate('/my-page')} />
+            ) : props.title === ThreeHeaderNameList[0] ||
+                props.title === ThreeHeaderNameList[2] ||
+                props.title === ThreeHeaderNameList[3] ||
+                props.title === ThreeHeaderNameList[4] ||
+                props.title === ThreeHeaderNameList[5] ||
+                props.title === ThreeHeaderNameList[6] ||
+                props.title === ThreeHeaderNameList[7] ||
+                props.title === ThreeHeaderNameList[8]
+                ? (
+                <Ic_ArrowLeftBk onClick={() => navigate('/community')} />
             ) : (
               <Ic_ArrowLeftBk onClick={() => navigate(-1)} />
             )}
