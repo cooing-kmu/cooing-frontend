@@ -19,7 +19,6 @@ export default function InterestInfo() {
           headers: {
             Authorization: window.localStorage.getItem('Authorization'),
           },
-          // .then((res) => res.data.body),
         })
         .then((res) => {
           const _user = res.data.body
