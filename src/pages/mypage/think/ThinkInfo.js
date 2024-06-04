@@ -24,7 +24,7 @@ export default function ThinkInfo() {
           .then((res) => {
             const _user = res.data.body
             setUser(_user)
-            setInterestKeyword(_user.userConcernKeyword)
+            setConcernKeyword(_user.userConcernKeyword)
             return _user
           })
         return userInfo
