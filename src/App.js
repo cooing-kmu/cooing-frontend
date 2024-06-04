@@ -1,5 +1,4 @@
 import './App.css'
-import React, { Component } from 'react'
 import { RecoilRoot } from 'recoil'
 import { CookiesProvider } from 'react-cookie'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
