@@ -1,37 +1,58 @@
 import React from 'react'
-import user2 from '../../assets/images/user2.png'
+import userIcon from '../../assets/icons/icon-user.svg'
 import { useRecoilState } from 'recoil'
-import { chatUserState, userState } from '../../utils/userAtom'
+import { userState } from '../../utils/userAtom'
 
-const Messages = ({ chatList }) => {
+const Messages = ({ chatList, recvImage }) => {
   const [user, setUser] = useRecoilState(userState)
-  const [chatUser, setChatUser] = useRecoilState(chatUserState)
+
   return (
     <div className='messages'>
       {chatList.map((chat) => (
         <div
-          className={chat.userId === user?.id ? 'messeage owner' : 'message'}
+          className={chat.userId === user?.id ? 'message owner' : 'message'}
           key={`${chat.id}-${chat.userId}-${chat.unread}`}
         >
           <div className='message-user'>
-            <img src={user2} alt='user' />
+            {chat.userId === user?.id ? (
+              user.profileImageUrl ? (
+                <img src={user.profileImageUrl} alt='user' />
+              ) : (
+                <img src={userIcon} alt='user' />
+              )
+            ) : recvImage === null || recvImage === 'string' ? (
+              <img src={userIcon} alt='user' />
+            ) : (
+              <img src={recvImage} alt='user' />
+            )}
           </div>
           <div
             className={
-              chat.userId === user?.id ? 'messeage-content owner' : 'message'
+              chat.userId === user?.id
+                ? 'message-content owner'
+                : 'message-content'
             }
           >
+            {' '}
             <div
               className={
                 chat.userId === user?.id
-                  ? 'message-content-text owner'
-                  : 'message'
+                  ? 'message-content-main owner'
+                  : 'message-content-main'
               }
             >
-              {chat.content}
+              <div
+                className={
+                  chat.userId === user?.id
+                    ? 'message-content-text owner'
+                    : 'message-content-text'
+                }
+              >
+                {chat.content}
+              </div>
+              {chat.unread > 0 ? <span>{chat.unread}</span> : null}
             </div>
-            <span>{chat.unread}</span>
-            <span>보낸 시간</span>
+            <span>{chat.createdAt}</span>
           </div>
         </div>
       ))}

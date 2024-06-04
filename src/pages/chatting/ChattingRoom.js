@@ -6,7 +6,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { DOMAIN_NAME } from '../../App'
 import { Stomp } from '@stomp/stompjs'
 import SockJS from 'sockjs-client'
-import theme from '../../Theme'
 import sendIcon from '../../assets/icons/icon-send.svg'
 import { useRecoilState } from 'recoil'
 import { tokenState, userState } from '../../utils/userAtom'
@@ -20,7 +19,6 @@ export default function ChattingRoom() {
   const location = useLocation()
   const { roomId, recv } = location.state || {} // 전달받은 room과 recv 객체
 
-  // useRef를 조건부가 아닌 항상 호출되도록 선언
   const roomRef = useRef()
   const sender = useRef(undefined)
   const socketList = useRef([])
@@ -28,10 +26,64 @@ export default function ChattingRoom() {
   useEffect(() => {
     if (roomId && recv) {
       // 필요한 초기화 작업 수행
-      roomRef.current = roomId // 예시
+      roomRef.current = roomId
+      handleRecv(recv)
     }
 
     console.log(roomId, recv)
+
+    const socket = Stomp.over(() => {
+      return new SockJS(`${DOMAIN_NAME}/ws`)
+    })
+    socket.connect({ user: user.id }, async () => {
+      const decoder = new TextDecoder('utf-8')
+      console.log(`/queue/chatting/${roomId}`)
+      socket.subscribe(`/queue/chatting/${roomId}`, (message) => {
+        if (!sender.current) return
+        const userMessage = JSON.parse(decoder.decode(message.binaryBody))
+        const newChat = {
+          id: userMessage.chatId,
+          unread: 1,
+          userId: userMessage.senderId,
+          chatRoomId: roomId,
+          content: userMessage.content,
+          createdAt: userMessage.createdAt,
+        }
+        console.log(userMessage)
+        if (sender.current.roomId === newChat.chatRoomId) {
+          setChatList((prev) => [...prev, newChat])
+          if (newChat.chatRoomId === roomId && newChat.userId !== user.id) {
+            socket.send(
+              `/app/chat/${newChat.id}`,
+              {},
+              JSON.stringify({
+                id: newChat.id,
+                senderId: user.id,
+                unread: newChat.unread,
+              })
+            )
+          }
+        }
+      })
+      socket.subscribe(`/queue/chat/`, (message) => {
+        const chatMessage = JSON.parse(decoder.decode(message.binaryBody))
+        console.log(chatMessage)
+        updateChatUnread(chatMessage)
+      })
+      socketList.current.push({
+        recvId: recv.id,
+        roomId: roomId,
+        socket: socket,
+      })
+    })
+
+    return () => {
+      if (sender.current && sender.current.socket) {
+        sender.current.socket.disconnect(() => {
+          console.log('Disconnected')
+        })
+      }
+    }
   }, [roomId, recv])
 
   if (!roomId || !recv) {
@@ -47,16 +99,23 @@ export default function ChattingRoom() {
     return undefined
   }
 
+  const handleRecv = async (_user) => {
+    if (!user) return
+    sender.current = getCurrentSenderSocket(_user)
+
+    //채팅방
+    const userChatList = await getChatList()
+    if (!sender.current || !userChatList) return
+    setChatList(() => userChatList)
+
+    console.log(chatList)
+  }
+
   const getChatList = async () => {
     if (!sender.current || !user) return undefined
 
     const userChatList = await fetch(
-      `${DOMAIN_NAME}/chat/${sender.current.roomId}`,
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
+      `${DOMAIN_NAME}/chat/${sender.current.roomId}`
     )
       .then(async (res) => (await res.json()).body)
       .catch((err) => {
@@ -68,6 +127,7 @@ export default function ChattingRoom() {
 
     for (let i = 0; i < userChatList.length; i++) {
       const chat = userChatList[i]
+      console.log(chat)
       if (chat.unread > 0 && chat.userId !== user?.id) {
         sender.current.socket.send(
           `/app/chat/${chat.id}`,
@@ -89,6 +149,8 @@ export default function ChattingRoom() {
       if (currentChatList.length === 0) {
         return currentChatList
       }
+
+      console.log(currentChatList)
       return currentChatList.map((chat) =>
         chat.id === chatMessage.id
           ? { ...chat, unread: chatMessage.unread }
@@ -101,11 +163,30 @@ export default function ChattingRoom() {
     setInput(event.target.value)
   }
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      messageSubmitHandler()
+    }
+  }
+
   const messageSubmitHandler = () => {
     if (!sender.current || !user || !input.trim()) {
       console.log('no sender or empty message')
       return
     }
+
+    // STOMP 연결 확인
+    if (!sender.current.socket.connected) {
+      console.log('STOMP connection is not established')
+      return
+    }
+
+    // 현재 시간을 00:00 형식으로 변환
+    const now = new Date()
+    const hours = String(now.getHours()).padStart(2, '0')
+    const minutes = String(now.getMinutes()).padStart(2, '0')
+    const formattedTime = `${hours}:${minutes}`
+
     sender.current.socket.send(
       '/app/chatting',
       {},
@@ -113,6 +194,7 @@ export default function ChattingRoom() {
         roomId: sender.current.roomId,
         senderId: user.id,
         content: input,
+        createdAt: formattedTime,
       })
     )
     setInput('') // 메시지 전송 후 입력 필드 초기화
@@ -126,13 +208,14 @@ export default function ChattingRoom() {
         <img src={moreIcon} alt='더보기' />
       </div>
       <div className='chatting-room-chat'>
-        <Messages chatList={chatList} />
+        <Messages chatList={chatList} recvImage={recv.profileImageUrl} />
         <div className='input'>
           <input
             type='text'
             placeholder='메시지를 입력하세요.'
             value={input}
             onChange={handleInputChange} // 입력 변경 핸들러
+            onKeyDown={handleKeyPress}
           />
           <div className='send'>
             <button onClick={messageSubmitHandler}>
