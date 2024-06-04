@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const Div = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
 `
 
 export const MainContainer = styled.div`
@@ -44,7 +45,7 @@ export const Title = styled.div`
   font-weight: normal;
 `
 export const Location = styled.div`
-  display:flex;
+  display: flex;
   flex-direction: row;
 `
 export const Summary = styled.div`
