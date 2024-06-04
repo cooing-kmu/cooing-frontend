@@ -9,14 +9,17 @@ import defaultImage from '../../../assets/defaultImage.svg';
 export default function ClubPost() {
     const { clubId } = useParams();
     const [clubData, setClubData] = useState(null);
-    const [profileImg, setProfileImg] = useState('');
 
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await axios.get(`http://15.165.25.19:8080/club/${clubId}`);
+                const response = await axios.get(`${process.env.REACT_APP_BASE_URL}club/${clubId}`,
+                    {
+                        headers:{
+                            Authorization: window.localStorage.getItem('Authorization')
+                        }
+                    });
                 setClubData(response.data.body);
-                console.log(response.data.body); // clubData 상태를 출력
             } catch (error) {
                 console.error("스터디 데이터를 불러오는 중 오류 발생:", error);
             }
@@ -35,12 +38,13 @@ export default function ClubPost() {
                         <style.TextInput>{clubData ? clubData.title : "없음"}</style.TextInput>
                         <style.Text>분야</style.Text>
                         <style.TextInput>{clubData ? clubData.summary : "없음"} </style.TextInput>
-
                     </style.TextContainer>
+
                     <style.ImageContainer>
                         <img
                             src={clubData && clubData.imageUrl ? clubData.imageUrl : defaultImage}
                             alt="club profile"
+                            style={{ width: '110px', height: '110px' }}  // 이미지 최대 크기 설정
                         />
                     </style.ImageContainer>
                 </style.Title>

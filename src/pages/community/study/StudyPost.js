@@ -11,7 +11,12 @@ export default function StudyPost() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await axios.get(`http://15.165.25.19:8080/study/${studyId}`);
+                const response = await axios.get(`${process.env.REACT_APP_BASE_URL}study/${studyId}`,
+                    {
+                        headers:{
+                            Authorization: window.localStorage.getItem('Authorization')
+                        }
+                    });
                 setStudyData(response.data.body);
                 console.log(response.data.body); // studyData 상태를 출력
             } catch (error) {

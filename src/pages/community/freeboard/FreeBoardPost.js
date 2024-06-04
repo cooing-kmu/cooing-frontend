@@ -22,7 +22,11 @@ export default function FreeBoardPost() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await axios.get(`http://15.165.25.19:8080/board/${boardId}`);
+                const response = await axios.get(`${process.env.REACT_APP_BASE_URL}board/${boardId}`, {
+                        headers:{
+                            Authorization: window.localStorage.getItem('Authorization')
+                        }
+                    });
                 setBoardData(response.data.body);
                 setComments(response.data.body.comments);
                 console.log("data:", response.data.body); // 데이터가 올바르게 들어왔는지 확인하기 위한 콘솔 출력
@@ -36,7 +40,11 @@ export default function FreeBoardPost() {
     const handleThumbClick = async () => {
         if (!hasLiked) {
             try {
-                const response = await axios.post(`http://15.165.25.19:8080/board/${boardId}/likes`);
+                const response = await axios.post(`${process.env.REACT_APP_BASE_URL}board/${boardId}/likes`,{},{
+                    headers:{
+                        Authorization: window.localStorage.getItem('Authorization')
+                    }
+                });
                 if (response.status === 200) {
                     // 좋아요 수 업데이트
                     setBoardData(prevData => ({
@@ -56,7 +64,11 @@ export default function FreeBoardPost() {
     const handleScrapClick = async () => {
         if (!hasScrap) {
             try {
-                const response = await axios.post(`http://15.165.25.19:8080/board/${boardId}/scrap`);
+                const response = await axios.post(`${process.env.REACT_APP_BASE_URL}board/${boardId}/scrap`,{},{
+                    headers:{
+                        Authorization: window.localStorage.getItem('Authorization')
+                    }
+                });
                 if (response.status === 200) {
                     // 스크랩 수 업데이트
                     setBoardData(prevData => ({
@@ -80,14 +92,23 @@ export default function FreeBoardPost() {
     const handleCommentClick = async () => {
         try {
             await axios.post(
-                `http://15.165.25.19:8080/board/${boardId}/comment`,
+                `${process.env.REACT_APP_BASE_URL}board/${boardId}/comment`,
                 {
                     content: comment,
+                },
+                {
+                    headers:{
+                        Authorization: window.localStorage.getItem('Authorization')
+                    }
                 }
             );
             setComment('');
             // 댓글 목록을 다시 불러오기
-            const response = await axios.get(`http://15.165.25.19:8080/board/${boardId}`);
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}board/${boardId}`,{
+                headers:{
+                    Authorization: window.localStorage.getItem('Authorization')
+                }
+            });
             setComments(response.data.body.comments);
             setBoardData(prevData => ({
                 ...prevData,

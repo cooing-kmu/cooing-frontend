@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { RecoilRoot } from 'recoil'
 import { CookiesProvider } from 'react-cookie'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
 import MyPage from './pages/mypage/MyPage'
 import Profile from './pages/mypage/profile/Profile'
 import CheckList from './pages/mypage/checklist/CheckList'
@@ -63,6 +64,23 @@ function App() {
                 <Route path="/sign-up5" element={<SignUp5/>}></Route>
                 <Route path="/sign-in" element={<SignIn/>}></Route>
                 <Route path="/sign-in-failure" element={<SignInFailureUrl/>}></Route>
+
+                <Route path='/community' element={<Community />}></Route>
+                <Route path='/free-board' element={<FreeBoard />}></Route>
+                <Route path='/club' element={<Club />}></Route>
+                <Route path='/comment' element={<Comment />}></Route>
+                <Route path='/my-wrote' element={<MyWrote />}></Route>
+                <Route path='/scrap' element={<Scrap />}></Route>
+                <Route path='/study' element={<Study />}></Route>
+                <Route path='/volunteer' element={<Volunteer />}></Route>
+                <Route path='/free-board-write' element={<FreeBoardWrite />}></Route>
+                <Route path='/club-write' element={<ClubWrite />}></Route>
+                <Route path='/study-write' element={<StudyWrite />}></Route>
+                <Route path='/volunteer-write' element={<VolunteerWrite />}></Route>
+                <Route path="/free-board-post/:boardId" element={<FreeBoardPost />} />
+                <Route path="/study-post/:studyId" element={<StudyPost />} />
+                <Route path="/club-post/:clubId" element={<ClubPost />} />
+                <Route path="/volunteer-post/:volunteerId" element={<VolunteerPost />} />
               </Routes>
             </BrowserRouter>
           </CookiesProvider>
@@ -70,5 +88,4 @@ function App() {
       </RecoilRoot>
   )
 }
-
 export default App

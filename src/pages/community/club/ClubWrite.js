@@ -18,35 +18,30 @@ export default function ClubWrite() {
 
   const handleClubClick = async () => {
     try {
-      // FormData 객체 생성
+      const request = {
+        title: title,
+        summary: summary,
+        recruitDate: recruitDate,
+        content: recruitDate
+      };
       const formData = new FormData();
-      formData.append('title', title);
-      formData.append('summary', summary);
-      formData.append('recruitDate', recruitDate);
-      formData.append('content', content);
-
-      // 파일이 있는 경우에만 FormData에 파일 추가
-      if (file) {
-        formData.append('imageUrl', file);  // 이미지 파일 추가
-      }
-
-      for (let [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-      }
+      const jsonData = JSON.stringify(request);
+      const imgData = new Blob([jsonData], { type: 'application/json' });
+      formData.append('request', imgData);
+      formData.append('image', file);
 
       // 클럽 정보와 이미지를 백엔드로 전송
-      const response = await axios.post('http://15.165.25.19:8080/club', formData, {
+      await axios.post(`${process.env.REACT_APP_BASE_URL}club`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          Authorization: window.localStorage.getItem('Authorization')
         },
       });
 
-      // 전송된 데이터를 콘솔에 출력
-      console.log('Club Creation Request Data:', formData.get('imageUrl'));
       alert('동아리가 성공적으로 생성되었습니다!');
       navigate('/club');
     } catch (error) {
-      console.error('There was an error creating the club!', error);
+      console.error('동아리 생성 중 오류 발생!', error);
       alert('동아리 생성에 실패했습니다. 다시 시도해주세요.');
     }
   };
@@ -60,8 +55,6 @@ export default function ClubWrite() {
       setPreviewUrl(previewUrl); // 미리보기 URL 상태 업데이트
     }
   };
-
-  console.log(previewUrl); // 여기서 미리보기 URL을 출력하면 오류가 발생하지 않습니다.
 
   return (
       <style.Div>

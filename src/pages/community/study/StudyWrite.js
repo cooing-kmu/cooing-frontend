@@ -21,13 +21,18 @@ export default function StudyWrite() {
             content: content,
         };
 
-        axios.post('http://15.165.25.19:8080/study', studyData)
+        axios.post(`${process.env.REACT_APP_BASE_URL}study`, studyData,
+            {
+                headers:{
+                    Authorization: window.localStorage.getItem('Authorization')
+                }
+            })
             .then(response => {
                 alert('스터디 성공적으로 생성되었습니다!');
                 navigate('/study');
             })
             .catch(error => {
-                console.error('There was an error creating the study!', error);
+                console.error('There was an error creating the study1!', error);
                 alert('스터디 생성에 실패했습니다. 다시 시도해주세요.');
             });
     };

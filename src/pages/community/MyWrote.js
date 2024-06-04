@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 import Header from '../../components/header/Header';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Div = styled.div`
   display: flex;
@@ -29,16 +30,11 @@ const ContentsContainer = styled.div`
   cursor: pointer;
 `;
 
-const DetailContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: start;
-`;
-
 const TitleSummary = styled.div`
   display: flex;
   flex-direction: column;
   width: 300px;
+  gap: 10px;
 `;
 
 const Title = styled.div`
@@ -57,39 +53,45 @@ const Time = styled.div`
 `;
 
 export default function MyWrote() {
-    const [posts, setPosts] = useState([]);
-    const currentUserId = 1; // 실제로는 로그인한 사용자의 ID로 설정해야 합니다.
+    const navigate = useNavigate();
+    const [myWroteData, setMyWroteData] = useState([]);
 
     useEffect(() => {
-        const fetchPosts = async () => {
+        async function fetchMyWroteData() {
             try {
-                const response = await axios.get('http://15.165.25.19:8080/board');
-                console.log('API response:', response.data); // 응답 데이터 확인
-                const filteredPosts = response.data.body.filter(post => post.createUserId === currentUserId);
-                setPosts(filteredPosts);
+                const response = await axios.get(`${process.env.REACT_APP_BASE_URL}boards?boardType=POST`,{
+                    headers:{
+                        Authorization: window.localStorage.getItem('Authorization')
+                    }
+                });
+                setMyWroteData(response.data.body);
             } catch (error) {
-                console.error('Error fetching posts:', error);
+                console.error('스크랩 데이터를 불러오는 중 오류 발생:', error);
             }
-        };
+        }
 
-        fetchPosts();
+        fetchMyWroteData();
     }, []);
+
+    const handleBoardClick = (boardId) => {
+        navigate(`/free-board-post/${boardId}`);
+    };
 
     return (
         <Div>
             <Header title='내가 쓴 글' />
 
             <MainContainer>
-                {posts.map((post) => (
-                    <ContentsContainer key={post.boardId}>
+                {myWroteData.map((item, index) => (
+                    <ContentsContainer key={index} onClick={() => handleBoardClick(item.boardId)}>
                         <TitleSummary>
-                            <Title>{post.title}</Title>
-                            <Summary>{post.content}</Summary>
+                            <Title>{item.title}</Title>
+                            <Summary>{item.contentSummary}</Summary>
                         </TitleSummary>
-                        <Time>{post.createDatetime}</Time>
+                        <Time>{item.createDatetime}</Time>
                     </ContentsContainer>
                 ))}
             </MainContainer>
         </Div>
-    );
+    )
 }

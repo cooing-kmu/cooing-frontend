@@ -21,14 +21,19 @@ export default function VolunteerWrite() {
             content: content,
         };
 
-        axios.post('http://15.165.25.19:8080/volunteer', volunteerData)
+        axios.post(`${process.env.REACT_APP_BASE_URL}volunteer`, volunteerData,
+            {
+                headers:{
+                    Authorization: window.localStorage.getItem('Authorization')
+                }
+            })
             .then(response => {
-                console.log('volunteer created successfully:', response.data);
+                console.log('volunteer1 created successfully:', response.data);
                 alert('봉사활동이 성공적으로 생성되었습니다!');
                 navigate('/volunteer');
             })
             .catch(error => {
-                console.error('There was an error creating the volunteer!', error);
+                console.error('There was an error creating the volunteer1!', error);
                 alert('봉사활동 생성에 실패했습니다. 다시 시도해주세요.');
             });
     };

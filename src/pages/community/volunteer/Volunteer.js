@@ -13,7 +13,12 @@ export default function Volunteer() {
         // 컴포넌트가 마운트될 때 데이터를 가져오기 위해 useEffect 사용
         async function fetchData() {
             try {
-                const response = await axios.get('http://15.165.25.19:8080/volunteers');
+                const response = await axios.get(`${process.env.REACT_APP_BASE_URL}volunteers`,
+                    {
+                        headers:{
+                            Authorization: window.localStorage.getItem('Authorization')
+                        }
+                    });
                 setVolunteerData(response.data.body); // 가져온 데이터를 상태에 설정
             } catch (error) {
                 console.error("Error fetching board data:", error);
@@ -48,6 +53,7 @@ export default function Volunteer() {
                                     <style.Summary>{item.summary}</style.Summary>
                                 </style.Location>
                             </style.TitleSummary>
+                            <style.Time>{item.createDatetime}</style.Time>
                         </style.ContentsContainer>
                     </div>
                 ))}

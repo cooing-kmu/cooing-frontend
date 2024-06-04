@@ -20,10 +20,15 @@ export default function FreeBoardWrite() {
     const handleFreeBoardClick = async () => {
         try {
             await axios.post(
-                'http://15.165.25.19:8080/board',
+                `${process.env.REACT_APP_BASE_URL}board`,
                 {
                     title: title,
                     content: content,
+                },
+                {
+                    headers:{
+                        Authorization: window.localStorage.getItem('Authorization')
+                    }
                 });
             navigate('/free-board');
         }
