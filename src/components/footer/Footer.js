@@ -29,14 +29,21 @@ export default function Footer() {
   }, [currentPage])
   if (
     //footer 없는 페이지
-    location.pathname !== '/sign-up' &&
-    location.pathname !== '/sign-in' &&
     location.pathname !== '/check-list' &&
     location.pathname !== '/mate-info' &&
     location.pathname !== '/alarm' &&
+    location.pathname !== '/comment' &&
+    location.pathname !== '/my-wrote' &&
+    location.pathname !== '/scrap' &&
+    location.pathname !== '/profile' &&
+    location.pathname !== '/sign-in' &&
+    !location.pathname.includes('club') &&
+    !location.pathname.includes('free-board') &&
+    !location.pathname.includes('study') &&
+    !location.pathname.includes('volunteer') &&
+    !location.pathname.includes('sign-up') &&
     !location.pathname.includes('interest') && // policy가 들어간 링크에 안뜨게 하고 싶을 때
-    !location.pathname.includes('think') &&
-    location.pathname !== '/profile'
+    !location.pathname.includes('think')
   ) {
     return (
       <style.FooterContainer>
