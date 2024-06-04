@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import Header from '../../components/header/Header';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'
+import styled from 'styled-components'
+import Header from '../../components/header/Header'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const Div = styled.div`
   display: flex;
   flex-direction: column;
-`;
+  align-items: center;
+`
 
 const MainContainer = styled.div`
   width: 370px;
@@ -18,7 +19,7 @@ const MainContainer = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
-`;
+`
 
 const ContentsContainer = styled.div`
   height: 80px;
@@ -28,71 +29,76 @@ const ContentsContainer = styled.div`
   justify-content: start;
   border-bottom: #a6a6a6 solid 1px;
   cursor: pointer;
-`;
+`
 
 const TitleSummary = styled.div`
   display: flex;
   flex-direction: column;
   width: 300px;
   gap: 10px;
-`;
-
+`
 
 const Title = styled.div`
   font-size: 12px;
   font-weight: bold;
-`;
+`
 
 const Summary = styled.div`
   font-size: 12px;
-`;
+`
 
 const Time = styled.div`
   display: flex;
   font-size: 10px;
   color: #a6a6a6;
-`;
+`
 
 export default function Scrap() {
-    const navigate = useNavigate();
-    const [scrapData, setScrapData] = useState([]);
+  const navigate = useNavigate()
+  const [scrapData, setScrapData] = useState([])
 
-    useEffect(() => {
-        async function fetchScrapData() {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_BASE_URL}boards?boardType=SCRAP`,{
-                    headers:{
-                        Authorization: window.localStorage.getItem('Authorization')
-                    }
-                });
-                setScrapData(response.data.body);
-            } catch (error) {
-                console.error('스크랩 데이터를 불러오는 중 오류 발생:', error);
-            }
-        }
+  useEffect(() => {
+    async function fetchScrapData() {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}boards?boardType=SCRAP`,
+          {
+            headers: {
+              Authorization: window.localStorage.getItem('Authorization'),
+            },
+          }
+        )
+        setScrapData(response.data.body)
+      } catch (error) {
+        console.error('스크랩 데이터를 불러오는 중 오류 발생:', error)
+      }
+    }
 
-        fetchScrapData();
-    }, []);
+    fetchScrapData()
+  }, [])
 
-    const handleBoardClick = (boardId) => {
-        navigate(`/free-board-post/${boardId}`);
-    };
+  const handleBoardClick = (boardId) => {
+    navigate(`/free-board-post/${boardId}`)
+  }
 
-    return (
-        <Div>
-            <Header title='스크랩한 글' />
+  return (
+    <Div>
+      <Header title='스크랩한 글' />
 
-            <MainContainer>
-                {scrapData.map((item, index) => (
-                    <ContentsContainer key={index} onClick={() => handleBoardClick(item.boardId)}>
-                        <TitleSummary>
-                            <Title>{item.title}</Title>
-                            <Summary>{item.contentSummary}</Summary>
-                        </TitleSummary>
-                        <Time>{item.createDatetime}</Time>
-                    </ContentsContainer>
-                ))}
-            </MainContainer>
-        </Div>
-    )
+      <MainContainer>
+        {scrapData.map((item, index) => (
+          <ContentsContainer
+            key={index}
+            onClick={() => handleBoardClick(item.boardId)}
+          >
+            <TitleSummary>
+              <Title>{item.title}</Title>
+              <Summary>{item.contentSummary}</Summary>
+            </TitleSummary>
+            <Time>{item.createDatetime}</Time>
+          </ContentsContainer>
+        ))}
+      </MainContainer>
+    </Div>
+  )
 }
