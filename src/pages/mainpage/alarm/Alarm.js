@@ -3,43 +3,52 @@ import { useNavigate } from 'react-router-dom'
 import Header from '../../../components/header/Header'
 import axios from 'axios'
 import * as style from './Styles'
+import { DOMAIN_NAME } from '../../../App'
 
 export default function Alarm() {
-  const navigate = useNavigate()
-  const [boardData, setBoardData] = useState([])
+  const [alarmData, setAlarmData] = useState([])
+
+  const getNotifications = async () => {
+    try {
+      const token = await axios
+        .get(`${DOMAIN_NAME}/test-user`)
+        .then((res) => res.data.body)
+      const notifications = await axios
+        .get(`${DOMAIN_NAME}/notifications`, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((res) => {
+          const _user = res.data.body
+          setAlarmData(_user.item)
+          return _user
+        })
+      return notifications
+    } catch (error) {
+      console.error('Error fetching user information:', error)
+    }
+  }
+
+  useEffect(() => {
+    getNotifications()
+  }, [])
 
   return (
     <style.Div>
-      <Header title='알림' />
+      <Header title={'알림'} />
 
       <style.MainContainer>
-        {/*{boardData.length > 0 &&*/}
-        {/*  boardData.map((item, index) => (*/}
-        {/*    <div*/}
-        {/*      key={'리워드 지급'}*/}
-        {/*      // onClick={() => handleBoardClick(item.boardId)}*/}
-        {/*    >*/}
-        {/*      <style.ContentsContainer key={'리워드 아이디'}>*/}
-        {/*        <style.TitleSummary>*/}
-        {/*          <style.Title>테스트</style.Title>*/}
-        {/*          <style.Summary>테스트</style.Summary>*/}
-        {/*        </style.TitleSummary>*/}
-        {/*        <style.Time>테스트</style.Time>*/}
-        {/*      </style.ContentsContainer>*/}
-        {/*    </div>*/}
-        {/*  ))}*/}
-        <div
-          key={'리워드 지급'}
-          // onClick={() => handleBoardClick(item.boardId)}
-        >
-          <style.ContentsContainer key={'리워드 아이디'}>
-            <style.TitleSummary>
-              <style.Title>리워드 이름</style.Title>
-              <style.Summary>리워드 내용</style.Summary>
-            </style.TitleSummary>
-            <style.Time>리워드 지급 시간</style.Time>
-          </style.ContentsContainer>
-        </div>
+        {alarmData.length > 0 &&
+          alarmData.map((alarmData, idx) => (
+            <style.ContentsContainer key={idx}>
+              <style.TitleSummary>
+                <style.Title>{alarmData.title}</style.Title>
+                <style.Summary>{alarmData.content}</style.Summary>
+              </style.TitleSummary>
+              <style.Time>{alarmData.createDatetime}</style.Time>
+            </style.ContentsContainer>
+          ))}
       </style.MainContainer>
     </style.Div>
   )
