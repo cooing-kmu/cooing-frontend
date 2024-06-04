@@ -29,7 +29,7 @@ export default function MateInfo() {
         )
 
         const _user = response.data.body
-        setUser({ ..._user, token })
+        setUser({ ..._user })
         setName(_user.name)
         setRole(_user.role)
         setProfileMessage(_user.profileMessage)
