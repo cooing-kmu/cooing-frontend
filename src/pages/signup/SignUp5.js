@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { SyncLoader } from "react-spinners";
 import styled from 'styled-components';
-import hand from '../../assets/hand.svg';
+import cookieHouse from '../../assets/cookieHouse.svg';
 import { useRecoilState } from 'recoil';
 import axios from 'axios';
 import { roleState, nicknameState, profileMessageState, profileImageState, interestState, concernKeywordState, isMatchingActiveState } from '../../Atom';
@@ -13,12 +14,14 @@ const Div = styled.div`
 
 const MainContainer = styled.div`
   gap: 76px;
-  margin-top: 270px;
+  margin-top: 150px;
   align-items: center;
   display: flex;
   justify-content: center;
   flex-direction: column;
 `;
+
+
 
 export default function SignUp5() {
     const [role, setRole] = useRecoilState(roleState);
@@ -81,11 +84,9 @@ export default function SignUp5() {
         <Div>
             <MainContainer>
 
-                    <>
                         <h2>{nickname}님</h2>
-                        <img src={hand} alt="손" />
-                        <h2>환영합니다!</h2>
-                    </>
+                        <img src={cookieHouse} alt="손" />
+                        <div><h2>MATE 매칭 중<SyncLoader/></h2></div>
 
             </MainContainer>
         </Div>
