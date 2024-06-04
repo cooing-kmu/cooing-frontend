@@ -79,7 +79,6 @@ function App() {
               <Route path='/my-page' element={<MyPage />}></Route>
 
               {/* 로그인 관련 라우팅 페이지 */}
-              <Route path='/sign-in' element={<SignIn />}></Route>
               <Route
                 path='/sign-in-failure'
                 element={<SignInFailureUrl />}

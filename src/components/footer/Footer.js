@@ -37,6 +37,7 @@ export default function Footer() {
     location.pathname !== '/scrap' &&
     location.pathname !== '/profile' &&
     location.pathname !== '/sign-in' &&
+    location.pathname !== '/' &&
     !location.pathname.includes('club') &&
     !location.pathname.includes('free-board') &&
     !location.pathname.includes('study') &&
