@@ -49,12 +49,12 @@ export default function Footer() {
           </Link>
         </style.IconContainer>
         <style.IconContainer>
-          {/*<Link to='/community'>*/}
-          {/*  <Ic_Community*/}
-          {/*    onClick={() => handleClick('community', '/community')}*/}
-          {/*    fill={selectedIcon === 'community' ? '#fc5242' : '#484C52'}*/}
-          {/*  />*/}
-          {/*</Link>*/}
+          <Link to='/community'>
+            <Ic_Community
+              onClick={() => handleClick('community', '/community')}
+              fill={selectedIcon === 'community' ? '#fc5242' : '#484C52'}
+            />
+          </Link>
         </style.IconContainer>
         <style.ButtonContainer>
           <Link to='/main-page'>

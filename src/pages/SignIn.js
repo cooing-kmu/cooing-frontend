@@ -20,7 +20,7 @@ const TitleContainer = styled.div`
   text-align:right;
   font-size:14px;
 `;
-const LoginButton = styled.button`
+const LoginButton = styled.a`
   width:312px;
   height:52px;
   border-radius: 20px;
@@ -32,19 +32,22 @@ const LoginButton = styled.button`
   align-items: center; 
   justify-content: center;
   gap: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  color: black; 
 `
+
 
 export default function SignIn() {
   return(
-    <MainContainer>
-      <TitleContainer>
-        <img src={cooingLogo} alt="로고" />
-        for 자립준비청년
-      </TitleContainer>
-
-      <LoginButton>
-        <img src={google} alt="로고" /> Google 로그인
-      </LoginButton>
-    </MainContainer>
+        <MainContainer>
+            <TitleContainer>
+                <img src={cooingLogo} alt="로고" />
+                for 자립준비청년
+            </TitleContainer>
+            <LoginButton href="http://www.cooing.n-e.kr:8080/oauth2/authorization/google" target="_blank">
+                <img src={google} alt="로고" /> Google 로그인
+            </LoginButton>
+        </MainContainer>
   )
 };

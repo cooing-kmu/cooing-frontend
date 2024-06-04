@@ -3,8 +3,6 @@ import React, { Component } from 'react'
 import { RecoilRoot } from 'recoil'
 import { CookiesProvider } from 'react-cookie'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import SignUp from './pages/SignUp'
-import SignIn from './pages/SignIn'
 import MyPage from './pages/mypage/MyPage'
 import Profile from './pages/mypage/profile/Profile'
 import CheckList from './pages/mypage/checklist/CheckList'
@@ -20,6 +18,12 @@ import SetThinkKeyword from './pages/mypage/think/SetThinkKeyword'
 import Footer from './components/footer/Footer'
 import Alarm from './pages/mainpage/alarm/Alarm'
 import MateInfo from './pages/mainpage/mateinfo/MateInfo'
+import SignUp from './pages/signup/SignUp';
+import SignIn from './pages/SignIn';
+import SignUp2 from "./pages/signup/SignUp2";
+import SignUp3 from "./pages/signup/SignUp3";
+import SignUp4 from "./pages/signup/SignUp4";
+import SignUp5 from "./pages/signup/SignUp5";
 
 export const DOMAIN_NAME = 'http://15.165.25.19:8080'
 
@@ -37,8 +41,6 @@ function App() {
               <Route path='/interest-info' element={<InterestInfo />}></Route>
               <Route path='/think-info' element={<ThinkInfo />}></Route>
               <Route path='/check-list' element={<CheckList />}></Route>
-              <Route path='/sign-up' element={<SignUp />}></Route>
-              <Route path='/sign-in' element={<SignIn />}></Route>
               <Route path='/info' element={<Info />}></Route>
               <Route path='/main-page' element={<MainPage />}></Route>
               <Route path='/chatting' element={<Chatting />}></Route>
@@ -54,6 +56,13 @@ function App() {
               ></Route>
               <Route path='/alarm' element={<Alarm />}></Route>
               <Route path='/mate-info' element={<MateInfo />}></Route>
+
+              <Route path="/sign-up" element={<SignUp/>}></Route>
+              <Route path="/sign-up2" element={<SignUp2/>}></Route>
+              <Route path="/sign-up3" element={<SignUp3/>}></Route>
+              <Route path="/sign-up4" element={<SignUp4/>}></Route>
+              <Route path="/sign-up5" element={<SignUp5/>}></Route>
+              <Route path="/sign-in" element={<SignIn/>}></Route>
             </Routes>
           </BrowserRouter>
         </CookiesProvider>
