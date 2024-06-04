@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import cooingLogo from '../../assets/cooingLogo.svg';
+import house from '../../assets/house.svg';
 import google from '../../assets/google.svg';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import axios from 'axios';
@@ -12,21 +13,18 @@ const MainContainer = styled.div`
   align-items: center;
   background-color:#FFFAD0;
   height: 100vh;
-  gap:360px;
+  gap:100px;
 `;
 
 const TitleContainer = styled.div`
-  margin-top: 190px;
+  margin-top: 120px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  text-align:right;
   font-size:14px;
+  gap: 10px;
 `;
 
-const StyledLoginButton = styled.div`
-  
-`;
+
 
 const LoginButton = ({ signInSuccessUrl, signUpUrl, signInFailureUrl }) => {
     const host = 'http://15.165.25.19:8080';
@@ -87,8 +85,10 @@ export default function SignIn() {
     return (
         <MainContainer>
             <TitleContainer>
+                <p>for 자립준비청년</p>
+                <p1>우리가 함께 만들어가는 달콤한 공간</p1>
                 <img src={cooingLogo} alt="로고" />
-                for 자립준비청년
+                <img src={house} alt="로고" />
             </TitleContainer>
             <LoginButton
                 signInSuccessUrl="/"

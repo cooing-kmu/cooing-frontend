@@ -24,8 +24,8 @@ const ImageContainer = styled.div`
 
 const Label = styled.label`
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: 10px;
+  right: 10px;
   width: 50px;
   height: 50px;
   cursor: pointer;
@@ -109,9 +109,9 @@ export default function SignUp() {
             <Header title="프로필 등록" />
             <ImageContainer value={profileImg}>
                 {previewUrl ? (
-                    <img src={previewUrl} style={{ width: "150px", height: "150px" }} alt="회원가입 얼굴" />
+                    <img src={previewUrl} style={{ width: "150px", height: "150px", borderRadius:100 }} alt="회원가입 얼굴" />
                 ) : (
-                    <img src={faceImage} style={{ width: "150px", height: "150px" }} alt="회원가입 얼굴" />
+                    <img src={faceImage} style={{ width: "150px", height: "150px", borderRadius:100 }} alt="회원가입 얼굴" />
                 )}
                 <Label htmlFor="image">
                     <img src={camera} alt="카메라 버튼" />
