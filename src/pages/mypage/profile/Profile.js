@@ -26,7 +26,7 @@ export default function Profile() {
         })
         .then((res) => {
           const _user = res.data.body
-          setUser({ ..._user, token })
+          setUser({ ..._user })
           setName(_user.username)
           setProfileMessage(_user.profileMessage)
           setProfileImageUrl(_user.profileImageUrl) // 백엔드에서 받은 이미지 설정
