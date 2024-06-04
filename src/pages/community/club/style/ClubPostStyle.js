@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const Div = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
 `
 
 export const Container = styled.div`
@@ -55,9 +56,8 @@ export const MainTextInput = styled.div`
   height: 400px;
 `
 
-
 export const ImageContainer = styled.div`
   display: flex;
   align-items: center;
   margin-left: 10px;
-`;
+`
