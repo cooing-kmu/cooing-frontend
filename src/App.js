@@ -24,12 +24,6 @@ import SignUp5 from './pages/signup/SignUp5'
 // Info 하위 라우팅 페이지
 
 // Community 하위 라우팅 페이지
-
-// MainPage 하위 라우팅 페이지
-import Alarm from './pages/mainpage/alarm/Alarm'
-import MateInfo from './pages/mainpage/mateinfo/MateInfo'
-
-// Chatting 하위 라우팅 페이지
 import FreeBoard from './pages/community/freeboard/FreeBoard'
 import FreeBoardPost from './pages/community/freeboard/FreeBoardPost'
 import FreeBoardWrite from './pages/community/freeboard/FreeBoardWrite'
@@ -45,6 +39,12 @@ import StudyWrite from './pages/community/study/StudyWrite'
 import MyWrote from './pages/community/MyWrote'
 import Comment from './pages/community/Comment'
 import Scrap from './pages/community/Scrap'
+
+// MainPage 하위 라우팅 페이지
+import Alarm from './pages/mainpage/alarm/Alarm'
+import MateInfo from './pages/mainpage/mateinfo/MateInfo'
+
+// Chatting 하위 라우팅 페이지
 
 // MyPage 하위 라우팅 페이지
 import Profile from './pages/mypage/profile/Profile'
