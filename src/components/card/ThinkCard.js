@@ -22,7 +22,6 @@ const SubContainer = styled.div`
   font-weight: 200;
   overflow-x: auto; /* 가로 스크롤 추가 */
   max-width: 480px; /* 최대 너비 설정 */
-  height: calc(100vh - 224px);
   &::-webkit-scrollbar {
     display: none;
   }
@@ -103,10 +102,10 @@ const ThinkCard = ({
         ))}
       </SubContainer>
       <div>
-        {buttonName === '다음' ? ( // 찬우오빠 네비게이션 수정
+          {buttonName === '완료' ? ( // 찬우오빠 네비게이션 수정
           <Button
             disabled={!isAnyItemSelected}
-            onClick={() => navigate('/interest-info')}
+            onClick={() => navigate('/sign-up5')}
           >
             {buttonName}
           </Button>

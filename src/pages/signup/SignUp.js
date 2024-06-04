@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import camera from '../../assets/icons/icon-camera.svg';
 import faceImage from '../../assets/faceImage.svg';
 import Header from '../../components/header/Header';
+import { useRecoilState } from 'recoil';
+import { nicknameState, profileMessageState, profileImageState } from '../../Atom';
 
 const Div = styled.div`
   display: flex;
@@ -81,47 +83,49 @@ const Button = styled.button`
 
 export default function SignUp() {
     const navigate = useNavigate();
+    const [profileImg, setProfileImg] = useRecoilState(profileImageState);
+    const [nickname, setNickname] = useRecoilState(nicknameState);
+    const [profileMessage, setProfileMessage] = useRecoilState(profileMessageState);
+    const [previewUrl, setPreviewUrl] = useState('');
+
     const handleSignUpClick = () => {
         navigate('/sign-up2');
     };
-    const [profileImg, setProfileImg] = useState("");
 
     const setPreviewImg = (event) => {
-        var reader = new FileReader();
-        reader.onload = function (event) {
-            setProfileImg(event.target.result);
-        };
-        reader.readAsDataURL(event.target.files[0]);
+        const file = event.target.files[0];
+        if (file) {
+            setProfileImg(file); // Recoil 상태에 파일 객체 저장
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPreviewUrl(reader.result); // 미리보기 URL 설정
+            };
+            reader.readAsDataURL(file);
+        }
     };
 
     return (
         <Div>
             <Header title="프로필 등록" />
-
-            <ImageContainer>
-
-                {profileImg ? (
-                    <img src={profileImg} style={{ Width: "150px", height:"150px" }} alt="회원가입 얼굴" />
+            <ImageContainer value={profileImg}>
+                {previewUrl ? (
+                    <img src={previewUrl} style={{ width: "150px", height: "150px" }} alt="회원가입 얼굴" />
                 ) : (
-                    <img src={faceImage} style={{ Width: "150px", height:"150px" }} alt="회원가입 얼굴" />
+                    <img src={faceImage} style={{ width: "150px", height: "150px" }} alt="회원가입 얼굴" />
                 )}
-
                 <Label htmlFor="image">
                     <img src={camera} alt="카메라 버튼" />
                 </Label>
                 <input type="file" id="image" accept="image/*" onChange={setPreviewImg} style={{ display: "none" }} />
-
             </ImageContainer>
             <NickNameContainer>
                 닉네임
-                <NicknameInput />
+                <NicknameInput value={nickname} onChange={(e) => setNickname(e.target.value)} />
             </NickNameContainer>
-
             <ProfileContainer>
                 프로필 메세지
-                <ProfileInput />
+                <ProfileInput value={profileMessage} onChange={(e) => setProfileMessage(e.target.value)} />
             </ProfileContainer>
-
             <ButtonContainer>
                 <Button onClick={handleSignUpClick}>다음</Button>
             </ButtonContainer>

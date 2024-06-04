@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 
@@ -115,7 +114,7 @@ const InterestCard = ({
         {buttonName === '다음' ? ( // 찬우오빠 네비게이션 수정
           <Button
             disabled={!isAnyItemSelected}
-            onClick={() => navigate('/interest-info')}
+            onClick={() => navigate('/sign-up4')}
           >
             {buttonName}
           </Button>
