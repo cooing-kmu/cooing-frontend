@@ -95,7 +95,7 @@ export default function MainPage() {
       if (objIndex !== -1) {
         const objImage = new Image()
         objImage.src = objList[objIndex]
-        console.log('items', item) // 이 부분이 제대로 실행될 것입니다.
+        console.log('items', item)
         objImage.onload = () => {
           ctx.drawImage(objImage, item.x, item.y, OBJECT_SIZE, OBJECT_SIZE)
         }
