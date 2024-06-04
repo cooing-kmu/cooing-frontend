@@ -3,12 +3,7 @@ import './Chatting.css'
 import theme from '../../Theme'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
-import {
-  chatUserState,
-  tokenState,
-  userListState,
-  userState,
-} from '../../utils/userAtom'
+import { tokenState, userState } from '../../utils/userAtom'
 import user1 from '../../assets/images/user1.png'
 import { DOMAIN_NAME } from '../../App'
 import SockJS from 'sockjs-client'
@@ -62,7 +57,6 @@ const ChattingItem = ({ recv, room }) => {
 const ChattingList = () => {
   const [token, setToken] = useRecoilState(tokenState)
   const [user, setUser] = useRecoilState(userState)
-  const [chatUser, setChatUser] = useRecoilState(chatUserState)
   const [rooms, setRooms] = useState([])
   const socketList = useRef(null)
   const navigate = useNavigate()

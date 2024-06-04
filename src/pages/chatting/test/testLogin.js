@@ -1,15 +1,12 @@
 import { useState } from 'react'
 import { DOMAIN_NAME } from '../../../App'
-import { useNavigate } from 'react-router-dom'
-import { tokenState, userListState, userState } from '../../../utils/userAtom'
+import { tokenState, userState } from '../../../utils/userAtom'
 import { useRecoilState } from 'recoil'
 import axios from 'axios'
 
 const TestLogin = () => {
   const [username, setUsername] = useState('')
   const [user, setUser] = useRecoilState(userState)
-  const [userList, setUserList] = useRecoilState(userListState)
-  const navigate = useNavigate()
   const [token, setToken] = useRecoilState(tokenState)
   const handleUsernameInput = (e) => {
     setUsername(e.target.value)
@@ -29,19 +26,12 @@ const TestLogin = () => {
         })
         .then(async (res) => {
           const user = await axios
-            .get(`${DOMAIN_NAME}/user/${res.data.body.id}`, {
-              headers: {
-                Authorization: token,
-              },
-            })
+            .get(`${DOMAIN_NAME}/user/5`, {})
             .then((res) => {
               const _user = res.data.body
               setUser({ ..._user, token })
               console.log(_user)
             })
-          const _user = res.data.body
-          setUser({ ..._user, token })
-          console.log(_user)
         })
     } catch (err) {
       console.log(err)

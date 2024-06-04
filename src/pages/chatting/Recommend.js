@@ -12,6 +12,7 @@ export default function Recommend() {
   const [token, setToken] = useRecoilState(tokenState)
   const [user, setUser] = useRecoilState(userState)
 
+  console.log(user)
   const [currentRecommend, setCurrentRecommend] = useState(true)
   const icon = currentRecommend ? concernIcon : interestIcon
   const recommendText = currentRecommend
