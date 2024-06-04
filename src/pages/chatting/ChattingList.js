@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './Chatting.css'
 import theme from '../../Theme'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import {
   chatUserState,
@@ -65,13 +65,14 @@ const ChattingList = () => {
   const [chatUser, setChatUser] = useRecoilState(chatUserState)
   const [rooms, setRooms] = useState([])
   const socketList = useRef(null)
+  const navigate = useNavigate()
 
   // console.log(chatUser)
   useEffect(() => {
     const roomInfo = async () => {
       try {
         const roomData = await axios
-          .get(`${DOMAIN_NAME}/chatroom?sender=2`, {
+          .get(`${DOMAIN_NAME}/chatroom?sender=5`, {
             headers: {
               Authorization: window.localStorage.getItem('Authorization'),
             },
@@ -123,19 +124,18 @@ const ChattingList = () => {
                   width: '100%',
                 }}
               >
-                <Link
-                  to={`/chatting/room`}
-                  style={{
-                    textDecoration: 'none',
-                    color: 'black',
-                    width: '100%',
-                  }}
-                  onClick={() => {
-                    console.log(chatUser)
-                  }}
+                <div
+                  onClick={() =>
+                    navigate('/chatting/room', {
+                      state: { roomId: room.id, recv: recv },
+                    })
+                  }
+                  style={{ width: '100%' }}
                 >
+                  {' '}
                   <ChattingItem recv={recv} room={room} />
-                </Link>
+                </div>
+
                 <hr
                   style={{
                     margin: 0,
