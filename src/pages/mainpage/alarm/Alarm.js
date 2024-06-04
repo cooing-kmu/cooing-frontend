@@ -10,18 +10,17 @@ export default function Alarm() {
 
   const getNotifications = async () => {
     try {
-      const notifications = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}notifications`,
-        {
+      const notifications = await axios
+        .get(`${process.env.REACT_APP_BASE_URL}notifications`, {
           headers: {
             Authorization: window.localStorage.getItem('Authorization'),
-          }.then((res) => {
-            const _user = res.data.body
-            setAlarmData(_user.item)
-            return _user
-          }),
-        }
-      )
+          },
+        })
+        .then((res) => {
+          const _user = res.data.body
+          setAlarmData(_user.item)
+          return _user
+        })
       return notifications
     } catch (error) {
       console.error('Error fetching user information:', error)
