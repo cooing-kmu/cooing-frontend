@@ -3,10 +3,8 @@ import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 
 const MainContainer = styled.div`
-  justify-content: center;
-
   gap: 16px;
-  ${({ layout }) => (layout === 0 ? 'margin-top: 80px;' : 'margin-top: -50px;')}
+  margin-top: 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,18 +13,17 @@ const MainContainer = styled.div`
     display: none;
   }
   overflow: auto;
-  ${({ layout }) =>
-    layout === 0 ? 'margin-bottom: 20px;' : 'margin-bottom: 0px;'}
+  margin-bottom: 20px;
 `
 
 const SubContainer = styled.div`
-  ${({ layout }) => (layout === 0 ? 'margin-top: 30px;' : 'margin-top: 0px;')}
+  margin-top: 30px;
   gap: 24px;
   display: grid;
   ${({ layout }) =>
     layout === 0
       ? 'grid-template-columns: repeat(2, 1fr);'
-      : 'grid-template-columns: repeat(8, 1fr);'}
+      : 'grid-template-columns: repeat(16, 1fr);'}
   font-weight: 200;
   overflow-x: auto; /* 가로 스크롤 추가 */
   max-width: 460px; /* 최대 너비 설정 */
@@ -86,11 +83,11 @@ const ThinkCard2 = ({ layout, interestList, buttonName }) => {
           </ItemContainer>
         ))}
       </SubContainer>
-      {buttonName && (
-        <div>
+      <div>
+        {buttonName === '수정' ? ( // 정보 수정
           <Button onClick={() => navigate('/think-edit')}>{buttonName}</Button>
-        </div>
-      )}
+        ) : null}
+      </div>
     </MainContainer>
   )
 }

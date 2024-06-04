@@ -3,9 +3,8 @@ import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 
 const MainContainer = styled.div`
-  justify-content: center;
   gap: 16px;
-  ${({ layout }) => (layout === 0 ? 'margin-top: 80px;' : 'margin-top: -50px;')}
+  margin-top: 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,12 +13,11 @@ const MainContainer = styled.div`
     display: none;
   }
   overflow: auto;
-  ${({ layout }) =>
-    layout === 0 ? 'margin-bottom: 20px;' : 'margin-bottom: -30px;'}
+  margin-bottom: 20px;
 `
 
 const SubContainer = styled.div`
-  ${({ layout }) => (layout === 0 ? 'margin-top: 30px;' : 'margin-top: 0px;')}
+  margin-top: 30px;
   gap: 24px;
   display: grid;
   ${({ layout }) =>
@@ -93,13 +91,13 @@ const InterestCard2 = ({ layout, interestList, buttonName }) => {
           </ItemContainer>
         ))}
       </SubContainer>
-      {buttonName && (
-        <div>
+      <div>
+        {buttonName === '수정' ? ( // 정보 수정
           <Button onClick={() => navigate('/interest-edit')}>
             {buttonName}
           </Button>
-        </div>
-      )}
+        ) : null}
+      </div>
     </MainContainer>
   )
 }

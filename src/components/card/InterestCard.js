@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 
@@ -62,20 +62,15 @@ const Button = styled.button`
   margin-top: 10px;
 `
 
-const InterestCard = ({ isClickable, buttonName }) => {
-  const [clickedItems, setClickedItems] = useState(Array(16).fill(false))
-
-  const handleItemClick = (index) => {
-    const newClickedItems = [...clickedItems]
-    newClickedItems[index] = !newClickedItems[index]
-    setClickedItems(newClickedItems)
-  }
-
+const InterestCard = ({
+  clickedItems,
+  handleItemClick,
+  isClickable,
+  buttonName,
+  onSubmit,
+}) => {
   const isAnyItemSelected = clickedItems.includes(true)
-
   const navigate = useNavigate()
-
-  const selectedItemsList = clickedItems.map((item) => (item ? 1 : 0))
 
   const items = [
     ['🍳', '요리'],
@@ -108,8 +103,8 @@ const InterestCard = ({ isClickable, buttonName }) => {
           <ItemContainer
             key={index}
             onClick={isClickable ? () => handleItemClick(index) : undefined}
-            clicked={clickedItems[index]}
-            isClickable={isClickable}
+            clicked={clickedItems[index] ? 1 : 0}
+            isclickable={isClickable.toString()} // isClickable prop을 문자열로 변환하여 전달
           >
             <h1>{item[0]}</h1>
             {item[1]}
@@ -127,9 +122,20 @@ const InterestCard = ({ isClickable, buttonName }) => {
         ) : buttonName === '변경 완료' ? ( // 매칭 정보 변경 완료
           <Button
             disabled={!isAnyItemSelected}
-            onClick={() => {
+            onClick={async () => {
+              await onSubmit() // 비동기 함수 호출
+              alert('관심 키워드 변경이 완료 되었습니다.')
               navigate('/interest-info')
-              console.log('선택된 리스트:', selectedItemsList)
+            }}
+          >
+            {buttonName}
+          </Button>
+        ) : buttonName === '등록 완료' ? (
+          <Button
+            disabled={!isAnyItemSelected}
+            onClick={async () => {
+              await onSubmit() // 비동기 함수 호출
+              navigate('/set-think-keyword')
             }}
           >
             {buttonName}

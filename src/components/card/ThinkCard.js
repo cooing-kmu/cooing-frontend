@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 
@@ -23,6 +22,7 @@ const SubContainer = styled.div`
   font-weight: 200;
   overflow-x: auto; /* 가로 스크롤 추가 */
   max-width: 480px; /* 최대 너비 설정 */
+  height: calc(100vh - 224px);
   &::-webkit-scrollbar {
     display: none;
   }
@@ -61,20 +61,15 @@ const Button = styled.button`
   margin-top: 10px;
 `
 
-const ThinkCard = ({ isClickable, buttonName }) => {
-  const [clickedItems, setClickedItems] = useState(Array(16).fill(false))
-
-  const handleItemClick = (index) => {
-    const newClickedItems = [...clickedItems]
-    newClickedItems[index] = !newClickedItems[index]
-    setClickedItems(newClickedItems)
-  }
-
+const ThinkCard = ({
+  clickedItems,
+  handleItemClick,
+  isClickable,
+  buttonName,
+  onSubmit,
+}) => {
   const isAnyItemSelected = clickedItems.includes(true)
-
   const navigate = useNavigate()
-
-  const selectedItemsList = clickedItems.map((item) => (item ? 1 : 0))
 
   const items = [
     ['💰', '소득'],
@@ -99,8 +94,8 @@ const ThinkCard = ({ isClickable, buttonName }) => {
           <ItemContainer
             key={index}
             onClick={isClickable ? () => handleItemClick(index) : undefined}
-            clicked={clickedItems[index]}
-            isClickable={isClickable}
+            clicked={clickedItems[index] ? 1 : 0}
+            isclickable={isClickable.toString()} // isClickable prop을 문자열로 변환하여 전달
           >
             <h1>{item[0]}</h1>
             {item[1]}
@@ -108,7 +103,7 @@ const ThinkCard = ({ isClickable, buttonName }) => {
         ))}
       </SubContainer>
       <div>
-        {buttonName === '완료' ? ( // 찬우오빠 네비게이션 수정
+        {buttonName === '다음' ? ( // 찬우오빠 네비게이션 수정
           <Button
             disabled={!isAnyItemSelected}
             onClick={() => navigate('/interest-info')}
@@ -118,9 +113,21 @@ const ThinkCard = ({ isClickable, buttonName }) => {
         ) : buttonName === '변경 완료' ? ( // 매칭 정보 변경 완료
           <Button
             disabled={!isAnyItemSelected}
-            onClick={() => {
+            onClick={async () => {
+              await onSubmit() // 비동기 함수 호출
+              alert('고민 키워드 변경이 완료 되었습니다.')
               navigate('/think-info')
-              console.log('선택된 리스트:', selectedItemsList)
+            }}
+          >
+            {buttonName}
+          </Button>
+        ) : buttonName === '등록 완료' ? (
+          <Button
+            disabled={!isAnyItemSelected}
+            onClick={async () => {
+              await onSubmit() // 비동기 함수 호출
+              alert('매칭 정보 등록이 완료 되었습니다.')
+              navigate('/my-page')
             }}
           >
             {buttonName}
