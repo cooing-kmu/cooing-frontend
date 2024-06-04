@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 
-
 export const Div = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
 `
 export const Container = styled.div`
   display: flex;
@@ -33,7 +33,7 @@ export const Detail = styled.textarea`
   border-radius: 10px;
   border: #a6a6a6 solid 1px;
   resize: none;
-  padding: 20px; 
+  padding: 20px;
   &::placeholder {
     font-size: 15px;
     color: #a6a6a6;
