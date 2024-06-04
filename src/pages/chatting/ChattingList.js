@@ -47,9 +47,12 @@ const ChattingItem = ({ recv, room }) => {
 
         <div
           className='chatting-list-count'
-          style={{ backgroundColor: `${theme.red}` }}
+          style={{
+            backgroundColor:
+              room.unreadChat > 0 ? `${theme.red}` : 'transparent',
+          }}
         >
-          {room.unreadChat}
+          {room.unreadChat > 0 && room.unreadChat}
         </div>
       </div>
     </div>
@@ -60,61 +63,59 @@ const ChattingList = () => {
   const [token, setToken] = useRecoilState(tokenState)
   const [user, setUser] = useRecoilState(userState)
   const [chatUser, setChatUser] = useRecoilState(chatUserState)
-  const [userListTsx, setUserListTsx] = useState([])
+  const [rooms, setRooms] = useState([])
   const socketList = useRef(null)
 
   // console.log(chatUser)
   useEffect(() => {
     const roomInfo = async () => {
-      //로그인 유저의 현재 채팅방 목록 조회
-      const roomData = await axios
-        .get(`${DOMAIN_NAME}/chatroom?sender=2`, {
-          headers: {
-            Authorization: window.localStorage.getItem('Authorization'),
-          },
-        })
-        .then((res) => res.data.body)
+      try {
+        const roomData = await axios
+          .get(`${DOMAIN_NAME}/chatroom?sender=2`, {
+            headers: {
+              Authorization: window.localStorage.getItem('Authorization'),
+            },
+          })
+          .then((res) => res.data.body)
 
-      console.log(roomData)
+        if (!roomData) return
 
-      if (!roomData) return
-
-      if (!socketList.current) {
-        const socket = Stomp.over(() => new SockJS(`${DOMAIN_NAME}/ws`))
-        socket.connect({ user: user.id }, () => {
-          roomData.forEach((room) => {
-            const decoder = new TextDecoder('utf-8')
-            socket.subscribe(`/queue/chatting/${room.id}`, (message) => {
-              const userMessage = JSON.parse(decoder.decode(message.binaryBody))
-              const newChat = {
-                id: userMessage.chatId,
-                unread: 1,
-                userId: userMessage.senderId,
-                chatRoomId: room.id,
-                content: userMessage.content,
-              }
-              console.log(newChat)
+        if (!socketList.current) {
+          const socket = Stomp.over(() => new SockJS(`${DOMAIN_NAME}/ws`))
+          socket.connect({ user: user.id }, () => {
+            roomData.forEach((room) => {
+              const decoder = new TextDecoder('utf-8')
+              socket.subscribe(`/queue/chatting/${room.id}`, (message) => {
+                const userMessage = JSON.parse(
+                  decoder.decode(message.binaryBody)
+                )
+                const newChat = {
+                  id: userMessage.chatId,
+                  unread: 1,
+                  userId: userMessage.senderId,
+                  chatRoomId: room.id,
+                  content: userMessage.content,
+                }
+                console.log(newChat)
+              })
             })
           })
-        })
-        socketList.current = socket
-      }
+          socketList.current = socket
+        }
 
-      const roomComponents = await Promise.all(
-        roomData.map(async (room, index) => {
-          const recv = await axios
-            .get(`${DOMAIN_NAME}/user/${room.receiverId}`, {
-              headers: {
-                Authorization: window.localStorage.getItem('Authorization'),
-              },
-            })
-            .then((res) => res.data.body)
+        const roomComponents = await Promise.all(
+          roomData.map(async (room) => {
+            const recv = await axios
+              .get(`${DOMAIN_NAME}/user/${room.receiverId}`, {
+                headers: {
+                  Authorization: window.localStorage.getItem('Authorization'),
+                },
+              })
+              .then((res) => res.data.body)
 
-          console.log(recv)
-          return (
-            room.lastChat && (
+            return room.lastChat ? (
               <div
-                key={index}
+                key={room.id}
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
@@ -144,15 +145,23 @@ const ChattingList = () => {
                   }}
                 />
               </div>
-            )
-          )
-        })
-      )
+            ) : null
+          })
+        )
 
-      setUserListTsx(roomComponents)
+        setRooms(roomComponents)
+      } catch (error) {
+        console.error('Failed to fetch chat rooms', error)
+      }
     }
 
     roomInfo()
+
+    return () => {
+      if (socketList.current) {
+        socketList.current.disconnect()
+      }
+    }
   }, [user])
 
   return (
@@ -162,7 +171,7 @@ const ChattingList = () => {
         height: '650px',
       }}
     >
-      {userListTsx}
+      {rooms}
     </div>
   )
 }
