@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import UserData from '../../data/UserData'
-import RecommendData from '../../data/RecommendData'
-import theme from '../../Theme'
+import userIcon from '../../assets/icons/icon-user.svg'
 import './Chatting.css'
 import { useRecoilState } from 'recoil'
 import { tokenState, userState } from '../../utils/userAtom'
@@ -69,11 +67,11 @@ export default function Recommend() {
       <div className='recommend-list'>
         {recommendUserList.map((item, index) => (
           <div key={index} className='recommend-list-user'>
-            <img
-              src={item.profileImageUrl}
-              alt={item.username}
-              // 이미지에 상대적으로 더 많은 높이 할당
-            />
+            {item.profileImageUrl ? (
+              <img src={item.profileImageUrl} alt='user' />
+            ) : (
+              <img src={userIcon} alt='user' />
+            )}
             <div
               className='recommend-list-user-text'
               style={{ textAlign: 'center', height: '20%' }}

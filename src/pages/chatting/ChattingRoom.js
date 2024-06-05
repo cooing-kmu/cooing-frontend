@@ -1,7 +1,7 @@
 import './Chatting.css'
 import backIcon from '../../assets/icons/icon-arrow-left.svg'
 import moreIcon from '../../assets/icons/icon-more-wh.svg'
-import Messages from './Messages'
+import userIcon from '../../assets/icons/icon-user.svg'
 import React, { useEffect, useRef, useState } from 'react'
 import { DOMAIN_NAME } from '../../App'
 import { Stomp } from '@stomp/stompjs'
@@ -9,7 +9,7 @@ import SockJS from 'sockjs-client'
 import sendIcon from '../../assets/icons/icon-send.svg'
 import { useRecoilState } from 'recoil'
 import { tokenState, userState } from '../../utils/userAtom'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function ChattingRoom() {
   const [token, setToken] = useRecoilState(tokenState)
@@ -17,11 +17,14 @@ export default function ChattingRoom() {
   const [chatList, setChatList] = useState([])
   const [input, setInput] = useState('')
   const location = useLocation()
+  const navigate = useNavigate()
   const { roomId, recv } = location.state || {} // 전달받은 room과 recv 객체
 
   const roomRef = useRef()
   const sender = useRef(undefined)
   const socketList = useRef([])
+
+  const messageEndRef = useRef()
 
   useEffect(() => {
     if (roomId && recv) {
@@ -32,38 +35,39 @@ export default function ChattingRoom() {
 
     console.log(roomId, recv)
 
+    const fetchInitChatList = async () => {
+      const initChatList = await fetch(`${DOMAIN_NAME}/chat/${roomId}`)
+        .then((res) => res.json())
+        .then((data) => data.body)
+        .catch((err) => console.log(err))
+
+      setChatList(initChatList)
+      scrollChatToBottom()
+
+      socketList.current.push({
+        recvId: recv.id,
+        roomId: roomId,
+        socket: socket,
+      })
+      messageEndRef.current.scrollIntoView({ block: 'end' })
+    }
+
+    fetchInitChatList()
+
     const socket = Stomp.over(() => {
       return new SockJS(`${DOMAIN_NAME}/ws`)
     })
     socket.connect({ user: user.id }, async () => {
       const decoder = new TextDecoder('utf-8')
       console.log(`/queue/chatting/${roomId}`)
+      sender.current = { socket: socket, roomId: roomId, userId: user.id }
+
+      console.log(sender.current)
       socket.subscribe(`/queue/chatting/${roomId}`, (message) => {
         if (!sender.current) return
         const userMessage = JSON.parse(decoder.decode(message.binaryBody))
-        const newChat = {
-          id: userMessage.chatId,
-          unread: 1,
-          userId: userMessage.senderId,
-          chatRoomId: roomId,
-          content: userMessage.content,
-          createdAt: userMessage.createdAt,
-        }
         console.log(userMessage)
-        if (sender.current.roomId === newChat.chatRoomId) {
-          setChatList((prev) => [...prev, newChat])
-          if (newChat.chatRoomId === roomId && newChat.userId !== user.id) {
-            socket.send(
-              `/app/chat/${newChat.id}`,
-              {},
-              JSON.stringify({
-                id: newChat.id,
-                senderId: user.id,
-                unread: newChat.unread,
-              })
-            )
-          }
-        }
+        handleRecv(recv)
       })
       socket.subscribe(`/queue/chat/`, (message) => {
         const chatMessage = JSON.parse(decoder.decode(message.binaryBody))
@@ -77,13 +81,7 @@ export default function ChattingRoom() {
       })
     })
 
-    return () => {
-      if (sender.current && sender.current.socket) {
-        sender.current.socket.disconnect(() => {
-          console.log('Disconnected')
-        })
-      }
-    }
+    scrollChatToBottom()
   }, [roomId, recv])
 
   if (!roomId || !recv) {
@@ -143,6 +141,9 @@ export default function ChattingRoom() {
     return userChatList
   }
 
+  function scrollChatToBottom() {
+    messageEndRef.current.scrollIntoView({ behavior: 'smooth' })
+  }
   function updateChatUnread(chatMessage) {
     console.log('update chat unread')
     setChatList((currentChatList) => {
@@ -170,23 +171,30 @@ export default function ChattingRoom() {
   }
 
   const messageSubmitHandler = () => {
-    if (!sender.current || !user || !input.trim()) {
-      console.log('no sender or empty message')
+    // sender.current와 sender.current.socket이 유효한지 확인
+    if (!sender.current) {
+      console.log('no sender')
       return
+    } else if (!sender.current.socket) {
+      console.log('socket disconnected')
     }
-
-    // STOMP 연결 확인
-    if (!sender.current.socket.connected) {
-      console.log('STOMP connection is not established')
-      return
-    }
-
-    // 현재 시간을 00:00 형식으로 변환
+    console.log(sender.current)
     const now = new Date()
+
+    // 년도, 월, 일을 각각 추출합니다.
+    const year = now.getFullYear()
+    // getMonth()는 0에서 시작하므로 1을 더해줍니다. 또한, 10보다 작은 경우 앞에 '0'을 붙여줍니다.
+    const month = String(now.getMonth() + 1).padStart(2, '0')
+    const day = String(now.getDate()).padStart(2, '0')
+
+    // 시간과 분을 각각 추출합니다.
     const hours = String(now.getHours()).padStart(2, '0')
     const minutes = String(now.getMinutes()).padStart(2, '0')
-    const formattedTime = `${hours}:${minutes}`
 
+    // 위에서 추출한 값을 조합하여 최종 문자열을 생성합니다.
+    const dateTimeFormat = `${year}-${month}-${day} ${hours}:${minutes}`
+
+    console.log(dateTimeFormat)
     sender.current.socket.send(
       '/app/chatting',
       {},
@@ -194,21 +202,72 @@ export default function ChattingRoom() {
         roomId: sender.current.roomId,
         senderId: user.id,
         content: input,
-        createdAt: formattedTime,
+        createdAt: dateTimeFormat,
       })
     )
     setInput('') // 메시지 전송 후 입력 필드 초기화
+    handleRecv(recv)
+    scrollChatToBottom()
   }
-
   return (
     <div className='chatting-room'>
       <div className='chatting-room-header'>
-        <img src={backIcon} alt={'뒤로가기'} />
+        <img src={backIcon} alt={'뒤로가기'} onClick={() => navigate(-1)} />
         <span>{recv.username}님 </span>
         <img src={moreIcon} alt='더보기' />
       </div>
       <div className='chatting-room-chat'>
-        <Messages chatList={chatList} recvImage={recv.profileImageUrl} />
+        <div className='messages'>
+          {chatList.map((chat) => (
+            <div
+              className={chat.userId === user?.id ? 'message owner' : 'message'}
+              key={`${chat.id}-${chat.userId}-${chat.unread}`}
+            >
+              <div className='message-user'>
+                {chat.userId === user?.id ? (
+                  user.profileImageUrl ? (
+                    <img src={user.profileImageUrl} alt='user' />
+                  ) : (
+                    <img src={userIcon} alt='user' />
+                  )
+                ) : !recv.profileImageUrl ? (
+                  <img src={recv.profileImageUrl} alt='user' />
+                ) : (
+                  <img src={userIcon} alt='user' />
+                )}
+              </div>
+              <div
+                className={
+                  chat.userId === user?.id
+                    ? 'message-content owner'
+                    : 'message-content'
+                }
+              >
+                {' '}
+                <div
+                  className={
+                    chat.userId === user?.id
+                      ? 'message-content-main owner'
+                      : 'message-content-main'
+                  }
+                >
+                  <div
+                    className={
+                      chat.userId === user?.id
+                        ? 'message-content-text owner'
+                        : 'message-content-text'
+                    }
+                  >
+                    {chat.content}
+                  </div>
+                  {chat.unread > 0 ? <span>{chat.unread}</span> : null}
+                </div>
+                <span>{chat.createdAt}</span>
+              </div>
+            </div>
+          ))}
+          <div ref={messageEndRef}></div>
+        </div>
         <div className='input'>
           <input
             type='text'
@@ -218,7 +277,12 @@ export default function ChattingRoom() {
             onKeyDown={handleKeyPress}
           />
           <div className='send'>
-            <button onClick={messageSubmitHandler}>
+            <button
+              onClick={() => {
+                messageSubmitHandler()
+                scrollChatToBottom()
+              }}
+            >
               <img src={sendIcon} alt='보내기버튼' />
             </button>
           </div>

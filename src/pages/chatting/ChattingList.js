@@ -4,18 +4,45 @@ import theme from '../../Theme'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import { tokenState, userState } from '../../utils/userAtom'
-import user1 from '../../assets/images/user1.png'
+import userIcon from '../../assets/icons/icon-user.svg'
 import { DOMAIN_NAME } from '../../App'
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
 import axios from 'axios'
+
+function formatDateTime(input) {
+  // 입력값을 Date 객체로 파싱합니다.
+  const inputDate = new Date(input)
+  const now = new Date()
+
+  // 오늘 날짜만 있는 Date 객체를 생성합니다 (시간은 00:00으로 설정).
+  const todayMidnight = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate()
+  )
+
+  // 입력된 날짜가 오늘 자정 이전인지 확인합니다.
+  if (inputDate >= todayMidnight) {
+    // 자정 이전이면 시간과 분을 반환합니다.
+    const hours = String(inputDate.getHours()).padStart(2, '0')
+    const minutes = String(inputDate.getMinutes()).padStart(2, '0')
+    return `${hours}:${minutes}`
+  } else {
+    // 자정을 지났으면 날짜를 반환합니다.
+    const year = inputDate.getFullYear()
+    const month = String(inputDate.getMonth() + 1).padStart(2, '0') // getMonth()는 0부터 시작하므로 1을 더해줍니다.
+    const day = String(inputDate.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
+  }
+}
 
 const ChattingItem = ({ recv, room }) => {
   return (
     <div className='chatting-list'>
       <div className='chatting-list-img'>
         {!recv.profileImageUrl ? (
-          <img src={user1} alt={recv.username} />
+          <img src={userIcon} alt={recv.username} />
         ) : (
           <img src={recv.profileImageUrl} alt={recv.username} />
         )}
@@ -37,7 +64,7 @@ const ChattingItem = ({ recv, room }) => {
           className='chatting-list-time'
           style={{ color: `${theme.darkGray}` }}
         >
-          {room.lastUpdate}
+          {formatDateTime(room.lastUpdate)}
         </div>
 
         <div
@@ -66,7 +93,7 @@ const ChattingList = () => {
     const roomInfo = async () => {
       try {
         const roomData = await axios
-          .get(`${DOMAIN_NAME}/chatroom?sender=5`, {
+          .get(`${DOMAIN_NAME}/chatroom?sender=1`, {
             headers: {
               Authorization: window.localStorage.getItem('Authorization'),
             },
@@ -84,14 +111,6 @@ const ChattingList = () => {
                 const userMessage = JSON.parse(
                   decoder.decode(message.binaryBody)
                 )
-                const newChat = {
-                  id: userMessage.chatId,
-                  unread: 1,
-                  userId: userMessage.senderId,
-                  chatRoomId: room.id,
-                  content: userMessage.content,
-                }
-                console.log(newChat)
               })
             })
           })
@@ -151,11 +170,11 @@ const ChattingList = () => {
 
     roomInfo()
 
-    return () => {
-      if (socketList.current) {
-        socketList.current.disconnect()
-      }
-    }
+    // return () => {
+    //   if (socketList.current) {
+    //     socketList.current.disconnect()
+    //   }
+    // }
   }, [user])
 
   return (

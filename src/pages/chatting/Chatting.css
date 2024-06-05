@@ -5,6 +5,7 @@
     flex-direction: row;
     margin: 15px 45px;
     height: 20%;
+    justify-content: space-around;
 }
 .chatting-list-img {
     display: flex;
@@ -24,7 +25,7 @@
 
 .chatting-list-text {
     text-align: left;
-    width: 73%;
+    width: 70%;
 }
 
 .chatting-list-name {
@@ -188,6 +189,7 @@
     flex-direction: row;
     margin-bottom: 10px;
     align-items: flex-end;
+    width: 100%;
 }
 
 .message.owner{
@@ -195,12 +197,21 @@
     flex-direction: row-reverse;
     margin-bottom: 10px;
     align-items: flex-end;
+    width: 100%;
 }
 
 .message-user{
     height: 100%;
-    width: 15%;
     margin: 10px;
+
+}
+
+.message-user img{
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    object-fit: fill;
+    border: 3px solid white;
 }
 
 .message-content {
@@ -215,6 +226,7 @@
     flex-direction: column;
     width: 85%;
     justify-items: right;
+
 }
 
 .message-content.owner span{
@@ -242,7 +254,7 @@
     flex-direction: row-reverse;
     align-items: flex-end;
 }
-
+.message-content-text.owner,
 .message-content-text{
     background-color:#FD814A ;
     padding:10px 15px;
@@ -250,6 +262,8 @@
     color:white;
     font-size: 19px;
     margin-bottom: 3px;
+    word-wrap: break-word;
+    max-width: 80%;
 }
 
 .message-content-text.owner{
@@ -258,11 +272,8 @@
     color:white;
     font-size: 19px;
     margin-bottom: 3px;
+    word-wrap: break-word;
 }
-
-
-
-
 
 /*Input*/
 

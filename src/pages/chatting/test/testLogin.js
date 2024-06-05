@@ -26,7 +26,7 @@ const TestLogin = () => {
         })
         .then(async (res) => {
           const user = await axios
-            .get(`${DOMAIN_NAME}/user/5`, {})
+            .get(`${DOMAIN_NAME}/user/1`, {})
             .then((res) => {
               const _user = res.data.body
               setUser({ ..._user, token })
