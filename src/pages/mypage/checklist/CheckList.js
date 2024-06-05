@@ -35,7 +35,6 @@ export default function CheckList() {
 
   const handleItemClick = (itemName) => {
     if (data && data[itemName]) {
-      // console.log(`Data for ${itemName}:`, data[itemName]) // 추가된 콘솔 로그
       setImagesForClickedItem(data[itemName])
       setClickedItem(clickedItem === itemName ? '' : itemName)
     }
@@ -85,7 +84,7 @@ export default function CheckList() {
             <React.Fragment key={item.name}>
               <style.ItemContainer
                 onClick={() => handleItemClick(item.name)}
-                $clicked={clickedItem === item.name ? 'true' : undefined} // 여기서 수정
+                clicked={clickedItem === item.name ? 'true' : undefined} // 조건부 렌더링 사용
               >
                 {item.text}
                 <Ic_Plus

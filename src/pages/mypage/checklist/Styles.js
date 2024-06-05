@@ -22,7 +22,9 @@ export const MenuContainer = styled.div`
   padding-bottom: 10px;
 `
 
-export const ItemContainer = styled.div`
+export const ItemContainer = styled.div.attrs((props) => ({
+  'data-clicked': props.clicked,
+}))`
   display: flex;
   height: 56px;
   align-items: center;
@@ -32,11 +34,12 @@ export const ItemContainer = styled.div`
   gap: 6px;
   justify-content: space-between;
   cursor: pointer;
-  border-bottom: ${(props) => (props.clicked ? 'none' : 'solid 1px #a6a6a6')};
+  border-bottom: ${(props) =>
+    props['data-clicked'] ? 'none' : 'solid 1px #a6a6a6'};
   &:last-child {
     border-bottom: none;
   }
-  color: ${(props) => (props.clicked ? '#fd814a' : 'black')};
+  color: ${(props) => (props['data-clicked'] ? '#fd814a' : 'black')};
 `
 
 export const ToggleContainer = styled.div`
@@ -59,7 +62,6 @@ export const ImageContainer = styled.div`
     margin-top: 10px;
   }
   &::-webkit-scrollbar {
-    // 스크롤바 없음
     display: none;
   }
 `
