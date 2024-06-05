@@ -6,7 +6,7 @@ const MainContainer = styled.div`
   justify-content: center;
 
   gap: 16px;
-  ${({ layout }) => (layout === 0 ? 'margin-top: 80px;' : 'margin-top: -50px;')}
+  ${({ layout }) => (layout === 0 ? 'margin-top: 40px;' : 'margin-top: -50px;')}
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -77,7 +77,7 @@ const ThinkCard2 = ({ layout, interestList, buttonName }) => {
   ]
 
   return (
-    <MainContainer>
+    <MainContainer layout={layout}>
       <SubContainer layout={layout}>
         {items.map((item, index) => (
           <ItemContainer key={index} color={interestList[index]}>

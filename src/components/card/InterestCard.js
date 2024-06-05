@@ -94,7 +94,7 @@ const InterestCard = ({
     <MainContainer>
       <TextContainer>
         <h3>나의 관심 분야를</h3>
-        <p>3개 이상 선택해주세요.</p>
+        <p>: 3개 이상 선택해주세요.</p>
       </TextContainer>
 
       <SubContainer>

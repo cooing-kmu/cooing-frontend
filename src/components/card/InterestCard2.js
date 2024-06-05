@@ -15,7 +15,7 @@ const MainContainer = styled.div`
   }
   overflow: auto;
   ${({ layout }) =>
-    layout === 0 ? 'margin-bottom: 20px;' : 'margin-bottom: -30px;'}
+    layout === 0 ? 'margin-bottom: 20px;' : 'margin-bottom: 0px;'}
 `
 
 const SubContainer = styled.div`
@@ -84,7 +84,7 @@ const InterestCard2 = ({ layout, interestList, buttonName }) => {
   ]
 
   return (
-    <MainContainer>
+    <MainContainer layout={layout}>
       <SubContainer layout={layout}>
         {items.map((item, index) => (
           <ItemContainer key={index} color={interestList[index]}>

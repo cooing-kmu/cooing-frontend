@@ -85,7 +85,7 @@ const ThinkCard = ({
     <MainContainer>
       <TextContainer>
         <h3>나의 고민 분야를</h3>
-        <p>3개 이상 선택해주세요.</p>
+        <p>: 3개 이상 선택해주세요.</p>
       </TextContainer>
 
       <SubContainer>
@@ -102,7 +102,7 @@ const ThinkCard = ({
         ))}
       </SubContainer>
       <div>
-          {buttonName === '완료' ? ( // 찬우오빠 네비게이션 수정
+        {buttonName === '완료' ? ( // 찬우오빠 네비게이션 수정
           <Button
             disabled={!isAnyItemSelected}
             onClick={() => navigate('/sign-up5')}
