@@ -10,6 +10,7 @@ import sendIcon from '../../assets/icons/icon-send.svg'
 import { useRecoilState } from 'recoil'
 import { tokenState, userState } from '../../utils/userAtom'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { MainContainer } from '../../components/chatting/BgComponent'
 
 export default function ChattingRoom() {
   const [token, setToken] = useRecoilState(tokenState)
@@ -27,14 +28,10 @@ export default function ChattingRoom() {
   const messageEndRef = useRef()
 
   useEffect(() => {
-    console.log(user, recv)
     if (roomNum && recv) {
       handleRecv(recv)
       setRoomId(roomNum)
-      console.log('a') // 수정: console -> console.log
     } else if (!roomNum && recv) {
-      // 수정: recv 조건 추가
-      console.log('bbbbbbbbbbbb')
       const createRoomId = async () => {
         const roomId = await fetch(
           `${DOMAIN_NAME}/chatroom?sender=${user.id}&receiver=${recv.id}`
@@ -54,26 +51,6 @@ export default function ChattingRoom() {
   useEffect(() => {
     if (!roomId || !recv) return // roomId 또는 recv가 없으면 실행하지 않습니다.
 
-    const fetchInitChatList = async () => {
-      const initChatList = await fetch(`${DOMAIN_NAME}/chat/${roomId}`)
-        .then((res) => res.json())
-        .then((data) => data.body)
-        .catch((err) => console.log(err))
-
-      setChatList(initChatList)
-      scrollChatToBottom()
-
-      socketList.current.push({
-        recvId: recv.id,
-        roomId: roomId,
-        socket: socket,
-      })
-      messageEndRef.current.scrollIntoView({ block: 'end' })
-    }
-
-    fetchInitChatList()
-    scrollChatToBottom()
-    // 소켓 설정 부분을 여기로 이동합니다.
     const socket = Stomp.over(() => {
       return new SockJS(`${DOMAIN_NAME}/ws`)
     })
@@ -99,13 +76,45 @@ export default function ChattingRoom() {
         roomId: roomId,
         socket: socket,
       })
+
+      const fetchInitChatList = async () => {
+        const initChatList = await fetch(`${DOMAIN_NAME}/chat/${roomId}`)
+          .then((res) => res.json())
+          .then((data) => data.body)
+          .catch((err) => console.log(err))
+
+        setChatList(initChatList)
+        updateChatUnread(initChatList)
+        scrollChatToBottom()
+
+        // 채팅 목록의 unread를 0으로 설정
+        initChatList.forEach((chat) => {
+          if (chat.unread > 0) {
+            // 서버에 unread 상태 변경을 알림
+            sender.current.socket.send(
+              `/app/chat/${chat.id}`,
+              {},
+              JSON.stringify({
+                id: chat.id,
+                senderId: user.id,
+                unread: chat.unread,
+              })
+            )
+            // 클라이언트 상태 업데이트
+            updateChatUnread({ ...chat, unread: 0 })
+          }
+        })
+        messageEndRef.current.scrollIntoView({ block: 'end' })
+      }
+
+      fetchInitChatList()
     })
 
     scrollChatToBottom()
   }, [roomId, recv])
 
   if (!roomId || !recv) {
-    return <div>유효하지 않은 접근입니다.</div>
+    return <MainContainer>유효하지 않은 접근입니다.</MainContainer>
   }
   const getCurrentSenderSocket = (receiver) => {
     for (let i = 0; i < socketList.current.length; i++) {
