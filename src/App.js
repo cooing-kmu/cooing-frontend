@@ -8,6 +8,7 @@ import SignIn from './pages/SignIn'
 import Footer from './components/footer/Footer'
 import Chatting from './pages/chatting/Chatting'
 import ChattingRoom from './pages/chatting/ChattingRoom'
+import UserInfo from './pages/chatting/UserInfo'
 
 export const DOMAIN_NAME = 'http://15.165.25.19:8080'
 
@@ -24,6 +25,7 @@ function App() {
             <Route path='/sign-in' element={<SignIn />}></Route>
             <Route path='/chatting' element={<Chatting />}></Route>
             <Route path='/chatting/room' element={<ChattingRoom />}></Route>
+            <Route path='/user-info/:userId' element={<UserInfo />}></Route>
           </Routes>
         </BrowserRouter>
       </CookiesProvider>

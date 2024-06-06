@@ -6,9 +6,12 @@ import { tokenState, userState } from '../../utils/userAtom'
 import concernIcon from '../../assets/icons/icon-concern.svg'
 import interestIcon from '../../assets/icons/icon-heart.svg'
 import { DOMAIN_NAME } from '../../App'
+import { useNavigate } from 'react-router-dom'
+
 export default function Recommend() {
   const [token, setToken] = useRecoilState(tokenState)
   const [user, setUser] = useRecoilState(userState)
+  const navigate = useNavigate()
 
   console.log(user)
   const [currentRecommend, setCurrentRecommend] = useState(true)
@@ -66,7 +69,11 @@ export default function Recommend() {
       </div>
       <div className='recommend-list'>
         {recommendUserList.map((item, index) => (
-          <div key={index} className='recommend-list-user'>
+          <div
+            key={index}
+            className='recommend-list-user'
+            onClick={() => navigate(`/user-info/${item.id}`)}
+          >
             {item.profileImageUrl ? (
               <img src={item.profileImageUrl} alt='user' />
             ) : (
