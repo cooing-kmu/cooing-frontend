@@ -57,7 +57,11 @@ export default function Header(props) {
           <style.ButtonContainer>
             {props.title === ThreeHeaderNameList[10] ? (
               // 우저 정보 - 채팅 버튼
-              <Ic_Chat onClick={() => navigate('/chatroom')} />
+              <Ic_Chat
+                onClick={() =>
+                  navigate('/chatting/room', { state: { recv: props.recv } })
+                }
+              />
             ) : null}
           </style.ButtonContainer>
         </style.HeaderContainer>

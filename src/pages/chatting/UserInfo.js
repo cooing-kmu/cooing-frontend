@@ -44,7 +44,7 @@ export default function UserInfo() {
   return (
     <style.MainContainer>
       <style.BackgroundContainer>
-        <Header title='프로필 정보' />
+        <Header title='프로필 정보' recv={user} />
         <style.CircleContainer></style.CircleContainer>
         <style.ImageContainer>
           {user.profileImageUrl ? (

@@ -140,7 +140,7 @@ const ChattingList = () => {
                 <div
                   onClick={() =>
                     navigate('/chatting/room', {
-                      state: { roomId: room.id, recv: recv },
+                      state: { roomNum: room.id, recv: recv },
                     })
                   }
                   style={{ width: '100%' }}

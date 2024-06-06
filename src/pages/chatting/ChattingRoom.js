@@ -18,22 +18,41 @@ export default function ChattingRoom() {
   const [input, setInput] = useState('')
   const location = useLocation()
   const navigate = useNavigate()
-  const { roomId, recv } = location.state || {} // 전달받은 room과 recv 객체
+  const { roomNum, recv } = location.state || {} // 전달받은 room과 recv 객체
 
-  const roomRef = useRef()
+  const [roomId, setRoomId] = useState(roomNum)
   const sender = useRef(undefined)
   const socketList = useRef([])
 
   const messageEndRef = useRef()
 
   useEffect(() => {
-    if (roomId && recv) {
-      // 필요한 초기화 작업 수행
-      roomRef.current = roomId
+    console.log(user, recv)
+    if (roomNum && recv) {
       handleRecv(recv)
-    }
+      setRoomId(roomNum)
+      console.log('a') // 수정: console -> console.log
+    } else if (!roomNum && recv) {
+      // 수정: recv 조건 추가
+      console.log('bbbbbbbbbbbb')
+      const createRoomId = async () => {
+        const roomId = await fetch(
+          `${DOMAIN_NAME}/chatroom?sender=${user.id}&receiver=${recv.id}`
+        )
+          .then((res) => res.json())
+          .then((data) => data.body)
+          .catch((err) => console.log(err))
 
-    console.log(roomId, recv)
+        console.log(roomId[0].id)
+        setRoomId(roomId[0].id)
+      }
+      createRoomId()
+    }
+  }, [roomNum, recv])
+
+  // roomId와 recv가 설정된 후 chatList를 가져오고 소켓을 설정합니다.
+  useEffect(() => {
+    if (!roomId || !recv) return // roomId 또는 recv가 없으면 실행하지 않습니다.
 
     const fetchInitChatList = async () => {
       const initChatList = await fetch(`${DOMAIN_NAME}/chat/${roomId}`)
@@ -53,7 +72,8 @@ export default function ChattingRoom() {
     }
 
     fetchInitChatList()
-
+    scrollChatToBottom()
+    // 소켓 설정 부분을 여기로 이동합니다.
     const socket = Stomp.over(() => {
       return new SockJS(`${DOMAIN_NAME}/ws`)
     })
@@ -144,6 +164,7 @@ export default function ChattingRoom() {
   function scrollChatToBottom() {
     messageEndRef.current.scrollIntoView({ behavior: 'smooth' })
   }
+
   function updateChatUnread(chatMessage) {
     console.log('update chat unread')
     setChatList((currentChatList) => {
@@ -208,6 +229,8 @@ export default function ChattingRoom() {
     setInput('') // 메시지 전송 후 입력 필드 초기화
     handleRecv(recv)
     scrollChatToBottom()
+
+    console.log(chatList)
   }
   return (
     <div className='chatting-room'>
