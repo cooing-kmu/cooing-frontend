@@ -29,11 +29,18 @@ function formatDateTime(input) {
     const minutes = String(inputDate.getMinutes()).padStart(2, '0')
     return `${hours}:${minutes}`
   } else {
-    // 자정을 지났으면 날짜를 반환합니다.
+    // 자정을 지난 경우
     const year = inputDate.getFullYear()
     const month = String(inputDate.getMonth() + 1).padStart(2, '0') // getMonth()는 0부터 시작하므로 1을 더해줍니다.
     const day = String(inputDate.getDate()).padStart(2, '0')
-    return `${year}-${month}-${day}`
+
+    //올해인 경우
+    if (year === now.getFullYear()) {
+      return `${month}-${day}`
+    } else {
+      // 다른 년도인 경우
+      return `${year}-${month}-${day}`
+    }
   }
 }
 
@@ -93,12 +100,12 @@ const ChattingList = () => {
     const roomInfo = async () => {
       try {
         const roomData = await axios
-          .get(`${DOMAIN_NAME}/chatroom?sender=1`, {
+          .get(`${DOMAIN_NAME}/chatroom?sender=${user.id}`, {
             headers: {
               Authorization: window.localStorage.getItem('Authorization'),
             },
           })
-          .then((res) => res.data.body)
+          .then((res) => res.data.body.reverse())
 
         if (!roomData) return
 
@@ -117,64 +124,75 @@ const ChattingList = () => {
           socketList.current = socket
         }
 
+        const sortedRoomData = roomData.sort((a, b) => {
+          const dateA = new Date(a.lastUpdate)
+          const dateB = new Date(b.lastUpdate)
+
+          // b가 a보다 더 최신일 경우, 앞으로 오도록 합니다.
+          return dateB - dateA
+        })
+
+        console.log(sortedRoomData)
+
         const roomComponents = await Promise.all(
-          roomData.map(async (room) => {
-            const recv = await axios
-              .get(`${DOMAIN_NAME}/user/${room.receiverId}`, {
-                headers: {
-                  Authorization: window.localStorage.getItem('Authorization'),
-                },
-              })
-              .then((res) => res.data.body)
+          sortedRoomData.map(async (room) => {
+            try {
+              const response = await axios.get(
+                `${DOMAIN_NAME}/user/${room.receiverId}`,
+                {
+                  headers: {
+                    Authorization: window.localStorage.getItem('Authorization'),
+                  },
+                }
+              )
+              const recv = response.data.body
 
-            return room.lastChat ? (
-              <div
-                key={room.id}
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  width: '100%',
-                }}
-              >
+              if (!room.lastChat) return null
+
+              return (
                 <div
-                  onClick={() =>
-                    navigate('/chatting/room', {
-                      state: { roomNum: room.id, recv: recv },
-                    })
-                  }
-                  style={{ width: '100%' }}
-                >
-                  {' '}
-                  <ChattingItem recv={recv} room={room} />
-                </div>
-
-                <hr
+                  key={room.id}
                   style={{
-                    margin: 0,
-                    width: '90%',
-                    border: 0,
-                    borderTop: `1px solid ${theme.orange}`,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    width: '100%',
                   }}
-                />
-              </div>
-            ) : null
+                >
+                  <div
+                    onClick={() =>
+                      navigate('/chatting/room', {
+                        state: { roomNum: room.id, recv: recv },
+                      })
+                    }
+                    style={{ width: '100%' }}
+                  >
+                    <ChattingItem recv={recv} room={room} />
+                  </div>
+
+                  <hr
+                    style={{
+                      margin: 0,
+                      width: '90%',
+                      border: 0,
+                      borderTop: `1px solid ${theme.orange}`,
+                    }}
+                  />
+                </div>
+              )
+            } catch (error) {
+              console.error('Error fetching room details:', error)
+              return null
+            }
           })
         )
-
-        setRooms(roomComponents)
+        const validRooms = roomComponents.filter((room) => room !== null)
+        setRooms(validRooms)
       } catch (error) {
         console.error('Failed to fetch chat rooms', error)
       }
     }
-
     roomInfo()
-
-    // return () => {
-    //   if (socketList.current) {
-    //     socketList.current.disconnect()
-    //   }
-    // }
   }, [user])
 
   return (

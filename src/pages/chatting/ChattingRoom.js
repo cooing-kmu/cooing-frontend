@@ -100,8 +100,6 @@ export default function ChattingRoom() {
                 unread: chat.unread,
               })
             )
-            // 클라이언트 상태 업데이트
-            updateChatUnread({ ...chat, unread: 0 })
           }
         })
         messageEndRef.current.scrollIntoView({ block: 'end' })
