@@ -4,6 +4,8 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import InfoListSection from './InfoListSection'
 import searchIcon from '../../assets/search-icon.svg'
 import { ScrollContainer } from './BgComponent'
+import axios, { get } from 'axios'
+import { DOMAIN_NAME } from '../../App'
 
 const SearchComponent = ({
   itemType,
@@ -39,7 +41,7 @@ const SearchComponent = ({
     } else setSelectedCategory2(event.target.value)
   }
 
-  const fetchData = () => {
+  const fetchData = async () => {
     let fullApiUrl = `${apiUrl}?`
     let queryParams = []
 
@@ -48,12 +50,12 @@ const SearchComponent = ({
         queryParams.push(`polyRlmCd=${selectedCategory1}`)
       } else if (itemType === 'business') {
         queryParams.push(`category=${selectedCategory1}`)
-      } else if (itemType === 'hiring') {
+      } else if (itemType === 'job') {
         queryParams.push(`ncsCdNmLst=${selectedCategory1}`)
       }
     }
     if (selectedCategory2.length > 0) {
-      if (itemType === 'policy' || 'hiring') {
+      if (itemType === 'policy' || 'job') {
         queryParams.push(`supportLocationType=${selectedCategory2}`)
       } else if (itemType === 'business') {
         queryParams.push(`registerYear=${selectedCategory2}`)
@@ -71,11 +73,16 @@ const SearchComponent = ({
     setFilteredData([])
     console.log(fullApiUrl)
 
-    fetch(fullApiUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        setFilteredData(data.body)
-        setScrollData(data.body.slice(0, 10))
+    axios
+      .get(fullApiUrl, {
+        headers: {
+          Authorization: window.localStorage.getItem('Authorization'),
+        },
+      })
+      .then((res) => {
+        setFilteredData(res.data.body)
+        setScrollData(res.data.body.slice(0, 10))
+        console.log(res.data.body.slice(0, 10))
         setPage(1)
       })
       .catch((error) => {

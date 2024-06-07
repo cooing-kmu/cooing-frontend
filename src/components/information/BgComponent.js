@@ -19,7 +19,7 @@ export const InfoContainer = styled.div`
   height: 68%;
   width: calc(100% - 40px);
   margin: 97px 20px 0 20px;
-  padding: 15px 0;
+  padding: 30px 0;
   overflow-y: auto;
   &::-webkit-scrollbar {
     display: none;

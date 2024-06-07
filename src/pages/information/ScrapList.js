@@ -3,14 +3,13 @@ import './ScrapList.css'
 import {
   InfoContainer,
   MainContainer,
+  ScrollContainer,
 } from '../../components/information/BgComponent'
 import Header from '../../components/header/Header'
 import { useParams } from 'react-router-dom'
 import { DOMAIN_NAME } from '../../App'
 import InfoListSection from '../../components/information/InfoListSection'
-import PolicyData from '../../data/PolicyData'
-import BusinessData from '../../data/BusinessData'
-import HiringData from '../../data/HiringData'
+import axios from 'axios'
 
 export default function ScrapList() {
   const { itemType } = useParams()
@@ -18,17 +17,17 @@ export default function ScrapList() {
   const [scrapList, setScrapList] = useState([]) // 스크랩 목록 상태 관리
   let headerTitle = ''
   useEffect(() => {
-    switch (itemType) {
-      case 'policy':
-        setScrapList(PolicyData)
-        break
-      case 'business':
-        setScrapList(BusinessData)
-        break
-      case 'hiring':
-        setScrapList(HiringData)
-        break
-    }
+    axios
+      .get(`${DOMAIN_NAME}/support/${itemType}?scrap=true`, {
+        headers: {
+          Authorization: window.localStorage.getItem('Authorization'),
+        },
+      })
+      .then((res) => {
+        setScrapList(res.data.body)
+        console.log(`${DOMAIN_NAME}/support/${itemType}?scrap=false`)
+        console.log(res.data.body)
+      })
     //   // itemType에 따라 API 호출하여 스크랩 목록 데이터 가져오기
     //   const fetchScrapList = async () => {
     //     try {
@@ -48,7 +47,7 @@ export default function ScrapList() {
     case 'business':
       headerTitle = '지원사업 스크랩 목록'
       break
-    case 'hiring':
+    case 'job':
       headerTitle = '채용공고 스크랩 목록'
       break
   }
@@ -57,9 +56,24 @@ export default function ScrapList() {
     <MainContainer>
       <Header title={headerTitle} />
       <InfoContainer>
-        {scrapList.map((item) => (
-          <InfoListSection key={item.id} itemType={itemType} item={item} />
-        ))}
+        {scrapList && scrapList.length > 0 ? (
+          scrapList.map((item) => (
+            <InfoListSection key={item.id} itemType={itemType} item={item} />
+          ))
+        ) : (
+          <div
+            className='no-results'
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '50vh',
+              fontSize: '20px',
+            }}
+          >
+            스크랩 데이터가 없습니다.
+          </div>
+        )}
       </InfoContainer>
     </MainContainer>
   )

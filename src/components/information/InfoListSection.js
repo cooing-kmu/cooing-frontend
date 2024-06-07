@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import vector from '../../assets/vector-right-black.svg'
 import locationIcon from '../../assets/icon-location.svg'
+import { useRecoilState } from 'recoil'
+import { hasInfoScrapState } from '../../utils/userAtom'
 
 export const ItemContainer = styled.div`
   color: white;
@@ -63,7 +65,8 @@ export const InfoItem = ({ itemTitle, itemContent, hiringContent }) => {
 }
 
 const InfoListSection = ({ item, itemType }) => {
-  // 아이템 유형에 따라 다른 방식으로 렌더링
+  const [hasInfoScrap, setHasInfoScrap] = useRecoilState(hasInfoScrapState)
+
   const renderItem = () => {
     switch (itemType) {
       case 'policy':
@@ -75,7 +78,7 @@ const InfoListSection = ({ item, itemType }) => {
         )
       case 'business':
         return <InfoItem itemTitle={item.title} itemContent={item.category} />
-      case 'hiring':
+      case 'job':
         console.log(item.recrutSeNm)
         return (
           <InfoItem
@@ -93,6 +96,9 @@ const InfoListSection = ({ item, itemType }) => {
         <Link
           to={`/${itemType}/${item.id}`}
           style={{ textDecoration: 'none', color: 'black' }}
+          onClick={() => {
+            setHasInfoScrap(item.isScraped)
+          }}
         >
           {renderItem()}
         </Link>

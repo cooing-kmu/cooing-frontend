@@ -12,8 +12,8 @@ import PolicyDetail from './pages/information/PolicyDetail'
 import Footer from './components/footer/Footer'
 import Business from './pages/information/Business'
 import BusinessDetail from './pages/information/BusinessDetail'
-import Hiring from './pages/information/Hiring'
-import HiringDetail from './pages/information/HiringDetail'
+import Job from './pages/information/Job'
+import JobDetail from './pages/information/JobDetail'
 
 export const DOMAIN_NAME = 'http://15.165.25.19:8080'
 
@@ -35,8 +35,8 @@ function App() {
               <Route path='/policy/:id' element={<PolicyDetail />}></Route>
               <Route path='/business' element={<Business />}></Route>
               <Route path='/business/:id' element={<BusinessDetail />}></Route>
-              <Route path='/hiring' element={<Hiring />}></Route>
-              <Route path='/hiring/:id' element={<HiringDetail />}></Route>
+              <Route path='/job' element={<Job />}></Route>
+              <Route path='/job/:id' element={<JobDetail />}></Route>
             </Routes>
           </BrowserRouter>
         </CookiesProvider>
