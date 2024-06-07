@@ -7,7 +7,7 @@ import Header from '../../components/header/Header'
 import { DOMAIN_NAME } from '../../App'
 import SearchComponent from '../../components/information/SearchComponent'
 
-export default function Hiring() {
+export default function Job() {
   const apiUrl = `${DOMAIN_NAME}/support/job`
   const categories = [
     '전체',
@@ -64,7 +64,7 @@ export default function Hiring() {
       <InfoContainer style={{ overflowY: 'hidden' }}>
         <SearchComponent
           apiUrl={apiUrl}
-          itemType='hiring'
+          itemType='job'
           categoryName1='직업'
           category1={categories}
           categoryName2='지역'
