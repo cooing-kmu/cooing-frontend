@@ -73,6 +73,18 @@ const LoginButton = ({ signInSuccessUrl, signUpUrl, signInFailureUrl }) => {
       .catch((err) => console.log(err))
     console.log('Login state:', state)
 
+    await axios
+      .get(`${host}/users`, {
+        headers: {
+          Authorization: window.localStorage.getItem('Authorization'),
+        },
+      })
+      .then((res) => {
+        console.log(res.data.body)
+        setUser(res.data.body)
+      })
+      .catch((err) => console.log(err))
+
     // USER : 현재 사용자가 구글 로그인이 되었고, 서버에도 회원가입이 되어있으므로 로그인에 성공함
     // LIMITED : 현재 사용자가 구글 로그인은 되었지만, 회원가입이 필요함
     // GUEST : 현재 사용자가 구글 로그인을 실패함

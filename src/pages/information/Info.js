@@ -7,7 +7,7 @@ import {
   MainContainer,
   LogoContainer,
 } from '../../components/information/BgComponent'
-import cooingLogo from '../../assets/cooingLogo.svg'
+import cooingLogo from '../../assets/icons/icon-cooingLogo.svg'
 import TestLogin from '../chatting/test/testLogin'
 import { userState } from '../../utils/userAtom'
 import { useRecoilState } from 'recoil'
