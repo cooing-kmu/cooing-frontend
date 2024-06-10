@@ -34,13 +34,13 @@ export default function SignUp5() {
   const [role, setRole] = useRecoilState(roleState)
   const [nickname, setNickname] = useRecoilState(nicknameState)
   const [profileMessage, setProfileMessage] =
-    useRecoilState(profileMessageState)
+      useRecoilState(profileMessageState)
   const [profileImage, setProfileImage] = useRecoilState(profileImageState)
   const [interestKeyword, setInterestKeyword] = useRecoilState(interestState)
   const [concernKeywords, setConcernKeywords] =
-    useRecoilState(concernKeywordState)
+      useRecoilState(concernKeywordState)
   const [isMatchingActive, setIsMatchingActive] = useRecoilState(
-    isMatchingActiveState
+      isMatchingActiveState
   )
   const location = useLocation()
   const Navigate = useNavigate()
@@ -77,7 +77,7 @@ export default function SignUp5() {
     const fetchNickname = async () => {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}users`
+            `${process.env.REACT_APP_BASE_URL}users`
         )
         const users = response.data.body
         const currentUser = users.find((user) => user.id === userId)
@@ -94,16 +94,16 @@ export default function SignUp5() {
   }, [])
 
   return (
-    <Div>
-      <MainContainer>
-        <h2>{nickname}님</h2>
-        <img src={cookieHouse} alt='손' />
-        <div>
-          <h2>
-            MATE 매칭 중<SyncLoader />
-          </h2>
-        </div>
-      </MainContainer>
-    </Div>
+      <Div>
+        <MainContainer>
+          <h2>{nickname}님</h2>
+          <img src={cookieHouse} alt='손' />
+          <div>
+            <h2>
+              MATE 매칭 중<SyncLoader />
+            </h2>
+          </div>
+        </MainContainer>
+      </Div>
   )
 }
