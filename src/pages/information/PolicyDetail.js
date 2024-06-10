@@ -19,6 +19,7 @@ const PolicyDetail = () => {
   const [error, setError] = useState(false)
   const [hasInfoScrap, setHasInfoScrap] = useRecoilState(hasInfoScrapState)
 
+  console.log(hasInfoScrap)
   useEffect(() => {
     fetch(`${DOMAIN_NAME}/support/policy/${id}`)
       .then((response) => response.json())
@@ -57,6 +58,21 @@ const PolicyDetail = () => {
       console.error('스크랩을 전송하는 중 오류 발생:', error)
     }
   }
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`${DOMAIN_NAME}/support/policy/${id}/scrap`, {
+        headers: {
+          Authorization: window.localStorage.getItem('Authorization'),
+        },
+      })
+      setHasInfoScrap(!hasInfoScrap)
+      console.log('삭제 성공')
+    } catch (error) {
+      console.error('삭제 실패', error)
+      console.log(hasInfoScrap)
+    }
+  }
   return (
     <MainContainer>
       <Header title={'지원정책'} />
@@ -70,7 +86,7 @@ const PolicyDetail = () => {
           }}
         >
           {hasInfoScrap === true ? (
-            <Ic_ScrapTrue onClick={handleScrapClick} />
+            <Ic_ScrapTrue onClick={handleDelete} />
           ) : (
             <Ic_ScrapFalse onClick={handleScrapClick} />
           )}

@@ -32,6 +32,14 @@ const BusinessDetail = () => {
       })
   }, [id])
 
+  if (error) {
+    return (
+      <MainContainer>
+        <div>사업 데이터를 찾을 수 없습니다.</div>
+      </MainContainer>
+    )
+  }
+
   const handleScrapClick = async () => {
     try {
       const response = await axios.post(
@@ -51,12 +59,20 @@ const BusinessDetail = () => {
       console.error('스크랩을 전송하는 중 오류 발생:', error)
     }
   }
-  if (error) {
-    return (
-      <MainContainer>
-        <div>사업 데이터를 찾을 수 없습니다.</div>
-      </MainContainer>
-    )
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`${DOMAIN_NAME}/support/business/${id}/scrap`, {
+        headers: {
+          Authorization: window.localStorage.getItem('Authorization'),
+        },
+      })
+      setHasInfoScrap(!hasInfoScrap)
+      console.log('삭제 성공')
+    } catch (error) {
+      console.error('삭제 실패', error)
+      console.log(hasInfoScrap)
+    }
   }
 
   return (
@@ -72,7 +88,7 @@ const BusinessDetail = () => {
           }}
         >
           {hasInfoScrap === true ? (
-            <Ic_ScrapTrue onClick={handleScrapClick} />
+            <Ic_ScrapTrue onClick={handleDelete} />
           ) : (
             <Ic_ScrapFalse onClick={handleScrapClick} />
           )}

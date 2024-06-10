@@ -3,13 +3,33 @@ import './ScrapList.css'
 import {
   InfoContainer,
   MainContainer,
-  ScrollContainer,
 } from '../../components/information/BgComponent'
 import Header from '../../components/header/Header'
 import { useParams } from 'react-router-dom'
 import { DOMAIN_NAME } from '../../App'
 import InfoListSection from '../../components/information/InfoListSection'
 import axios from 'axios'
+import styled from 'styled-components'
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: right;
+  margin-bottom: 20px;
+  margin-right: 12px;
+`
+
+const Button = styled.button`
+  width: 100px;
+  height: 40px;
+  font-weight: 600;
+  color: white;
+  background-color: #fc5c4c;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  margin: 5px;
+  font-size: 18px;
+`
 
 export default function ScrapList() {
   const { itemType } = useParams()
@@ -88,19 +108,26 @@ export default function ScrapList() {
     <MainContainer>
       <Header title={headerTitle} />
       <InfoContainer>
-        <div>
-          <button onClick={handleEditToggle}>
-            {isEditing ? '취소' : '수정'}
-          </button>
+        <ButtonContainer>
+          {isEditing ? (
+            <Button
+              onClick={handleEditToggle}
+              style={{ backgroundColor: `#C4C4C4` }}
+            >
+              취소
+            </Button>
+          ) : (
+            <Button onClick={handleEditToggle}>수정</Button>
+          )}
           {isEditing && (
-            <button
+            <Button
               onClick={handleDelete}
               disabled={selectedItems.length === 0}
             >
               삭제
-            </button>
+            </Button>
           )}
-        </div>
+        </ButtonContainer>
         {scrapList && scrapList.length > 0 ? (
           scrapList.map((item) => (
             <InfoListSection

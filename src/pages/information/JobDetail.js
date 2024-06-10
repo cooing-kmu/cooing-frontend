@@ -30,6 +30,14 @@ const JobDetail = () => {
       })
   }, [id, hasInfoScrap]) // id가 변경될 때마다 요청을 다시 보냅니다.
 
+  if (error) {
+    return (
+      <MainContainer>
+        <div>채용 데이터를 찾을 수 없습니다.</div>
+      </MainContainer>
+    )
+  }
+
   const handleScrapClick = async () => {
     try {
       const response = await axios.post(
@@ -50,12 +58,19 @@ const JobDetail = () => {
     }
   }
 
-  if (error) {
-    return (
-      <MainContainer>
-        <div>채용 데이터를 찾을 수 없습니다.</div>
-      </MainContainer>
-    )
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`${DOMAIN_NAME}/support/policy/${id}/scrap`, {
+        headers: {
+          Authorization: window.localStorage.getItem('Authorization'),
+        },
+      })
+      setHasInfoScrap(!hasInfoScrap)
+      console.log('삭제 성공')
+    } catch (error) {
+      console.error('삭제 실패', error)
+      console.log(hasInfoScrap)
+    }
   }
   return (
     <MainContainer>
@@ -70,7 +85,7 @@ const JobDetail = () => {
           }}
         >
           {hasInfoScrap === true ? (
-            <Ic_ScrapTrue onClick={handleScrapClick} />
+            <Ic_ScrapTrue onClick={handleDelete} />
           ) : (
             <Ic_ScrapFalse onClick={handleScrapClick} />
           )}
