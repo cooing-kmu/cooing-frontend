@@ -1,21 +1,28 @@
-import Footer from '../../components/footer/Footer'
 import React from 'react'
-import styled from 'styled-components'
-
-const MainContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #fffad0;
-  height: 100vh;
-  gap: 360px;
-`
+import Recommend from './Recommend'
+import './Chatting.css'
+import { MainContainer } from '../../components/chatting/BgComponent'
+import ChattingList from './ChattingList'
+import TestLogin from './test/testLogin'
+import { useRecoilState } from 'recoil'
+import { userState } from '../../utils/userAtom'
 
 export default function Chatting() {
+  const [user, setUser] = useRecoilState(userState)
+
+  console.log(user)
   return (
     <MainContainer>
-      채팅 페이지 네비게이션 테스트
-      <Footer />
+      <div>
+        {!user ? (
+          <TestLogin />
+        ) : (
+          <div>
+            <Recommend />
+            <ChattingList />
+          </div>
+        )}
+      </div>
     </MainContainer>
   )
 }

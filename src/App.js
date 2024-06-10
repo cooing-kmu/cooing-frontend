@@ -52,6 +52,9 @@ import Alarm from './pages/mainpage/alarm/Alarm'
 import MateInfo from './pages/mainpage/mateinfo/MateInfo'
 
 // Chatting 하위 라우팅 페이지
+import ChattingRoom from './pages/chatting/ChattingRoom'
+import UserInfo from './pages/chatting/UserInfo'
+
 
 // MyPage 하위 라우팅 페이지
 import Profile from './pages/mypage/profile/Profile'
@@ -140,6 +143,9 @@ function App() {
               <Route path='/mate-info' element={<MateInfo />}></Route>
 
               {/* Chatting 하위 라우팅 페이지 */}
+              <Route path='/chatting' element={<Chatting />}></Route>
+              <Route path='/chatting/room' element={<ChattingRoom />}></Route>
+              <Route path='/user-info/:userId' element={<UserInfo />}></Route>
 
               {/* MyPage 하위 라우팅 페이지 */}
               <Route path='/profile' element={<Profile />}></Route>

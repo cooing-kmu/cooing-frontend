@@ -1,0 +1,311 @@
+/* ChattingList */
+
+.chatting-list {
+    display: flex;
+    flex-direction: row;
+    margin: 15px 45px;
+    height: 20%;
+    justify-content: space-around;
+}
+.chatting-list-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 18px;
+    width: 15%;
+}
+
+.chatting-list-img img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: fill;
+    border: 3px solid white;
+}
+
+.chatting-list-text {
+    text-align: left;
+    width: 70%;
+}
+
+.chatting-list-name {
+    font-size: 20px;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.chatting-list-msg {
+    font-size: 15px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.chatting-list-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    width: 12%;
+}
+
+.chatting-list-time {
+    font-size: 10px;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.chatting-list-count {
+    border-radius: 4px;
+    height: 25px;
+    width: 25px;
+    color: white;
+    font-weight: bolder;
+    font-size: 15px;
+    text-align: center;
+}
+
+/* Recommend */
+
+.recommend {
+    display: flex;
+    flex-direction: column;
+    border-radius: 0 0 40px 40px;
+    width: 100%;
+    color: white;
+    background-image: linear-gradient(to top, #FC5C4C, #FD814A);
+
+}
+
+.recommend-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 25px 22px 15px 22px;
+    align-items: center;
+}
+
+.recommend-icon{
+    padding-right: 10px;
+}
+
+.recommend-text {
+    font-size: 21px;
+    width: 85%;
+    text-align: left;
+    font-weight: bold;
+}
+
+.recommend-list {
+    margin: 5px 15px 20px 15px;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+.recommend-list-user {
+    display: flex;
+    flex-direction: column;
+    margin-right: 15px;
+    align-items: center;
+}
+
+.recommend-list-user img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: fill;
+    border: 3px solid white;
+}
+
+.recommend-list-user-text {
+    text-align: center;
+    height: 20%;
+    font-weight: bold;
+}
+
+/*ChattingRoom*/
+.chatting-room {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: linear-gradient(to top, #FC5C4C, #FD814A);
+    height: 100vh;
+    width: 100%;
+    position: relative;
+}
+.chatting-room-header {
+    width: 100%;
+    color: white;
+    font-weight: 600;
+    font-size: 25px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    padding-top: 20px;
+}
+.chatting-room-header img {
+    height: 30px;
+    width: 30px;
+    transform: translateY(7%);
+    padding: 0 20px;
+
+}
+.chatting-room-header span {
+    text-align: left;
+    width: 80%;
+}
+
+.chatting-room-chat {
+    height: calc(100% - 100px);
+    justify-content: center;
+    width: 100%;
+    background-color: white;
+    position: absolute; /* 절대 위치 설정 */
+    bottom: 0; /* 부모 요소의 맨 아래에 배치 */
+    border-radius: 40px 40px 0 0;
+    display: flex;
+}
+
+
+/*Messages*/
+
+.messages{
+    padding: 0 10px 10px 10px;
+    height: calc(100% - 160px);
+    width: 100%;
+    overflow-y: auto;
+    margin-top: 10px;
+}
+
+/*Message*/
+
+.message{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+    align-items: flex-end;
+    width: 100%;
+}
+
+.message.owner{
+    display: flex;
+    flex-direction: row-reverse;
+    margin-bottom: 10px;
+    align-items: flex-end;
+    width: 100%;
+}
+
+.message-user{
+    height: 100%;
+    margin: 10px;
+
+}
+
+.message-user img{
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    object-fit: fill;
+    border: 3px solid white;
+}
+
+.message-content {
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+    justify-items: left;
+}
+
+.message-content.owner {
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+    justify-items: right;
+
+}
+
+.message-content.owner span{
+    justify-items: right;
+    justify-self: right;
+    text-align: right;
+    align-items: end;
+    align-content: flex-end;
+
+}
+
+.message-content-main{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.message-content-main span{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.message-content-main.owner{
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+}
+.message-content-text.owner,
+.message-content-text{
+    background-color:#FD814A ;
+    padding:10px 15px;
+    border-radius: 40px 30px 30px 0;
+    color:white;
+    font-size: 19px;
+    margin-bottom: 3px;
+    word-wrap: break-word;
+    max-width: 80%;
+}
+
+.message-content-text.owner{
+    background-color: #FC5C4C;
+    border-radius: 30px 40px 0 30px;
+    color:white;
+    font-size: 19px;
+    margin-bottom: 3px;
+    word-wrap: break-word;
+}
+
+/*Input*/
+
+.input{
+    height: 80px;
+    width: 90%;
+    border-radius: 50px;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    bottom: 30px; /* 부모 요소의 맨 아래에 배치 */
+    position: absolute; /* 절대 위치 설정 */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+
+}
+.input input {
+    width: 77%;
+    border: none;
+    outline: none;
+    color: black;
+    font-size: 20px;
+    text-align: left;
+    margin-left: 20px;
+}
+
+
+.send button{
+    border:none;
+    background-color: transparent;
+}
+.send img{
+    width: 60px;
+    height: 60px;
+}
