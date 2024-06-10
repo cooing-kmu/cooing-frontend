@@ -17,7 +17,7 @@ export const ProfileContainer = styled.div`
   align-items: center;
   gap: 10px;
 `
-export const ProfileImage = styled.img`
+export const ProfileImage = styled.div`
   width: 38px;
   height: 38px;
   border-radius: 10px;
@@ -180,7 +180,7 @@ export const Modal = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.2);
 `;
 
 export const ModalContainer = styled.div`

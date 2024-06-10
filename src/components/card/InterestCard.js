@@ -62,87 +62,87 @@ const Button = styled.button`
 `
 
 const InterestCard = ({
-  clickedItems,
-  handleItemClick,
-  isClickable,
-  buttonName,
-  onSubmit,
-}) => {
-  const isAnyItemSelected = clickedItems.includes(true)
-  const navigate = useNavigate()
+                          clickedItems,
+                          handleItemClick,
+                          isClickable,
+                          buttonName,
+                          onSubmit,
+                      }) => {
+    const isAnyItemSelected = clickedItems.includes(true)
+    const navigate = useNavigate()
 
-  const items = [
-    ['🍳', '요리'],
-    ['🏃🏻', '스포츠'],
-    ['📖', '독서'],
-    ['🧘🏻', '건강'],
-    ['🧑🏻‍💻', '게임'],
-    ['🛍️', '쇼핑'],
-    ['💗', '연애'],
-    ['🎵', '음악'],
-    ['🎨', '미술'],
-    ['🎇', '공연'],
-    ['💄', '뷰티'],
-    ['🤝🏻', '봉사'],
-    ['🎞️', '영화'],
-    ['📘', '만화'],
-    ['🖼️', '전시'],
-    ['🐶', '동물'],
-  ]
+    const items = [
+        ['🍳', '요리'],
+        ['🏃🏻', '스포츠'],
+        ['📖', '독서'],
+        ['🧘🏻', '건강'],
+        ['🧑🏻‍💻', '게임'],
+        ['🛍️', '쇼핑'],
+        ['💗', '연애'],
+        ['🎵', '음악'],
+        ['🎨', '미술'],
+        ['🎇', '공연'],
+        ['💄', '뷰티'],
+        ['🤝🏻', '봉사'],
+        ['🎞️', '영화'],
+        ['📘', '만화'],
+        ['🖼️', '전시'],
+        ['🐶', '동물'],
+    ]
 
-  return (
-    <MainContainer>
-      <TextContainer>
-        <h3>나의 관심 분야를</h3>
-        <p>: 3개 이상 선택해주세요.</p>
-      </TextContainer>
+    return (
+        <MainContainer>
+            <TextContainer>
+                <h3>나의 관심 분야를</h3>
+                <p>: 3개 이상 선택해주세요.</p>
+            </TextContainer>
 
-      <SubContainer>
-        {items.map((item, index) => (
-          <ItemContainer
-            key={index}
-            onClick={isClickable ? () => handleItemClick(index) : undefined}
-            clicked={clickedItems[index] ? 1 : 0}
-            isclickable={isClickable.toString()} // isClickable prop을 문자열로 변환하여 전달
-          >
-            <h1>{item[0]}</h1>
-            {item[1]}
-          </ItemContainer>
-        ))}
-      </SubContainer>
-      <div>
-        {buttonName === '다음' ? ( // 찬우오빠 네비게이션 수정
-          <Button
-            disabled={!isAnyItemSelected}
-            onClick={() => navigate('/sign-up4')}
-          >
-            {buttonName}
-          </Button>
-        ) : buttonName === '변경 완료' ? ( // 매칭 정보 변경 완료
-          <Button
-            disabled={!isAnyItemSelected}
-            onClick={async () => {
-              await onSubmit() // 비동기 함수 호출
-              alert('관심 키워드 변경이 완료 되었습니다.')
-              navigate('/interest-info')
-            }}
-          >
-            {buttonName}
-          </Button>
-        ) : buttonName === '등록 완료' ? (
-          <Button
-            disabled={!isAnyItemSelected}
-            onClick={async () => {
-              await onSubmit() // 비동기 함수 호출
-              navigate('/set-think-keyword')
-            }}
-          >
-            {buttonName}
-          </Button>
-        ) : null}
-      </div>
-    </MainContainer>
-  )
+            <SubContainer>
+                {items.map((item, index) => (
+                    <ItemContainer
+                        key={index}
+                        onClick={isClickable ? () => handleItemClick(index) : undefined}
+                        clicked={clickedItems[index] ? 1 : 0}
+                        isclickable={isClickable.toString()} // isClickable prop을 문자열로 변환하여 전달
+                    >
+                        <h1>{item[0]}</h1>
+                        {item[1]}
+                    </ItemContainer>
+                ))}
+            </SubContainer>
+            <div>
+                {buttonName === '다음' ? ( // 찬우오빠 네비게이션 수정
+                    <Button
+                        disabled={!isAnyItemSelected}
+                        onClick={() => navigate('/sign-up4')}
+                    >
+                        {buttonName}
+                    </Button>
+                ) : buttonName === '변경 완료' ? ( // 매칭 정보 변경 완료
+                    <Button
+                        disabled={!isAnyItemSelected}
+                        onClick={async () => {
+                            await onSubmit() // 비동기 함수 호출
+                            alert('관심 키워드 변경이 완료 되었습니다.')
+                            navigate('/interest-info')
+                        }}
+                    >
+                        {buttonName}
+                    </Button>
+                ) : buttonName === '등록 완료' ? (
+                    <Button
+                        disabled={!isAnyItemSelected}
+                        onClick={async () => {
+                            await onSubmit() // 비동기 함수 호출
+                            navigate('/set-think-keyword')
+                        }}
+                    >
+                        {buttonName}
+                    </Button>
+                ) : null}
+            </div>
+        </MainContainer>
+    )
 }
 
 export default InterestCard
