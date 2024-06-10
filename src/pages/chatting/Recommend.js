@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react'
 import userIcon from '../../assets/icons/icon-user.svg'
 import './Chatting.css'
 import { useRecoilState } from 'recoil'
-import { tokenState, userState } from '../../utils/userAtom'
+import { userState } from '../../Atom'
 import concernIcon from '../../assets/icons/icon-concern.svg'
 import interestIcon from '../../assets/icons/icon-heart.svg'
 import { DOMAIN_NAME } from '../../App'
 import { useNavigate } from 'react-router-dom'
 
 export default function Recommend() {
-  const [token, setToken] = useRecoilState(tokenState)
   const [user, setUser] = useRecoilState(userState)
   const navigate = useNavigate()
 
@@ -33,7 +32,7 @@ export default function Recommend() {
           `${DOMAIN_NAME}/user/suggestions?userId=${user.id}`,
           {
             headers: {
-              Authorization: token,
+              Authorization: window.localStorage.getItem('Authorization'),
             },
           }
         )
@@ -44,15 +43,13 @@ export default function Recommend() {
         console.log(users)
 
         setRecommendUserList(users)
-
-        if (!users) return
       } catch (error) {
         console.error('Failed to fetch users:', error)
       }
     }
 
     fetchUsers()
-  }, [token, currentRecommend])
+  }, [currentRecommend])
 
   return (
     <div className='recommend'>
@@ -68,26 +65,30 @@ export default function Recommend() {
         </div>
       </div>
       <div className='recommend-list'>
-        {recommendUserList.map((item, index) => (
-          <div
-            key={index}
-            className='recommend-list-user'
-            onClick={() => navigate(`/user-info/${item.id}`)}
-          >
-            {item.profileImageUrl ? (
-              <img src={item.profileImageUrl} alt='user' />
-            ) : (
-              <img src={userIcon} alt='user' />
-            )}
+        {recommendUserList ? (
+          recommendUserList.map((item, index) => (
             <div
-              className='recommend-list-user-text'
-              style={{ textAlign: 'center', height: '20%' }}
+              key={index}
+              className='recommend-list-user'
+              onClick={() => navigate(`/user-info/${item.id}`)}
             >
-              {item.username}
+              {item.profileImageUrl ? (
+                <img src={item.profileImageUrl} alt='user' />
+              ) : (
+                <img src={userIcon} alt='user' />
+              )}
+              <div
+                className='recommend-list-user-text'
+                style={{ textAlign: 'center', height: '20%' }}
+              >
+                {item.username}
+              </div>
+              {/* 텍스트 영역에도 고정된 높이를 할당하여, 전체 div 높이 내에서 정확한 비율 유지 */}
             </div>
-            {/* 텍스트 영역에도 고정된 높이를 할당하여, 전체 div 높이 내에서 정확한 비율 유지 */}
-          </div>
-        ))}
+          ))
+        ) : (
+          <div>유저 데이터가 없습니다.</div>
+        )}
       </div>
     </div>
   )

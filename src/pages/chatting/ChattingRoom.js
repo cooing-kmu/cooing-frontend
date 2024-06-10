@@ -8,12 +8,11 @@ import { Stomp } from '@stomp/stompjs'
 import SockJS from 'sockjs-client'
 import sendIcon from '../../assets/icons/icon-send.svg'
 import { useRecoilState } from 'recoil'
-import { tokenState, userState } from '../../utils/userAtom'
+import { userState } from '../../Atom'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { MainContainer } from '../../components/chatting/BgComponent'
 
 export default function ChattingRoom() {
-  const [token, setToken] = useRecoilState(tokenState)
   const [user, setUser] = useRecoilState(userState)
   const [chatList, setChatList] = useState([])
   const [input, setInput] = useState('')

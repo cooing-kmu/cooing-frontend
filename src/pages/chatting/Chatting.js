@@ -3,26 +3,21 @@ import Recommend from './Recommend'
 import './Chatting.css'
 import { MainContainer } from '../../components/chatting/BgComponent'
 import ChattingList from './ChattingList'
-import TestLogin from './test/testLogin'
 import { useRecoilState } from 'recoil'
-import { userState } from '../../utils/userAtom'
+import { userState } from '../../Atom'
+import { useNavigate } from 'react-router-dom'
 
 export default function Chatting() {
   const [user, setUser] = useRecoilState(userState)
-
+  const navigate = useNavigate()
   console.log(user)
+  if (!user) {
+    navigate('/')
+  }
   return (
     <MainContainer>
-      <div>
-        {!user ? (
-          <TestLogin />
-        ) : (
-          <div>
-            <Recommend />
-            <ChattingList />
-          </div>
-        )}
-      </div>
+      <Recommend />
+      <ChattingList />
     </MainContainer>
   )
 }

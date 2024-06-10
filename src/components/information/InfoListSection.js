@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components'
 import vector from '../../assets/vector-right-black.svg'
 import locationIcon from '../../assets/icon-location.svg'
 import { useRecoilState } from 'recoil'
-import { hasInfoScrapState } from '../../utils/userAtom'
+import { hasInfoScrapState } from '../../Atom'
 
 export const ItemContainer = styled.div`
   color: black;

@@ -9,7 +9,7 @@ import Header from '../../components/header/Header'
 import { DOMAIN_NAME } from '../../App'
 import axios from 'axios'
 import { useRecoilState } from 'recoil'
-import { hasInfoScrapState } from '../../utils/userAtom'
+import { hasInfoScrapState } from '../../Atom'
 import { ReactComponent as Ic_ScrapTrue } from '../../assets/icons/icon-info-scrap-true.svg'
 import { ReactComponent as Ic_ScrapFalse } from '../../assets/icons/icon-info-scrap-false.svg'
 

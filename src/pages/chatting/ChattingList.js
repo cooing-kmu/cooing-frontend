@@ -3,7 +3,7 @@ import './Chatting.css'
 import theme from '../../Theme'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
-import { tokenState, userState } from '../../utils/userAtom'
+import { userState } from '../../Atom'
 import userIcon from '../../assets/icons/icon-user.svg'
 import { DOMAIN_NAME } from '../../App'
 import SockJS from 'sockjs-client'
@@ -89,7 +89,6 @@ const ChattingItem = ({ recv, room }) => {
 }
 
 const ChattingList = () => {
-  const [token, setToken] = useRecoilState(tokenState)
   const [user, setUser] = useRecoilState(userState)
   const [rooms, setRooms] = useState([])
   const socketList = useRef(null)

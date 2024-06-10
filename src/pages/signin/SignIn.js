@@ -74,7 +74,7 @@ const LoginButton = ({ signInSuccessUrl, signUpUrl, signInFailureUrl }) => {
     console.log('Login state:', state)
 
     await axios
-      .get(`${host}/users`, {
+      .get(`${host}/user`, {
         headers: {
           Authorization: window.localStorage.getItem('Authorization'),
         },
