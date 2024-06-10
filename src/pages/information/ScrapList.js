@@ -15,7 +15,10 @@ export default function ScrapList() {
   const { itemType } = useParams()
   console.log({ itemType })
   const [scrapList, setScrapList] = useState([]) // 스크랩 목록 상태 관리
+  const [isEditing, setIsEditing] = useState(false) // 수정 상태 관리
+  const [selectedItems, setSelectedItems] = useState([]) // 선택된 아이템 상태 관리
   let headerTitle = ''
+
   useEffect(() => {
     axios
       .get(`${DOMAIN_NAME}/support/${itemType}?scrap=true`, {
@@ -28,17 +31,6 @@ export default function ScrapList() {
         console.log(`${DOMAIN_NAME}/support/${itemType}?scrap=false`)
         console.log(res.data.body)
       })
-    //   // itemType에 따라 API 호출하여 스크랩 목록 데이터 가져오기
-    //   const fetchScrapList = async () => {
-    //     try {
-    //       const response = await fetch(`${DOMAIN_NAME}/${itemType}/scrapList`)
-    //       const data = await response.json()
-    //       setScrapList(data)
-    //     } catch (error) {
-    //       console.error('Error fetching scrap list:', error)
-    //     }
-    //   }
-    //   fetchScrapList()
   }, [itemType])
   switch (itemType) {
     case 'policy':
@@ -51,14 +43,74 @@ export default function ScrapList() {
       headerTitle = '채용공고 스크랩 목록'
       break
   }
+
+  const handleEditToggle = () => {
+    setIsEditing(!isEditing)
+    setSelectedItems([])
+  }
+
+  const handleItemSelect = (id) => {
+    if (selectedItems.includes(id)) {
+      setSelectedItems(selectedItems.filter((item) => item !== id))
+    } else {
+      setSelectedItems([...selectedItems, id])
+    }
+  }
+
+  const handleDelete = async () => {
+    try {
+      await Promise.all(
+        selectedItems.map((id) =>
+          axios.delete(`${DOMAIN_NAME}/support/${itemType}/${id}/scrap`, {
+            headers: {
+              Authorization: window.localStorage.getItem('Authorization'),
+            },
+          })
+        )
+      )
+
+      // 로컬 상태에서 삭제
+      const updatedList = scrapList.filter(
+        (item) => !selectedItems.includes(item.id)
+      )
+      setScrapList(updatedList)
+      setSelectedItems([])
+      setIsEditing(false)
+
+      console.log('삭제 성공')
+    } catch (error) {
+      console.error('삭제 실패', error)
+    }
+  }
+
   console.log(scrapList)
   return (
     <MainContainer>
       <Header title={headerTitle} />
       <InfoContainer>
+        <div>
+          <button onClick={handleEditToggle}>
+            {isEditing ? '취소' : '수정'}
+          </button>
+          {isEditing && (
+            <button
+              onClick={handleDelete}
+              disabled={selectedItems.length === 0}
+            >
+              삭제
+            </button>
+          )}
+        </div>
         {scrapList && scrapList.length > 0 ? (
           scrapList.map((item) => (
-            <InfoListSection key={item.id} itemType={itemType} item={item} />
+            <InfoListSection
+              key={item.id}
+              itemType={itemType}
+              item={item}
+              isEditing={isEditing}
+              isSelected={selectedItems.includes(item.id)}
+              onSelect={handleItemSelect}
+            />
           ))
         ) : (
           <div

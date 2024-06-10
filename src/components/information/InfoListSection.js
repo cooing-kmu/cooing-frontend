@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'
+import styled, { css } from 'styled-components'
 import vector from '../../assets/vector-right-black.svg'
 import locationIcon from '../../assets/icon-location.svg'
 import { useRecoilState } from 'recoil'
 import { hasInfoScrapState } from '../../utils/userAtom'
 
 export const ItemContainer = styled.div`
-  color: white;
+  color: black;
   box-shadow:
     0 2px 10px 0 rgba(0, 0, 0, 0.1),
     0 6px 10px 0 rgba(0, 0, 0, 0.1);
@@ -16,6 +16,13 @@ export const ItemContainer = styled.div`
   text-decoration: none;
   padding: 20px 26px;
   margin: 0 20px 20px 20px;
+  ${(props) =>
+    props.isSelected &&
+    css`
+      box-shadow:
+        0 2px 10px 0 rgba(252, 92, 76, 0.5),
+        0 6px 10px 0 rgba(252, 92, 76, 0.5);
+    `}
 `
 function truncateText(text, maxLength = 20, replacement = '...') {
   if (text?.length <= maxLength) {
@@ -64,8 +71,15 @@ export const InfoItem = ({ itemTitle, itemContent, hiringContent }) => {
   )
 }
 
-const InfoListSection = ({ item, itemType }) => {
+const InfoListSection = ({
+  item,
+  itemType,
+  isEditing,
+  isSelected,
+  onSelect,
+}) => {
   const [hasInfoScrap, setHasInfoScrap] = useRecoilState(hasInfoScrapState)
+  const navigate = useNavigate()
 
   const renderItem = () => {
     switch (itemType) {
@@ -90,18 +104,26 @@ const InfoListSection = ({ item, itemType }) => {
     }
   }
 
+  const handleItemClick = () => {
+    if (isEditing) {
+      onSelect(item.id)
+    } else {
+      // 상세 페이지로 이동하는 로직을 여기에 추가합니다.
+      setHasInfoScrap(item.isScraped)
+      navigate(`/${itemType}/${item.id}`)
+    }
+  }
+
   return (
     <div>
-      <ItemContainer>
-        <Link
-          to={`/${itemType}/${item.id}`}
-          style={{ textDecoration: 'none', color: 'black' }}
+      <ItemContainer isSelected={isSelected}>
+        <div
           onClick={() => {
-            setHasInfoScrap(item.isScraped)
+            handleItemClick()
           }}
         >
           {renderItem()}
-        </Link>
+        </div>
       </ItemContainer>
     </div>
   )
