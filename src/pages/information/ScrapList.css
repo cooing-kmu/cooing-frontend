@@ -1,0 +1,16 @@
+.scrap-head{
+    font-weight: bolder;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.scrap-body{
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 20px;
+    height: 75%;
+    width: calc(100% - 40px);
+    margin: 0 20px;
+}

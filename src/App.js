@@ -22,6 +22,14 @@ import SignUp4 from './pages/signup/SignUp4'
 import SignUp5 from './pages/signup/SignUp5'
 
 // Info 하위 라우팅 페이지
+import ScrapList from './pages/information/ScrapList'
+import Policy from './pages/information/Policy'
+import PolicyDetail from './pages/information/PolicyDetail'
+import Footer from './components/footer/Footer'
+import Business from './pages/information/Business'
+import BusinessDetail from './pages/information/BusinessDetail'
+import Job from './pages/information/Job'
+import JobDetail from './pages/information/JobDetail'
 
 // Community 하위 라우팅 페이지
 import FreeBoard from './pages/community/freeboard/FreeBoard'
@@ -91,6 +99,13 @@ function App() {
               <Route path='/sign-up5' element={<SignUp5 />}></Route>
 
               {/* Info 하위 라우팅 페이지 */}
+              <Route path=':itemType/scraplist' element={<ScrapList />}></Route>
+              <Route path='/policy' element={<Policy />}></Route>
+              <Route path='/policy/:id' element={<PolicyDetail />}></Route>
+              <Route path='/business' element={<Business />}></Route>
+              <Route path='/business/:id' element={<BusinessDetail />}></Route>
+              <Route path='/job' element={<Job />}></Route>
+              <Route path='/job/:id' element={<JobDetail />}></Route>
 
               {/* Community 하위 라우팅 페이지 */}
               <Route path='/free-board' element={<FreeBoard />}></Route>
@@ -149,4 +164,5 @@ function App() {
     </RecoilRoot>
   )
 }
+
 export default App

@@ -38,13 +38,15 @@ export default function Footer() {
     location.pathname !== '/profile' &&
     location.pathname !== '/sign-in' &&
     location.pathname !== '/' &&
+    location.pathname !== '/chatting/room' &&
     !location.pathname.includes('club') &&
     !location.pathname.includes('free-board') &&
     !location.pathname.includes('study') &&
     !location.pathname.includes('volunteer') &&
     !location.pathname.includes('sign-up') &&
     !location.pathname.includes('interest') && // policy가 들어간 링크에 안뜨게 하고 싶을 때
-    !location.pathname.includes('think')
+    !location.pathname.includes('think')&&
+    !location.pathname.includes('user-info')
   ) {
     return (
       <style.FooterContainer>
