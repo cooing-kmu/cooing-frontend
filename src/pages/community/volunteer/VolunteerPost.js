@@ -30,7 +30,7 @@ export default function VolunteerPost() {
 
   return (
     <style.Div>
-      <Header title='글쓰기' />
+      <Header title='봉사활동' />
 
       <style.Container>
         <style.Title>

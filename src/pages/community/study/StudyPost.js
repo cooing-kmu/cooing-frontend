@@ -28,7 +28,7 @@ export default function StudyPost() {
 
   return (
     <style.Div>
-      <Header title='글쓰기' />
+      <Header title='스터디' />
 
       <style.Container>
         <style.Title>

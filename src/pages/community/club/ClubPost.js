@@ -28,7 +28,7 @@ export default function ClubPost() {
 
   return (
     <style.Div>
-      <Header title='글쓰기' />
+      <Header title='동아리' />
 
       <style.Container>
         <style.Title>
