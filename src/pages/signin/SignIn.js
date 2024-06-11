@@ -15,7 +15,7 @@ const MainContainer = styled.div`
   align-items: center;
   background-color: #fffad0;
   height: 100vh;
-  gap: 100px;
+  gap: 60px;
   width: 100%;
 `
 const TitleContainer = styled.div`
