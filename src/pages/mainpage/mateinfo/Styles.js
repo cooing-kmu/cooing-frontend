@@ -67,6 +67,7 @@ export const InfoContainer = styled.div`
 
 export const TextContainer = styled.div`
   font-weight: bold;
+  margin-bottom: 20px;
 `
 
 export const BioContainer = styled.div`
