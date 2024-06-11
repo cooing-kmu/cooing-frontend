@@ -29,7 +29,7 @@ export default function MyPage() {
 
   const handleToggle = async () => {
     if (user) {
-      const newIsActive = !user.isMatchingActive
+      const newIsActive = !user.isActive
 
       try {
         const response = await axios.put(
