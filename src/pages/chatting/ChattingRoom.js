@@ -260,7 +260,7 @@ export default function ChattingRoom() {
                   ) : (
                     <img src={userIcon} alt='user' />
                   )
-                ) : !recv.profileImageUrl ? (
+                ) : recv.profileImageUrl ? (
                   <img src={recv.profileImageUrl} alt='user' />
                 ) : (
                   <img src={userIcon} alt='user' />
