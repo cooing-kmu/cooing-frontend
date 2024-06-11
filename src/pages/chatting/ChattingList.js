@@ -90,6 +90,7 @@ const ChattingItem = ({ recv, room }) => {
 const ChattingList = () => {
   const [user, setUser] = useRecoilState(userState)
   const [rooms, setRooms] = useState([])
+  const [roomData, setRoomData] = useState([])
   const socketList = useRef(null)
   const navigate = useNavigate()
 
@@ -97,7 +98,7 @@ const ChattingList = () => {
   useEffect(() => {
     const roomInfo = async () => {
       try {
-        const roomData = await axios
+        const fetchRoomData = await axios
           .get(`${DOMAIN_NAME}/chatroom?sender=${user.id}`, {
             headers: {
               Authorization: window.localStorage.getItem('Authorization'),
@@ -105,44 +106,51 @@ const ChattingList = () => {
           })
           .then((res) => res.data.body.reverse())
 
-        if (!roomData) return
+        setRoomData(fetchRoomData)
+
+        if (!fetchRoomData) return
 
         if (!socketList.current) {
           const socket = Stomp.over(() => new SockJS(`${DOMAIN_NAME}/ws`))
           socket.connect({ user: user.id }, () => {
-            roomData.forEach((room) => {
+            fetchRoomData.forEach((room) => {
               const decoder = new TextDecoder('utf-8')
               socket.subscribe(`/queue/chatting/${room.id}`, (message) => {
                 const userMessage = JSON.parse(
                   decoder.decode(message.binaryBody)
                 )
                 console.log(userMessage)
+                console.log(roomData)
                 // 새로운 메시지가 도착했을 때 rooms 상태 업데이트
-                setRooms((prevRooms) => {
-                  const updatedRooms = prevRooms.map((r) => {
-                    if (r.key === room.id) {
-                      return {
-                        ...r,
-                        props: {
-                          ...r.props,
-                          room: {
-                            ...r.props.room,
-                            lastChat: userMessage.content,
-                            lastUpdate: userMessage.createdAt,
-                          },
+                const updatedRooms = roomData.map((r) => {
+                  if (r.id === userMessage.roomId) {
+                    return {
+                      ...r,
+                      props: {
+                        ...r.props,
+                        room: {
+                          ...r.props.room,
+                          lastChat: userMessage.content,
+                          lastUpdate: userMessage.createdAt,
                         },
-                      }
+                      },
                     }
-                    return r
-                  })
-                  return updatedRooms.sort((a, b) => {
-                    const dateA = new Date(a.props.room.lastUpdate)
-                    const dateB = new Date(b.props.room.lastUpdate)
-                    return dateB - dateA
-                  })
+                  }
+                  return r
                 })
+                console.log(updatedRooms)
 
-                console.log(rooms)
+                // 최신 메시지를 목록 맨 앞에 추가
+                const targetRoom = updatedRooms.find(
+                  (r) => r.id === userMessage.roomId
+                )
+                const remainingRooms = updatedRooms.filter(
+                  (r) => r.id !== userMessage.roomId
+                )
+                const sortedRoomData = [targetRoom, ...remainingRooms]
+
+                console.log(sortedRoomData)
+                setRoomData(sortedRoomData)
               })
             })
           })
@@ -156,8 +164,6 @@ const ChattingList = () => {
 
           return dateB - dateA
         })
-
-        console.log(sortedRoomData)
 
         const roomComponents = await Promise.all(
           sortedRoomData.map(async (room) => {
@@ -218,7 +224,7 @@ const ChattingList = () => {
       }
     }
     roomInfo()
-  }, [user])
+  }, [user, roomData])
 
   return (
     <div
