@@ -52,6 +52,7 @@ export default function MainPage() {
     positionY: null,
   })
   const [_user, setUser] = useState(null)
+  const [MatchingActive, setMatchingActive] = useState(false)
   const [items, setItems] = useState(itemList)
   const [showModal, setShowModal] = useState(false)
   const [houseState, setHouseState] = useState(null)
@@ -67,6 +68,7 @@ export default function MainPage() {
         })
         const _user = response.data.body
         setUser({ ...response.data.body })
+        setMatchingActive(_user.isMatchingActive)
         _user.rewardList.forEach((item, idx) => {
           itemList[idx]['count'] = item
         })
@@ -222,10 +224,9 @@ export default function MainPage() {
   }
 
   const navigate = useNavigate()
-  const matchingActive = true
 
   const handlePeopleIconClick = () => {
-    if (matchingActive) {
+    if (MatchingActive) {
       navigate('/mate-info')
     } else {
       setShowModal(true)
