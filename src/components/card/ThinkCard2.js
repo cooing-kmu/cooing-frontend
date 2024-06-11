@@ -6,7 +6,8 @@ const MainContainer = styled.div`
   justify-content: center;
 
   gap: 16px;
-  ${({ layout }) => (layout === 0 ? 'margin-top: 40px;' : 'margin-top: -50px;')}
+  ${({ layout }) =>
+    layout === 0 ? 'margin-top: -30px;' : 'margin-top: -50px;'}
   display: flex;
   flex-direction: column;
   align-items: center;

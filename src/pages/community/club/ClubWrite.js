@@ -24,7 +24,7 @@ export default function ClubWrite() {
         title: title,
         summary: summary,
         recruitDate: recruitDate,
-        content: recruitDate,
+        content: content,
       }
       const formData = new FormData()
       const jsonData = JSON.stringify(request)

@@ -33,22 +33,21 @@ export const ProfileTextName = styled.div`
 export const ProfileTextTime = styled.div`
   font-weight: normal;
   font-size: 10px;
-  color: #A6A6A6;
+  color: #a6a6a6;
 `
 export const Title = styled.div`
   font-weight: Bold;
   font-size: 24px;
-  color: #484C52;
+  color: #484c52;
   margin-top: 16px;
   word-wrap: break-word;
 `
 export const Detail = styled.div`
   font-weight: normal;
   font-size: 16px;
-  color: #484C52;
+  color: #484c52;
   margin-top: 15px;
   word-wrap: break-word;
-
 `
 export const IconContainer = styled.div`
   flex-direction: row;
@@ -57,24 +56,22 @@ export const IconContainer = styled.div`
   align-items: center;
   gap: 10px;
   margin-top: 10px;
-  
 `
 export const ThumbIcon = styled.div`
   font-size: 16px;
-  color: #FC5C4C;
+  color: #fc5c4c;
   gap: 5px;
   display: flex;
-
 `
 export const MessageIcon = styled.div`
   font-size: 16px;
-  color: #699BF7;
+  color: #699bf7;
   gap: 5px;
   display: flex;
 `
 export const StarIcon = styled.div`
   font-size: 16px;
-  color: #FFB800;
+  color: #ffb800;
   gap: 5px;
   display: flex;
 `
@@ -84,7 +81,7 @@ export const CommentContainer = styled.div`
   height: 60px;
   width: 375px;
   margin-top: 10px;
-`;
+`
 
 export const Comment = styled.textarea`
   height: 100%;
@@ -96,7 +93,7 @@ export const Comment = styled.textarea`
   resize: none;
   box-sizing: border-box; /* 패딩 포함 크기 계산 */
   text-align: start; /* 텍스트를 가로로 왼쪽 정렬 */
-`;
+`
 
 export const MessageSend = styled.img`
   position: absolute;
@@ -104,8 +101,7 @@ export const MessageSend = styled.img`
   right: 10px;
   transform: translateY(-50%);
   cursor: pointer;
-`;
-
+`
 
 export const PostContainer = styled.div`
   width: 370px;
@@ -121,23 +117,21 @@ export const ButtonContainer = styled.div`
   height: 35px;
   display: flex;
   margin-top: 10px;
-  border-bottom: #A6A6A6 solid 2px;
-
+  border-bottom: #a6a6a6 solid 2px;
 `
 export const Button = styled.button`
-  width: 42px;
+  width: 46px;
   height: 20px;
   border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 10px;
-  border: #A6A6A6 solid 1px;
-  color: #A6A6A6;
+  border: #a6a6a6 solid 1px;
+  color: #a6a6a6;
   background-color: white;
   cursor: pointer;
 `
-
 
 export const ContentsContainer = styled.div`
   height: 80px;
@@ -181,7 +175,7 @@ export const Modal = styled.div`
   align-items: center;
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.2);
-`;
+`
 
 export const ModalContainer = styled.div`
   background: white;
@@ -191,4 +185,4 @@ export const ModalContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-`;
+`
