@@ -98,7 +98,7 @@ export default function SignUp3() {
         profileMessage: profileMessage,
         interestKeyword: Array(16).fill(0),
         concernKeyword: Array(8).fill(0),
-        isMatchingActive: false,
+        isMatchingActive: 'false',
       }
       const formData = new FormData()
       const jsonData = JSON.stringify(request)

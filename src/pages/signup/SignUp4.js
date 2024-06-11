@@ -106,8 +106,8 @@ export default function SignUp4() {
           Authorization: window.localStorage.getItem('Authorization'),
         },
       })
-      const userId = response.data.body.userId // response에서 userId 추출
-      navigate('/sign-up5', { state: { userId } }) // navigate로 상태 전달
+      const userid = response.data.body.userId // response에서 userId 추출
+      navigate('/sign-up5', { state: { userid } }) // navigate로 상태 전달
     } catch (error) {
       console.error('데이터 제출 중 오류 발생', error)
       // 에러 처리 (예: 사용자에게 에러 메시지 표시)

@@ -45,7 +45,7 @@ export default function SignUp5() {
   )
   const location = useLocation()
   const Navigate = useNavigate()
-  const userId = location.state?.userId
+  const userid = location.state?.userid
 
   // Recoil 상태를 리셋하는 함수
   const resetRecoilState = () => {
@@ -79,7 +79,7 @@ export default function SignUp5() {
       try {
         const response = await axios.get(`${DOMAIN_NAME}/users`)
         const users = response.data.body
-        const currentUser = users.find((user) => user.id === userId)
+        const currentUser = users.find((user) => user.id === userid)
         if (currentUser) {
           setNickname(currentUser.username)
         }
