@@ -117,7 +117,7 @@ export default function MyPage() {
       window.localStorage.removeItem('Authorization')
 
       // 로그인 페이지로 이동
-      navigate('/sign-in')
+      navigate('/')
     } catch (err) {
       console.log('로그아웃 중 에러 발생:', err)
     }
