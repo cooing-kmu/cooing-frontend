@@ -33,7 +33,7 @@ export default function MyPage() {
 
       try {
         const response = await axios.put(
-          `${process.env.REACT_APP_BASE_URL}user/status`,
+          `${DOMAIN_NAME}/user/status`,
           {
             isMatchingActive: newIsActive,
           },
@@ -43,6 +43,7 @@ export default function MyPage() {
             },
           }
         )
+
         await getUserInfo()
 
         // 사용자 정보 업데이트
@@ -64,7 +65,7 @@ export default function MyPage() {
           const concernKeyword = Array(8).fill(0)
 
           await axios.put(
-            `${process.env.REACT_APP_BASE_URL}user/keyword`,
+            `${DOMAIN_NAME}/user/keyword`,
             {
               interestKeyword,
               concernKeyword,
@@ -85,7 +86,7 @@ export default function MyPage() {
   const getUserInfo = async () => {
     try {
       const userInfo = await axios
-        .get(`${process.env.REACT_APP_BASE_URL}user`, {
+        .get(`${DOMAIN_NAME}/user`, {
           headers: {
             Authorization: window.localStorage.getItem('Authorization'),
           },
@@ -97,6 +98,7 @@ export default function MyPage() {
           setRole(_user.roleType)
           setProfileImageUrl(_user.profileImageUrl)
           setIsActive(_user.isMatchingActive)
+          console.log(_user)
           return _user
         })
       return userInfo
@@ -107,7 +109,7 @@ export default function MyPage() {
 
   const logout = async () => {
     try {
-      await axios.get(`${process.env.REACT_APP_BASE_URL}signout`, {
+      await axios.get(`${DOMAIN_NAME}/signout`, {
         headers: {
           Authorization: window.localStorage.getItem('Authorization'),
         },

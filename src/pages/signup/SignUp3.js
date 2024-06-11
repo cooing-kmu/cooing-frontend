@@ -13,6 +13,7 @@ import {
   concernKeywordState,
   isMatchingActiveState,
 } from '../../Atom'
+import { DOMAIN_NAME } from '../../App'
 
 const Div = styled.div`
   display: flex;
@@ -106,16 +107,12 @@ export default function SignUp3() {
       formData.append('profileImage', profileImage)
 
       // 클럽 정보와 이미지를 백엔드로 전송
-      const response = await axios.post(
-        `http://15.165.25.19:8080/signup`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: window.localStorage.getItem('Authorization'),
-          },
-        }
-      )
+      const response = await axios.post(`${DOMAIN_NAME}/signup`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: window.localStorage.getItem('Authorization'),
+        },
+      })
       const userId = response.data.body.userId // response에서 userId 추출
       navigate('/sign-up5', { state: { userId } }) // navigate로 상태 전달
     } catch (error) {

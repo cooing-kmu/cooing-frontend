@@ -6,6 +6,7 @@ import defaultImage from '../../../assets/images/image-default.svg'
 import camera from '../../../assets/icons/icon-camera.svg'
 
 import axios from 'axios'
+import { DOMAIN_NAME } from '../../../App'
 
 export default function ClubWrite() {
   const navigate = useNavigate()
@@ -32,7 +33,7 @@ export default function ClubWrite() {
       formData.append('image', file)
 
       // 클럽 정보와 이미지를 백엔드로 전송
-      await axios.post(`${process.env.REACT_APP_BASE_URL}club`, formData, {
+      await axios.post(`${DOMAIN_NAME}/club`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: window.localStorage.getItem('Authorization'),

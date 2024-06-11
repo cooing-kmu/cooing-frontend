@@ -19,7 +19,7 @@ export default function Profile() {
   const getUserInfo = async () => {
     try {
       const userInfo = await axios
-        .get(`${process.env.REACT_APP_BASE_URL}user`, {
+        .get(`${DOMAIN_NAME}/user`, {
           headers: {
             Authorization: window.localStorage.getItem('Authorization'),
           },
@@ -82,16 +82,12 @@ export default function Profile() {
           formData.append('profileImage', file)
         }
 
-        await axios.put(
-          `${process.env.REACT_APP_BASE_URL}user/profile`,
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-              Authorization: window.localStorage.getItem('Authorization'),
-            },
-          }
-        )
+        await axios.put(`${DOMAIN_NAME}/user/profile`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: window.localStorage.getItem('Authorization'),
+          },
+        })
 
         // 프로필 업데이트가 성공하면 사용자 정보 다시 가져오기
         await getUserInfo()

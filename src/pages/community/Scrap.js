@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Header from '../../components/header/Header'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { DOMAIN_NAME } from '../../App'
 
 const Div = styled.div`
   display: flex;
@@ -61,7 +62,7 @@ export default function Scrap() {
     async function fetchScrapData() {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}boards?boardType=SCRAP`,
+          `${DOMAIN_NAME}/boards?boardType=SCRAP`,
           {
             headers: {
               Authorization: window.localStorage.getItem('Authorization'),

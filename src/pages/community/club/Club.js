@@ -5,6 +5,7 @@ import Header from '../../../components/header/Header'
 import defaultImage from '../../../assets/images/image-default.svg'
 import * as style from './style/ClubStyle'
 import axios from 'axios'
+import { DOMAIN_NAME } from '../../../App'
 
 export default function Club() {
   const navigate = useNavigate()
@@ -14,14 +15,11 @@ export default function Club() {
     // 컴포넌트가 마운트될 때 데이터를 가져오기 위해 useEffect 사용
     async function fetchData() {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}clubs`,
-          {
-            headers: {
-              Authorization: window.localStorage.getItem('Authorization'),
-            },
-          }
-        )
+        const response = await axios.get(`${DOMAIN_NAME}/clubs`, {
+          headers: {
+            Authorization: window.localStorage.getItem('Authorization'),
+          },
+        })
         console.log('Fetched data:', response.data)
         setClubData(response.data.body) // 가져온 데이터를 상태에 설정
       } catch (error) {

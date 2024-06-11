@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import Header from '../../../components/header/Header'
 import axios from 'axios'
 import * as style from './style/FreeBoardStyle'
+import { DOMAIN_NAME } from '../../../App'
 
 export default function FreeBoard() {
   const navigate = useNavigate()
@@ -13,14 +14,11 @@ export default function FreeBoard() {
     // 컴포넌트가 마운트될 때 데이터를 가져오기 위해 useEffect 사용
     async function fetchData() {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}boards`,
-          {
-            headers: {
-              Authorization: window.localStorage.getItem('Authorization'),
-            },
-          }
-        )
+        const response = await axios.get(`${DOMAIN_NAME}/boards`, {
+          headers: {
+            Authorization: window.localStorage.getItem('Authorization'),
+          },
+        })
         setBoardData(response.data.body) // 가져온 데이터를 상태에 설정
       } catch (error) {
         console.error('Error fetching board data:', error)

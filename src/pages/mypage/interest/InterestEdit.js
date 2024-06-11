@@ -24,7 +24,7 @@ export default function InterestEdit() {
       const interestKeyword = clickedItems.map((item) => (item ? 1 : 0))
 
       await axios.put(
-        `${process.env.REACT_APP_BASE_URL}user/keyword`,
+        `${DOMAIN_NAME}/user/keyword`,
         { interestKeyword }, // interestKeyword만 포함하도록 수정
         {
           headers: {

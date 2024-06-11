@@ -14,6 +14,7 @@ import {
   concernKeywordState,
   isMatchingActiveState,
 } from '../../Atom'
+import { DOMAIN_NAME } from '../../App'
 
 const Div = styled.div`
   display: flex;
@@ -34,13 +35,13 @@ export default function SignUp5() {
   const [role, setRole] = useRecoilState(roleState)
   const [nickname, setNickname] = useRecoilState(nicknameState)
   const [profileMessage, setProfileMessage] =
-      useRecoilState(profileMessageState)
+    useRecoilState(profileMessageState)
   const [profileImage, setProfileImage] = useRecoilState(profileImageState)
   const [interestKeyword, setInterestKeyword] = useRecoilState(interestState)
   const [concernKeywords, setConcernKeywords] =
-      useRecoilState(concernKeywordState)
+    useRecoilState(concernKeywordState)
   const [isMatchingActive, setIsMatchingActive] = useRecoilState(
-      isMatchingActiveState
+    isMatchingActiveState
   )
   const location = useLocation()
   const Navigate = useNavigate()
@@ -76,9 +77,7 @@ export default function SignUp5() {
     // 백엔드에서 nickname 가져오는 API 호출
     const fetchNickname = async () => {
       try {
-        const response = await axios.get(
-            `${process.env.REACT_APP_BASE_URL}users`
-        )
+        const response = await axios.get(`${DOMAIN_NAME}/users`)
         const users = response.data.body
         const currentUser = users.find((user) => user.id === userId)
         if (currentUser) {
@@ -94,16 +93,16 @@ export default function SignUp5() {
   }, [])
 
   return (
-      <Div>
-        <MainContainer>
-          <h2>{nickname}님</h2>
-          <img src={cookieHouse} alt='손' />
-          <div>
-            <h2>
-              MATE 매칭 중<SyncLoader />
-            </h2>
-          </div>
-        </MainContainer>
-      </Div>
+    <Div>
+      <MainContainer>
+        <h2>{nickname}님</h2>
+        <img src={cookieHouse} alt='손' />
+        <div>
+          <h2>
+            MATE 매칭 중<SyncLoader />
+          </h2>
+        </div>
+      </MainContainer>
+    </Div>
   )
 }

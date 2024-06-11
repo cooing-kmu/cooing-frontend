@@ -14,14 +14,11 @@ export default function CheckList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}user/checklist`,
-          {
-            headers: {
-              Authorization: window.localStorage.getItem('Authorization'),
-            },
-          }
-        )
+        const response = await axios.get(`${DOMAIN_NAME}/user/checklist`, {
+          headers: {
+            Authorization: window.localStorage.getItem('Authorization'),
+          },
+        })
         setData(response.data.body)
         setIsLoading(false)
       } catch (error) {

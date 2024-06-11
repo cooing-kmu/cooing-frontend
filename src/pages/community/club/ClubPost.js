@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import Header from '../../../components/header/Header'
 import axios from 'axios'
 import defaultImage from '../../../assets/images/image-default.svg'
+import { DOMAIN_NAME } from '../../../App'
 
 export default function ClubPost() {
   const { clubId } = useParams()
@@ -12,14 +13,11 @@ export default function ClubPost() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}club/${clubId}`,
-          {
-            headers: {
-              Authorization: window.localStorage.getItem('Authorization'),
-            },
-          }
-        )
+        const response = await axios.get(`${DOMAIN_NAME}/club/${clubId}`, {
+          headers: {
+            Authorization: window.localStorage.getItem('Authorization'),
+          },
+        })
         setClubData(response.data.body)
       } catch (error) {
         console.error('스터디 데이터를 불러오는 중 오류 발생:', error)

@@ -11,7 +11,7 @@ export default function Alarm() {
   const getNotifications = async () => {
     try {
       const notifications = await axios
-        .get(`${process.env.REACT_APP_BASE_URL}notifications`, {
+        .get(`${DOMAIN_NAME}/notifications`, {
           headers: {
             Authorization: window.localStorage.getItem('Authorization'),
           },

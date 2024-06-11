@@ -8,6 +8,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import { userState } from '../../Atom'
+import { DOMAIN_NAME } from '../../App'
 
 const MainContainer = styled.div`
   display: flex;
@@ -41,7 +42,7 @@ const CooingLogo = styled.img`
 `
 
 const LoginButton = ({ signInSuccessUrl, signUpUrl, signInFailureUrl }) => {
-  const host = 'http://15.165.25.19:8080'
+  const host = `${DOMAIN_NAME}`
   const [user, setUser] = useRecoilState(userState)
 
   const clientId =

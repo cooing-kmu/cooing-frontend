@@ -13,6 +13,7 @@ import {
 } from '../../Atom'
 import Header from '../../components/header/Header'
 import axios from 'axios'
+import { DOMAIN_NAME } from '../../App'
 
 const Div = styled.div`
   display: flex;
@@ -80,7 +81,7 @@ export default function SignUp4() {
   const handleSignUpClick = async () => {
     // 선택된 concernKeyword 필터링
     const selectedConcernKeywords = clickedItems.map((clicked) =>
-        clicked ? 1 : 0
+      clicked ? 1 : 0
     )
 
     try {
@@ -99,16 +100,12 @@ export default function SignUp4() {
       formData.append('profileImage', profileImage)
 
       // 클럽 정보와 이미지를 백엔드로 전송
-      const response = await axios.post(
-          `http://15.165.25.19:8080/signup`,
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-              Authorization: window.localStorage.getItem('Authorization'),
-            },
-          }
-      )
+      const response = await axios.post(`${DOMAIN_NAME}/signup`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: window.localStorage.getItem('Authorization'),
+        },
+      })
       const userId = response.data.body.userId // response에서 userId 추출
       navigate('/sign-up5', { state: { userId } }) // navigate로 상태 전달
     } catch (error) {
@@ -125,77 +122,77 @@ export default function SignUp4() {
   }
 
   return (
-      <Div>
-        <Header title='매칭 정보 등록' />
+    <Div>
+      <Header title='매칭 정보 등록' />
 
-        <MainContainer>
-          <TextContainer>
-            <h3>도움 받을 분야를</h3>
-            <p>3개 이상 선택해주세요.</p>
-          </TextContainer>
+      <MainContainer>
+        <TextContainer>
+          <h3>도움 받을 분야를</h3>
+          <p>3개 이상 선택해주세요.</p>
+        </TextContainer>
 
-          <SubContainer>
-            <ItemContainer
-                onClick={() => handleItemClick(0)}
-                clicked={clickedItems[0]}
-            >
-              <h1>💰</h1>소득
-            </ItemContainer>
-            <ItemContainer
-                onClick={() => handleItemClick(1)}
-                clicked={clickedItems[1]}
-            >
-              <h1>🏠</h1>주거
-            </ItemContainer>
-          </SubContainer>
+        <SubContainer>
+          <ItemContainer
+            onClick={() => handleItemClick(0)}
+            clicked={clickedItems[0]}
+          >
+            <h1>💰</h1>소득
+          </ItemContainer>
+          <ItemContainer
+            onClick={() => handleItemClick(1)}
+            clicked={clickedItems[1]}
+          >
+            <h1>🏠</h1>주거
+          </ItemContainer>
+        </SubContainer>
 
-          <SubContainer>
-            <ItemContainer
-                onClick={() => handleItemClick(2)}
-                clicked={clickedItems[2]}
-            >
-              <h1>👕</h1>생활
-            </ItemContainer>
-            <ItemContainer
-                onClick={() => handleItemClick(3)}
-                clicked={clickedItems[3]}
-            >
-              <h1>💳</h1>금융
-            </ItemContainer>
-          </SubContainer>
+        <SubContainer>
+          <ItemContainer
+            onClick={() => handleItemClick(2)}
+            clicked={clickedItems[2]}
+          >
+            <h1>👕</h1>생활
+          </ItemContainer>
+          <ItemContainer
+            onClick={() => handleItemClick(3)}
+            clicked={clickedItems[3]}
+          >
+            <h1>💳</h1>금융
+          </ItemContainer>
+        </SubContainer>
 
-          <SubContainer>
-            <ItemContainer
-                onClick={() => handleItemClick(4)}
-                clicked={clickedItems[4]}
-            >
-              <h1>🧠</h1>심리정서
-            </ItemContainer>
-            <ItemContainer
-                onClick={() => handleItemClick(5)}
-                clicked={clickedItems[5]}
-            >
-              <h1>🏫</h1>진학
-            </ItemContainer>
-          </SubContainer>
+        <SubContainer>
+          <ItemContainer
+            onClick={() => handleItemClick(4)}
+            clicked={clickedItems[4]}
+          >
+            <h1>🧠</h1>심리정서
+          </ItemContainer>
+          <ItemContainer
+            onClick={() => handleItemClick(5)}
+            clicked={clickedItems[5]}
+          >
+            <h1>🏫</h1>진학
+          </ItemContainer>
+        </SubContainer>
 
-          <SubContainer>
-            <ItemContainer
-                onClick={() => handleItemClick(6)}
-                clicked={clickedItems[6]}
-            >
-              <h1>💼</h1>취업
-            </ItemContainer>
-            <ItemContainer
-                onClick={() => handleItemClick(7)}
-                clicked={clickedItems[7]}
-            >
-              <h1>📚</h1>멘토링
-            </ItemContainer>
-          </SubContainer>
+        <SubContainer>
+          <ItemContainer
+            onClick={() => handleItemClick(6)}
+            clicked={clickedItems[6]}
+          >
+            <h1>💼</h1>취업
+          </ItemContainer>
+          <ItemContainer
+            onClick={() => handleItemClick(7)}
+            clicked={clickedItems[7]}
+          >
+            <h1>📚</h1>멘토링
+          </ItemContainer>
+        </SubContainer>
 
-          <Button onClick={handleSignUpClick}>다음</Button>
-        </MainContainer>
-      </Div>
+        <Button onClick={handleSignUpClick}>다음</Button>
+      </MainContainer>
+    </Div>
   )
 }

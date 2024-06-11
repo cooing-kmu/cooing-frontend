@@ -60,14 +60,11 @@ export default function MainPage() {
   useEffect(() => {
     const fetchHouseState = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}house`,
-          {
-            headers: {
-              Authorization: window.localStorage.getItem('Authorization'),
-            },
-          }
-        )
+        const response = await axios.get(`${DOMAIN_NAME}/house`, {
+          headers: {
+            Authorization: window.localStorage.getItem('Authorization'),
+          },
+        })
         const _user = response.data.body
         setUser({ ...response.data.body })
         _user.rewardList.forEach((item, idx) => {
@@ -111,7 +108,7 @@ export default function MainPage() {
       // const token = tokenResponse.data.body
 
       await axios.post(
-        `${process.env.REACT_APP_BASE_URL}house`,
+        `${DOMAIN_NAME}/house`,
         { house: { items: newItems } },
         {
           headers: {

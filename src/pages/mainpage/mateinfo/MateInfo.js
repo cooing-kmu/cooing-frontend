@@ -19,14 +19,11 @@ export default function MateInfo() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}user/mate`,
-          {
-            headers: {
-              Authorization: window.localStorage.getItem('Authorization'),
-            },
-          }
-        )
+        const response = await axios.get(`${DOMAIN_NAME}/user/mate`, {
+          headers: {
+            Authorization: window.localStorage.getItem('Authorization'),
+          },
+        })
 
         const _user = response.data.body
         setUser({ ..._user })

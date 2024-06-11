@@ -26,7 +26,7 @@ export default function ThinkEdit() {
       const concernKeyword = clickedItems.map((item) => (item ? 1 : 0))
 
       await axios.put(
-        `${process.env.REACT_APP_BASE_URL}user/keyword`,
+        `${DOMAIN_NAME}/user/keyword`,
         { concernKeyword }, // interestKeyword만 포함하도록 수정
         {
           headers: {
