@@ -15,7 +15,7 @@ export default function ThinkInfo() {
     async function getUserInfo() {
       try {
         const userInfo = await axios
-          .get(`${DOMAIN_NAME}user`, {
+          .get(`${DOMAIN_NAME}/user`, {
             headers: {
               Authorization: window.localStorage.getItem('Authorization'),
             },
