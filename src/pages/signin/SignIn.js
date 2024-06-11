@@ -13,17 +13,25 @@ const MainContainer = styled.div`
   align-items: center;
   background-color:#FFFAD0;
   height: 100vh;
-  gap:100px;
+  gap: 100px;
 `;
 
 const TitleContainer = styled.div`
-  margin-top: 120px;
   display: flex;
   flex-direction: column;
-  font-size:14px;
-  gap: 10px;
+  margin-top: 180px;
+  align-items: center;
+  gap: 15px;
 `;
 
+const TextContainer = styled.div`
+  p, h4 {
+    margin: 0;
+  }
+  p {
+    margin-bottom: 5px; 
+  }
+`;
 
 
 const LoginButton = ({ signInSuccessUrl, signUpUrl, signInFailureUrl }) => {
@@ -85,11 +93,14 @@ export default function SignIn() {
     return (
         <MainContainer>
             <TitleContainer>
-                <p>for 자립준비청년</p>
-                <p1>우리가 함께 만들어가는 달콤한 공간</p1>
-                <img src={cooingLogo} alt="로고" />
-                <img src={house} alt="로고" />
+                <TextContainer>
+                    <p>for 자립준비청년</p>
+                    <h4>우리가 함께 만들어가는 달콤한 공간</h4>
+                </TextContainer>
+                    <img src={cooingLogo} alt="로고" />
+                    <img src={house} alt="로고" />
             </TitleContainer>
+
             <LoginButton
                 signInSuccessUrl="/"
                 signUpUrl="/sign-up"
