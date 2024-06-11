@@ -104,7 +104,11 @@ export default function ChattingRoom() {
       }
 
       fetchInitChatList()
-      messageEndRef.current.scrollIntoView({ block: 'end' })
+      if (messageEndRef.current) {
+        messageEndRef.current?.scrollIntoView({ block: 'end' })
+      } else {
+        console.log('messageEndRef.current is null')
+      }
     })
 
     scrollChatToBottom()
@@ -164,12 +168,20 @@ export default function ChattingRoom() {
         )
       }
     }
-    messageEndRef.current.scrollIntoView({ block: 'end' })
+    if (messageEndRef.current) {
+      messageEndRef.current?.scrollIntoView({ block: 'end' })
+    } else {
+      console.log('messageEndRef.current is null')
+    }
     return userChatList
   }
 
   function scrollChatToBottom() {
-    messageEndRef.current.scrollIntoView({ behavior: 'smooth' })
+    if (messageEndRef.current) {
+      messageEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    } else {
+      console.log('messageEndRef.current is null')
+    }
   }
 
   function updateChatUnread(chatMessage) {
