@@ -24,7 +24,7 @@ export default function ChattingRoom() {
   const sender = useRef(undefined)
   const socketList = useRef([])
 
-  const messageEndRef = useRef()
+  const messageEndRef = useRef(null)
 
   useEffect(() => {
     if (roomNum && recv) {
@@ -101,10 +101,10 @@ export default function ChattingRoom() {
             )
           }
         })
-        messageEndRef.current.scrollIntoView({ block: 'end' })
       }
 
       fetchInitChatList()
+      messageEndRef.current.scrollIntoView({ block: 'end' })
     })
 
     scrollChatToBottom()
@@ -199,6 +199,11 @@ export default function ChattingRoom() {
   }
 
   const messageSubmitHandler = () => {
+    if (!input.trim()) {
+      console.log('메시지 내용 없음')
+      return
+    }
+
     // sender.current와 sender.current.socket이 유효한지 확인
     if (!sender.current) {
       console.log('no sender')

@@ -113,7 +113,7 @@ const ChattingList = () => {
         if (!socketList.current) {
           const socket = Stomp.over(() => new SockJS(`${DOMAIN_NAME}/ws`))
           socket.connect({ user: user.id }, () => {
-            fetchRoomData.forEach((room) => {
+            roomData.forEach((room) => {
               const decoder = new TextDecoder('utf-8')
               socket.subscribe(`/queue/chatting/${room.id}`, (message) => {
                 const userMessage = JSON.parse(
