@@ -22,7 +22,6 @@ function formatDateTime(input) {
     now.getDate()
   )
 
-  // 입력된 날짜가 오늘 자정 이전인지 확인합니다.
   if (inputDate >= todayMidnight) {
     // 자정 이전이면 시간과 분을 반환합니다.
     const hours = String(inputDate.getHours()).padStart(2, '0')
@@ -117,17 +116,44 @@ const ChattingList = () => {
                 const userMessage = JSON.parse(
                   decoder.decode(message.binaryBody)
                 )
+                console.log(userMessage)
+                // 새로운 메시지가 도착했을 때 rooms 상태 업데이트
+                setRooms((prevRooms) => {
+                  const updatedRooms = prevRooms.map((r) => {
+                    if (r.key === room.id) {
+                      return {
+                        ...r,
+                        props: {
+                          ...r.props,
+                          room: {
+                            ...r.props.room,
+                            lastChat: userMessage.content,
+                            lastUpdate: userMessage.createdAt,
+                          },
+                        },
+                      }
+                    }
+                    return r
+                  })
+                  return updatedRooms.sort((a, b) => {
+                    const dateA = new Date(a.props.room.lastUpdate)
+                    const dateB = new Date(b.props.room.lastUpdate)
+                    return dateB - dateA
+                  })
+                })
+
+                console.log(rooms)
               })
             })
           })
           socketList.current = socket
         }
 
+        //채팅목록 최신순 정렬
         const sortedRoomData = roomData.sort((a, b) => {
           const dateA = new Date(a.lastUpdate)
           const dateB = new Date(b.lastUpdate)
 
-          // b가 a보다 더 최신일 경우, 앞으로 오도록 합니다.
           return dateB - dateA
         })
 

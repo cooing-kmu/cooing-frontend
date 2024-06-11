@@ -164,6 +164,7 @@ export default function ChattingRoom() {
         )
       }
     }
+    messageEndRef.current.scrollIntoView({ block: 'end' })
     return userChatList
   }
 
@@ -188,6 +189,9 @@ export default function ChattingRoom() {
   }
 
   const handleInputChange = (event) => {
+    if (event.nativeEvent.isComposing) {
+      return
+    }
     setInput(event.target.value)
   }
 
