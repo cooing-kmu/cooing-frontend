@@ -39,11 +39,13 @@ export default function ThinkInfo() {
     <style.MainContainer>
       <Header title='매칭 정보 - 고민' />
 
-      <ThinkCard2
-        layout={0}
-        interestList={concernKeyword}
-        buttonName={'수정'}
-      />
+      {user && (
+        <ThinkCard2
+          layout={0}
+          interestList={concernKeyword}
+          buttonName={'수정'}
+        />
+      )}
     </style.MainContainer>
   )
 }
