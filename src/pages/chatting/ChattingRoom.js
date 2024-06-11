@@ -104,8 +104,11 @@ export default function ChattingRoom() {
       }
 
       fetchInitChatList()
-      if (messageEndRef.current) {
-        messageEndRef.current?.scrollIntoView({ block: 'end' })
+      if (messageEndRef && messageEndRef.current) {
+        messageEndRef.current?.scrollIntoView({
+          block: 'end',
+          behavior: 'smooth',
+        })
       } else {
         console.log('messageEndRef.current is null')
       }
@@ -168,7 +171,7 @@ export default function ChattingRoom() {
         )
       }
     }
-    if (messageEndRef.current) {
+    if (messageEndRef && messageEndRef.current) {
       messageEndRef.current?.scrollIntoView({ block: 'end' })
     } else {
       console.log('messageEndRef.current is null')
@@ -177,7 +180,7 @@ export default function ChattingRoom() {
   }
 
   function scrollChatToBottom() {
-    if (messageEndRef.current) {
+    if (messageEndRef && messageEndRef.current) {
       messageEndRef.current?.scrollIntoView({ behavior: 'smooth' })
     } else {
       console.log('messageEndRef.current is null')
