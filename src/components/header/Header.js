@@ -74,15 +74,14 @@ export default function Header(props) {
             props.title === ThreeHeaderNameList[11] ? (
               <Ic_ArrowLeftBk onClick={() => navigate('/my-page')} />
             ) : props.title === ThreeHeaderNameList[0] ||
-                props.title === ThreeHeaderNameList[2] ||
-                props.title === ThreeHeaderNameList[3] ||
-                props.title === ThreeHeaderNameList[4] ||
-                props.title === ThreeHeaderNameList[5] ||
-                props.title === ThreeHeaderNameList[6] ||
-                props.title === ThreeHeaderNameList[7] ||
-                props.title === ThreeHeaderNameList[8]
-                ? (
-                <Ic_ArrowLeftBk onClick={() => navigate('/community')} />
+              props.title === ThreeHeaderNameList[2] ||
+              props.title === ThreeHeaderNameList[3] ||
+              props.title === ThreeHeaderNameList[4] ||
+              props.title === ThreeHeaderNameList[5] ||
+              props.title === ThreeHeaderNameList[6] ||
+              props.title === ThreeHeaderNameList[7] ||
+              props.title === ThreeHeaderNameList[8] ? (
+              <Ic_ArrowLeftBk onClick={() => navigate('/community')} />
             ) : (
               <Ic_ArrowLeftBk onClick={() => navigate(-1)} />
             )}
@@ -91,31 +90,7 @@ export default function Header(props) {
           <span>{props.title}</span>
 
           <style.ButtonContainer>
-            {props.title === ThreeHeaderNameList[0] ? (
-              // 자유 게시판 내 검색 기능
-              <Ic_Search onClick={() => navigate()} />
-            ) : props.title === ThreeHeaderNameList[1] ? (
-              // 게시글 햄버거
-              <Ic_More onClick={() => navigate()} />
-            ) : props.title === ThreeHeaderNameList[2] ? (
-              // 내가 쓴 글 내 검색 기능
-              <Ic_Search onClick={() => navigate()} />
-            ) : props.title === ThreeHeaderNameList[3] ? (
-              // 댓글 단 글 내 검색 기능
-              <Ic_Search onClick={() => navigate()} />
-            ) : props.title === ThreeHeaderNameList[4] ? (
-              // 스크랩한 글 내 검색 기능
-              <Ic_Search onClick={() => navigate()} />
-            ) : props.title === ThreeHeaderNameList[5] ? (
-              // 봉사활동 페이지 내 검색 기능
-              <Ic_Search onClick={() => navigate()} />
-            ) : props.title === ThreeHeaderNameList[6] ? (
-              // 동아리 및 소모임 페이지 내 검색 기능
-              <Ic_Search onClick={() => navigate()} />
-            ) : props.title === ThreeHeaderNameList[7] ? (
-              // 스터디 페이지 내 검색 기능
-              <Ic_Search onClick={() => navigate()} />
-            ) : props.title === ThreeHeaderNameList[8] ? (
+            {props.title === ThreeHeaderNameList[8] ? (
               // 매칭 정보 - 고민 / 변경 버튼
               <Ic_Think onClick={() => navigate('/think-info')} />
             ) : props.title === ThreeHeaderNameList[9] ? (
